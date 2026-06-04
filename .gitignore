@@ -1,0 +1,7 @@
+# Supabase credentials (use SupabaseSecrets.example.plist as template)
+JackpotTrivia/Config/SupabaseSecrets.plist
+
+# Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/

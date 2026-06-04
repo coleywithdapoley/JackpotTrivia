@@ -1,0 +1,953 @@
+{
+  "version": 4,
+  "questions": [
+    {
+      "id": "gk-capital-france",
+      "category": "General Knowledge",
+      "question": "What is the capital of France?",
+      "answers": [
+        "Berlin",
+        "Madrid",
+        "Paris",
+        "Rome"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-continents-count",
+      "category": "General Knowledge",
+      "question": "How many continents are there on Earth?",
+      "answers": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-pacific-largest-ocean",
+      "category": "General Knowledge",
+      "question": "The Pacific Ocean is the largest ocean on Earth.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-gold-symbol",
+      "category": "Science",
+      "question": "What is the chemical symbol for gold?",
+      "answers": [
+        "Go",
+        "Gd",
+        "Au",
+        "Ag"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-red-planet",
+      "category": "Science",
+      "question": "What planet is known as the Red Planet?",
+      "answers": [
+        "Venus",
+        "Mars",
+        "Jupiter",
+        "Saturn"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-water-freezes",
+      "category": "Science",
+      "question": "Water freezes at 0\u00b0C at standard atmospheric pressure.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-speed-of-light",
+      "category": "Science",
+      "question": "The speed of light is approximately 300,000 km per second in a vacuum.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "hard",
+      "timeLimitSeconds": 10,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-ww2-end",
+      "category": "History",
+      "question": "In which year did World War II end?",
+      "answers": [
+        "1943",
+        "1944",
+        "1945",
+        "1946"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-first-us-president",
+      "category": "History",
+      "question": "Who was the first President of the United States?",
+      "answers": [
+        "Thomas Jefferson",
+        "George Washington",
+        "John Adams",
+        "Benjamin Franklin"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-great-wall-one-year",
+      "category": "History",
+      "question": "The Great Wall of China was built in a single year.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 1,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-basketball-players",
+      "category": "Sports",
+      "question": "How many players are on the court for one basketball team during play?",
+      "answers": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-fifa-world-cup",
+      "category": "Sports",
+      "question": "Which country has won the most FIFA World Cup titles?",
+      "answers": [
+        "Germany",
+        "Italy",
+        "Brazil",
+        "Argentina"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-marathon-length",
+      "category": "Sports",
+      "question": "A marathon is longer than 26 miles.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "movies-inception-director",
+      "category": "Movies & TV",
+      "question": "Who directed the film Inception?",
+      "answers": [
+        "Steven Spielberg",
+        "Christopher Nolan",
+        "Quentin Tarantino",
+        "Ridley Scott"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "movies-walter-white",
+      "category": "Movies & TV",
+      "question": "Which series features the character Walter White?",
+      "answers": [
+        "The Sopranos",
+        "Breaking Bad",
+        "Mad Men",
+        "Better Call Saul"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "isEducational": false,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "movies-oscars-film",
+      "category": "Movies & TV",
+      "question": "The Oscars honor achievements in the film industry.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "music-piano-keys",
+      "category": "Music",
+      "question": "Which instrument has 88 keys?",
+      "answers": [
+        "Guitar",
+        "Violin",
+        "Piano",
+        "Harp"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "music-king-of-pop",
+      "category": "Music",
+      "question": "Who is known as the King of Pop?",
+      "answers": [
+        "Prince",
+        "Elvis Presley",
+        "Michael Jackson",
+        "Madonna"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "music-guitar-strings",
+      "category": "Music",
+      "question": "A standard guitar has six strings.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-planet-closest-sun",
+      "category": "General Knowledge",
+      "question": "Which planet is closest to the Sun?",
+      "answers": [
+        "Venus",
+        "Mercury",
+        "Earth",
+        "Mars"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-dna-full-name",
+      "category": "Science",
+      "question": "DNA stands for deoxyribonucleic acid.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-renaissance-italy",
+      "category": "History",
+      "question": "The Renaissance began in Italy.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-tennis-net",
+      "category": "Sports",
+      "question": "Tennis is played on a court divided by a net.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-light-faster-sound",
+      "category": "General Knowledge",
+      "question": "Light travels faster than sound.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "hard",
+      "timeLimitSeconds": 8,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-largest-mammal",
+      "category": "General Knowledge",
+      "question": "What is the largest mammal on Earth?",
+      "answers": [
+        "African elephant",
+        "Blue whale",
+        "Giraffe",
+        "Polar bear"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-human-bones-count",
+      "category": "General Knowledge",
+      "question": "Adults typically have 206 bones in the human body.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-tokyo-capital-japan",
+      "category": "General Knowledge",
+      "question": "What is the capital of Japan?",
+      "answers": [
+        "Seoul",
+        "Beijing",
+        "Tokyo",
+        "Osaka"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-human-heart-chambers",
+      "category": "Science",
+      "question": "How many chambers does a human heart have?",
+      "answers": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-oxygen-symbol",
+      "category": "Science",
+      "question": "What is the chemical symbol for oxygen?",
+      "answers": [
+        "O",
+        "Ox",
+        "Og",
+        "Om"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-earth-revolves-sun",
+      "category": "Science",
+      "question": "Earth revolves around the Sun.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-boiling-water-100c",
+      "category": "Science",
+      "question": "Water boils at 100\u00b0C at standard sea-level atmospheric pressure.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-moon-landing-year",
+      "category": "History",
+      "question": "In which year did humans first land on the Moon?",
+      "answers": [
+        "1965",
+        "1969",
+        "1972",
+        "1980"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-ancient-egypt-pyramids",
+      "category": "History",
+      "question": "The Great Pyramid of Giza was built in ancient Egypt.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-magna-carta-century",
+      "category": "History",
+      "question": "The Magna Carta was signed in the 13th century.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "hard",
+      "timeLimitSeconds": 12,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-olympic-rings-count",
+      "category": "Sports",
+      "question": "The Olympic flag features five interlocking rings.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-soccer-players-field",
+      "category": "Sports",
+      "question": "A standard soccer match has 11 players per team on the field.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-super-bowl-sport",
+      "category": "Sports",
+      "question": "The Super Bowl is the championship game of which sport?",
+      "answers": [
+        "Baseball",
+        "Basketball",
+        "American football",
+        "Hockey"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "movies-star-wars-luke-father",
+      "category": "Movies & TV",
+      "question": "In the original Star Wars trilogy, who is revealed to be Luke Skywalker's father?",
+      "answers": [
+        "Obi-Wan Kenobi",
+        "Darth Vader",
+        "Emperor Palpatine",
+        "Yoda"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "movies-animated-lion-king",
+      "category": "Movies & TV",
+      "question": "The Lion King is primarily set in the African savanna.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "movies-friends-city",
+      "category": "Movies & TV",
+      "question": "The sitcom Friends is set primarily in which U.S. city?",
+      "answers": [
+        "Los Angeles",
+        "Chicago",
+        "New York City",
+        "Boston"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "music-beethoven-country",
+      "category": "Music",
+      "question": "Ludwig van Beethoven was born in which present-day country?",
+      "answers": [
+        "Austria",
+        "Germany",
+        "Italy",
+        "France"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "music-beatles-origin",
+      "category": "Music",
+      "question": "The Beatles formed in Liverpool, England.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "music-tempo-term",
+      "category": "Music",
+      "question": "In music, the term 'tempo' refers to the speed of a piece.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-longest-river",
+      "category": "General Knowledge",
+      "question": "Which river is generally considered the longest in the world?",
+      "answers": [
+        "Amazon",
+        "Nile",
+        "Yangtze",
+        "Mississippi"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "timeLimitSeconds": 12,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sci-photosynthesis-gas",
+      "category": "Science",
+      "question": "During photosynthesis, plants primarily release which gas?",
+      "answers": [
+        "Carbon dioxide",
+        "Nitrogen",
+        "Oxygen",
+        "Hydrogen"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "hist-berlin-wall-fall",
+      "category": "History",
+      "question": "The Berlin Wall fell in 1989.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "sports-wimbledon-sport",
+      "category": "Sports",
+      "question": "Wimbledon is a major tournament in which sport?",
+      "answers": [
+        "Golf",
+        "Tennis",
+        "Cricket",
+        "Rugby"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "movies-harry-potter-school",
+      "category": "Movies & TV",
+      "question": "In the Harry Potter series, what is the name of the school of witchcraft and wizardry?",
+      "answers": [
+        "Durmstrang",
+        "Beauxbatons",
+        "Hogwarts",
+        "Ilvermorny"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "music-national-anthem-instrument",
+      "category": "Music",
+      "question": "A national anthem is always sung without any instruments.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 1,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-27"
+    },
+    {
+      "id": "gk-antarctica-continent",
+      "category": "General Knowledge",
+      "question": "Antarctica is the coldest continent on Earth.",
+      "answers": ["True", "False"],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "sci-speed-of-light-vacuum",
+      "category": "Science",
+      "question": "Light travels faster in a vacuum than in water.",
+      "answers": ["True", "False"],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "sci-human-bones-adult",
+      "category": "Science",
+      "question": "About how many bones are in an adult human body?",
+      "answers": ["106", "206", "306", "406"],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "hist-ancient-egypt-writing",
+      "category": "History",
+      "question": "Ancient Egyptians used hieroglyphs as a writing system.",
+      "answers": ["True", "False"],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "sports-basketball-hoop-height",
+      "category": "Sports",
+      "question": "A standard basketball hoop is 10 feet above the floor.",
+      "answers": ["True", "False"],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "movies-lion-king-protagonist",
+      "category": "Movies & TV",
+      "question": "Who is the main character in Disney's \"The Lion King\" (1994)?",
+      "answers": ["Mufasa", "Scar", "Simba", "Timon"],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "movies-oscar-statue-name",
+      "category": "Movies & TV",
+      "question": "The Academy Award statuette is commonly called an Oscar.",
+      "answers": ["True", "False"],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "lounge-rainbow-first-color",
+      "category": "General Knowledge",
+      "question": "What is the first color in a standard rainbow (top band)?",
+      "answers": ["Red", "Orange", "Violet", "Blue"],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "lounge-jfk-election-year",
+      "category": "History",
+      "question": "John F. Kennedy was elected U.S. president in 1942.",
+      "answers": ["True", "False"],
+      "correctIndex": 1,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "lounge-brady-rings-mc",
+      "category": "Sports",
+      "question": "How many Super Bowl rings did Tom Brady win as a player?",
+      "answers": ["5", "6", "7", "8"],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "lounge-cocktail-martini-base",
+      "category": "General Knowledge",
+      "question": "A classic martini is primarily made with gin and vermouth.",
+      "answers": ["True", "False"],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    },
+    {
+      "id": "lounge-streaming-netflix-founded",
+      "category": "Movies & TV",
+      "question": "Netflix originally mailed DVDs to subscribers before streaming dominated.",
+      "answers": ["True", "False"],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-05-20"
+    }
+  ]
+}

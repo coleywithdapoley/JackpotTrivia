@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct JackpotTriviaApp: App {
+    @StateObject private var authManager = AuthManager.shared
+
+    init() {
+        AccessControlStore.loadIntoAccessControl()
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootContentView()
+                .environmentObject(authManager)
+                .task {
+                    await BackendEnvironment.bootstrap()
+                }
+                .onOpenURL { url in
+                    _ = ChallengeService.handleIncomingURL(url)
+                }
         }
     }
 }
