@@ -60,7 +60,7 @@ enum ChallengeService {
 
     static func shareText(for challenge: FriendChallenge) -> String {
         let link = challengeURL(for: challenge)?.absoluteString ?? ""
-        return "\(challenge.message) Play Jackpot Trivia: \(link)"
+        return "\(challenge.message) Play \(AppConfig.appDisplayName): \(link)"
     }
 
     // MARK: - Parse

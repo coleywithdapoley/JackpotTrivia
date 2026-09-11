@@ -30,6 +30,7 @@ struct AdminAccessSettings {
 // MARK: - View
 
 struct AdminAccessSettingsView: View {
+    @EnvironmentObject private var auth: AuthManager
     @Environment(\.analytics) private var analytics
     @Environment(\.featureGates) private var featureGates
 
@@ -40,6 +41,17 @@ struct AdminAccessSettingsView: View {
     @State private var showPremiumPreview = false
 
     var body: some View {
+        Group {
+            if auth.isAdmin {
+                adminSettingsList
+            } else {
+                unauthorizedView
+            }
+        }
+        .tint(AppColors.brandPrimary)
+    }
+
+    private var adminSettingsList: some View {
         NavigationStack {
             List {
                 backendSection
@@ -56,7 +68,6 @@ struct AdminAccessSettingsView: View {
             }
             .navigationTitle("Access Settings")
             .navigationBarTitleDisplayMode(.large)
-            .tint(AppColors.royalBlue)
             .onAppear {
                 settings.accessMode = AccessControl.accessMode
                 settings.maxMembers = AccessControl.maxMembers
@@ -69,6 +80,24 @@ struct AdminAccessSettingsView: View {
         }
     }
 
+    private var unauthorizedView: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
+            Text("Admin only")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundStyle(AppColors.textPrimary)
+            Text("Player accounts can’t change access codes, catalog tools, or invite settings.")
+                .appBodyText()
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .appScreenHorizontalPadding()
+        .padding(.top, AppSpacing.section)
+        .brandScreenBackground()
+        .navigationTitle("Admin")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
     // MARK: - Sections
 
     private var backendSection: some View {
@@ -76,14 +105,14 @@ struct AdminAccessSettingsView: View {
             LabeledContent("Supabase", value: SupabaseConfig.isConfigured ? "Configured" : "Not configured")
             Text(SupabaseConfig.statusDescription)
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
             if SupabaseConfig.isConfigured {
                 LabeledContent("Question pool", value: QuestionRepository.shared.poolSource.rawValue)
                 LabeledContent("Remote questions", value: "\(QuestionRepository.shared.remoteQuestions.count)")
                 if let error = QuestionRepository.shared.lastRefreshError {
                     Text(error)
                         .font(.footnote)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(AppColors.error)
                 }
             }
         } header: {
@@ -112,7 +141,7 @@ struct AdminAccessSettingsView: View {
             NavigationLink {
                 AddQuestionView()
             } label: {
-                Text("Add a question on this device")
+                Text("Add a question for every player")
             }
 
             LabeledContent("Custom questions saved", value: "\(QuestionCatalogStore.count())")
@@ -125,7 +154,7 @@ struct AdminAccessSettingsView: View {
         } header: {
             Text("Question Catalog")
         } footer: {
-            Text("Add questions here for you and Kwan — they merge with QuestionCatalog.json. Founders use tier-1 codes (see AppConfig.founderInviteCodes).")
+            Text("Type the question and answers in the form. Nothing to paste as JSON.")
         }
     }
 
@@ -134,17 +163,17 @@ struct AdminAccessSettingsView: View {
             LabeledContent("Access tier", value: featureGates.tierDisplayName)
             Text(featureGates.limitsSummary)
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)
             if featureGates.showsAds {
                 Label("Ad placeholders enabled for free tier", systemImage: "rectangle.on.rectangle.angled")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
             }
             if PremiumAccessStore.isMockUnlocked {
                 Label("Demo premium unlocked on this device", systemImage: "crown.fill")
                     .font(.footnote)
-                    .foregroundStyle(AppColors.royalBlue)
+                    .foregroundStyle(AppColors.brandPrimary)
                 Button("Reset demo premium", role: .destructive) {
                     PremiumAccessStore.isMockUnlocked = false
                 }
@@ -155,7 +184,7 @@ struct AdminAccessSettingsView: View {
         } header: {
             Text("Monetization Preview")
         } footer: {
-            Text("Tier comes from AppConfig.defaultAccessTier until StoreKit entitlements are wired. Change that value to preview free vs premium limits.")
+            Text("Players do not see a purchase screen in this beta. This preview is admin-only. StoreKit is not wired.")
         }
     }
 
@@ -175,7 +204,7 @@ struct AdminAccessSettingsView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Latest link (copy & share)")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColors.textSecondary)
                     Text(lastCreatedInviteURL)
                         .font(.footnote)
                         .textSelection(.enabled)
@@ -185,7 +214,7 @@ struct AdminAccessSettingsView: View {
             if let inviteErrorMessage {
                 Text(inviteErrorMessage)
                     .font(.footnote)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(AppColors.error)
             }
         } header: {
             Text("Private Invites")
@@ -284,7 +313,7 @@ struct AdminAccessSettingsView: View {
                         Text("Maximum members")
                         Spacer()
                         Text("\(settings.maxMembers ?? AppConfig.defaultMemberLimitWhenEnabled)")
-                            .foregroundStyle(AppColors.royalBlue)
+                            .foregroundStyle(AppColors.brandPrimary)
                             .fontWeight(.semibold)
                     }
                 }
@@ -337,7 +366,7 @@ struct AdminAccessSettingsView: View {
             if pending.isEmpty {
                 Text("No devices waiting for approval.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
             } else {
                 ForEach(pending) { request in
                     VStack(alignment: .leading, spacing: 6) {
@@ -346,13 +375,13 @@ struct AdminAccessSettingsView: View {
                             .lineLimit(2)
                         Text(request.requestedAt.formatted(date: .abbreviated, time: .shortened))
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppColors.textSecondary)
                         HStack {
                             Button("Approve") {
                                 PendingInviteStore.approve(installationID: request.installationID)
                             }
                             .buttonStyle(.borderedProminent)
-                            .tint(AppColors.royalBlue)
+                            .tint(AppColors.brandPrimary)
 
                             Button("Reject", role: .destructive) {
                                 PendingInviteStore.reject(installationID: request.installationID)
@@ -379,11 +408,11 @@ struct AdminAccessSettingsView: View {
             Label {
                 Text("Access settings persist on this device. Member cap and invite rules apply immediately. Cloud sync requires Supabase later.")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
             } icon: {
                 Image(systemName: "info.circle")
-                    .foregroundStyle(AppColors.royalBlue)
+                    .foregroundStyle(AppColors.brandPrimary)
                     .accessibilityHidden(true)
             }
             .accessibilityElement(children: .combine)
@@ -445,4 +474,5 @@ struct AdminAccessSettingsView: View {
 
 #Preview {
     AdminAccessSettingsView()
+        .environmentObject(AuthManager.shared)
 }

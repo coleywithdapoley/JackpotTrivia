@@ -9,7 +9,7 @@ import XCTest
 final class FeatureGatesTests: XCTestCase {
     func testFreeTier_limits() {
         let gates = FeatureGates(tier: .free)
-        XCTAssertEqual(gates.maxQuestionsPerGame, 5)
+        XCTAssertEqual(gates.maxQuestionsPerGame, 10)
         XCTAssertEqual(gates.maxCategoriesSelectable, 2)
         XCTAssertTrue(gates.showsAds)
     }
@@ -23,7 +23,7 @@ final class FeatureGatesTests: XCTestCase {
 
     func testCappedQuestions_trimsToMax() {
         let gates = FeatureGates(tier: .free)
-        let questions = (0..<8).map { index in
+        let questions = (0..<12).map { index in
             TriviaQuestion(
                 catalogID: "test-cap-\(index)",
                 category: "Science",
@@ -32,13 +32,13 @@ final class FeatureGatesTests: XCTestCase {
                 correctIndex: 0
             )
         }
-        XCTAssertEqual(gates.cappedQuestions(questions).count, 5)
+        XCTAssertEqual(gates.cappedQuestions(questions).count, 10)
     }
 
     func testApplyQuestionLimit_updatesSession() {
         let gates = FeatureGates(tier: .free)
         let session = GameSession()
-        let questions = (0..<6).map { index in
+        let questions = (0..<12).map { index in
             TriviaQuestion(
                 catalogID: "test-session-cap-\(index)",
                 category: "Science",
@@ -49,6 +49,6 @@ final class FeatureGatesTests: XCTestCase {
         }
         session.startRound(with: questions, categories: ["Science"])
         gates.applyQuestionLimit(to: session)
-        XCTAssertEqual(session.totalQuestions, 5)
+        XCTAssertEqual(session.totalQuestions, 10)
     }
 }

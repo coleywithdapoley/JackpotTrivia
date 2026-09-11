@@ -14,6 +14,9 @@ struct AuthUser: Equatable, Codable, Identifiable {
   var displayName: String?
   var membershipTier: MembershipTier
 
+  /// Seeded admin account only — players never get catalog/code admin tools.
+  var isAdmin: Bool { AdminAccess.isAdmin(email: email) }
+
   init(
     id: String,
     email: String,
@@ -80,6 +83,7 @@ final class LocalAuthService: AuthServiceProtocol {
   private(set) var currentUser: AuthUser?
 
   private init() {
+    seedAdminAccount()
     currentUser = loadSessionUser()
   }
 
@@ -105,7 +109,7 @@ final class LocalAuthService: AuthServiceProtocol {
     guard password.count >= 8 else { throw AuthError.weakPassword }
 
     var users = loadUsers()
-    if users[normalized] != nil {
+    if users[normalized] != nil || AdminAccess.isAdmin(email: normalized) {
       throw AuthError.emailAlreadyRegistered
     }
 
@@ -161,6 +165,23 @@ final class LocalAuthService: AuthServiceProtocol {
   private struct StoredUser: Codable {
     var user: AuthUser
     var password: String
+  }
+
+  /// Always keeps the AppConfig admin email/password available for local sign-in.
+  private func seedAdminAccount() {
+    let email = normalizeEmail(AppConfig.adminEmail)
+    var users = loadUsers()
+    if let existing = users[email] {
+      users[email] = StoredUser(user: existing.user, password: AppConfig.adminPassword)
+    } else {
+      let user = AuthUser(
+        id: "jackpotTrivia.admin.account",
+        email: email,
+        displayName: AppConfig.adminDisplayName
+      )
+      users[email] = StoredUser(user: user, password: AppConfig.adminPassword)
+    }
+    saveUsers(users)
   }
 
   private func loadUsers() -> [String: StoredUser] {

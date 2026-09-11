@@ -14,11 +14,11 @@ struct PendingChallengeBanner: View {
         VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
             Label("Friend challenge", systemImage: "flag.checkered")
                 .font(.headline)
-                .foregroundStyle(AppColors.brandGreen)
+                .foregroundStyle(AppColors.brandPrimary)
 
             Text(challenge.message)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
                 .fixedSize(horizontal: false, vertical: true)
 
             HStack(spacing: AppSpacing.stackItem) {
@@ -30,7 +30,7 @@ struct PendingChallengeBanner: View {
             }
         }
         .padding(AppSpacing.cardInnerHorizontal)
-        .background(AppColors.brandGreen.opacity(0.08))
+        .background(AppColors.brandPrimary.opacity(0.08))
         .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 }

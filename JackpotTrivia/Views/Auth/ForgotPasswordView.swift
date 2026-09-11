@@ -76,18 +76,18 @@ struct ForgotPasswordView: View {
                 if let successMessage {
                     Label(successMessage, systemImage: "checkmark.circle.fill")
                         .font(.footnote)
-                        .foregroundStyle(AppColors.brandGreen)
+                        .foregroundStyle(AppColors.brandPrimary)
                 }
 
                 if let errorMessage {
                     Text(errorMessage)
                         .font(.footnote)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(AppColors.error)
                 }
 
                 Button(action: sendResetTapped) {
                     if isLoading {
-                        ProgressView().tint(.white)
+                        ProgressView().tint(AppColors.textOnPrimary)
                     } else {
                         Text("Send reset link")
                     }

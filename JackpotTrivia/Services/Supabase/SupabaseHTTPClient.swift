@@ -58,6 +58,32 @@ struct SupabaseHTTPClient {
         return try await request(method: "POST", path: path, body: data, accessToken: accessToken, prefer: prefer)
     }
 
+    func patch(
+        path: String,
+        query: [URLQueryItem] = [],
+        body: some Encodable,
+        accessToken: String? = nil,
+        prefer: String? = nil
+    ) async throws -> Data {
+        let data = try JSONEncoder().encode(AnyEncodable(body))
+        return try await request(
+            method: "PATCH",
+            path: path,
+            query: query,
+            body: data,
+            accessToken: accessToken,
+            prefer: prefer
+        )
+    }
+
+    func delete(
+        path: String,
+        query: [URLQueryItem],
+        accessToken: String? = nil
+    ) async throws -> Data {
+        try await request(method: "DELETE", path: path, query: query, body: nil, accessToken: accessToken)
+    }
+
     func rpc(
         name: String,
         body: some Encodable,
@@ -88,11 +114,9 @@ struct SupabaseHTTPClient {
         request.httpMethod = method
         request.httpBody = body
         request.setValue(anonKey, forHTTPHeaderField: "apikey")
+        request.setValue("Bearer \(accessToken ?? anonKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        if let accessToken {
-            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        }
         if let prefer {
             request.setValue(prefer, forHTTPHeaderField: "Prefer")
         }

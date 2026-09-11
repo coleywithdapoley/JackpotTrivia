@@ -35,7 +35,7 @@ struct FeatureGates: Equatable {
 
     var maxQuestionsPerGame: Int {
         switch tier {
-        case .free: return 5
+        case .free: return AppConfig.dailyQuestionCount
         case .premium: return 20
         }
     }

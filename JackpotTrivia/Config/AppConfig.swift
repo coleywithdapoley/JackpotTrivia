@@ -14,8 +14,8 @@ enum AppConfig {
     /// In-app title; keep aligned with Info.plist `CFBundleDisplayName` / AppBranding.bundleDisplayName.
     static let appDisplayName = AppBranding.bundleDisplayName
 
-    /// Primary brand green on white. Used by DesignSystem and UI chrome.
-    static let primaryAccentColor = Color(red: 22 / 255, green: 163 / 255, blue: 74 / 255)
+    /// Detroit lime accent — mirrored in Assets `BrandPrimary`. Prefer `AppColors.brandPrimary` in views.
+    static let primaryAccentColor = AppColors.brandPrimary
 
     // MARK: - Phase 1: Daily jackpot & rewards
 
@@ -25,8 +25,11 @@ enum AppConfig {
     /// Salt for deterministic daily deck shuffle — change per environment/season.
     static let dailyDeckSalt = "jackpot-phase1"
 
-    /// Demo conversion for wallet UI (not real money).
+    /// Demo conversion for score bank UI (not real money).
     static let pointsPerDollarDisplay = 1000
+
+    /// Points awarded for each correct answer (before speed and streak bonuses).
+    static let pointsPerCorrectAnswer = 100
 
     /// When false, authenticated users go straight to the daily hub (wide audience).
     /// Set true for invite-only launch (download app, need code from founders).
@@ -35,8 +38,18 @@ enum AppConfig {
     /// When true, show app access code screen before auth (separate from lounge membership).
     static let requireAppAccessCode = false
 
-    /// Warmup question count for first session (does not consume daily jackpot).
+    /// Seeded admin account. Sign in with these credentials to open Admin Access Settings.
+    /// Players who create their own accounts are never admin.
+    static let adminEmail = "admin@ifyouknowyouwin.app"
+    static let adminPassword = "Admin2026!"
+    static let adminDisplayName = "Admin"
+    static var adminEmails: Set<String> { [adminEmail] }
+
+    /// Warmup segment length inside the first official daily jackpot run.
     static let onboardingWarmupQuestionCount = 5
+
+    /// Guest Detroit Quick Hit — no account required.
+    static let quickHitQuestionCount = 3
 
     /// Minimum practice pool before allowing jackpot overlap fallback.
     static let minimumPracticePoolSize = 3
@@ -73,39 +86,57 @@ enum AppConfig {
     /// TODO: Replace with StoreKit 2 `Transaction.currentEntitlements` (or equivalent) at app start.
     static let defaultAccessTier: AccessTier = .free
 
-    // MARK: - Categories
+    // MARK: - Categories (Detroit-themed)
 
     /// Category names shown in category selection and used to filter QuestionBank.
-    /// Keep in sync with question `category` fields in QuestionBank.swift.
+    /// Keep in sync with question `category` fields in QuestionCatalog.json.
     static let defaultCategories: [String] = [
-        "General Knowledge",
-        "Science",
-        "History",
-        "Sports",
-        "Movies & TV",
-        "Music",
+        "Motown & Music",
+        "Detroit Sports",
+        "Auto City",
+        "Local Legends",
+        "Downtown & Neighborhoods",
     ]
 
+    /// Categories counted as Detroit-themed for daily jackpot deck bias.
+    static let detroitThemedCategories: Set<String> = Set(defaultCategories)
+
+    /// Minimum Detroit-category questions in each daily jackpot run (≥ half of `dailyQuestionCount`).
+    static var minimumDetroitQuestionsPerDailyJackpot: Int {
+        max(1, dailyQuestionCount / 2)
+    }
+
     static let categoryEmoji: [String: String] = [
-        "General Knowledge": "🧠",
-        "Science": "🔬",
-        "History": "📜",
-        "Sports": "⚽️",
-        "Movies & TV": "🎬",
-        "Music": "🎵",
+        "Motown & Music": "🎵",
+        "Detroit Sports": "🏈",
+        "Auto City": "🚗",
+        "Local Legends": "⭐",
+        "Downtown & Neighborhoods": "🏙️",
+    ]
+
+    /// Asset catalog image names for category thumbnails (`Category*.imageset`).
+    static let categoryImageAsset: [String: String] = [
+        "Motown & Music": "CategoryMotownMusic",
+        "Detroit Sports": "CategoryDetroitSports",
+        "Auto City": "CategoryAutoCity",
+        "Local Legends": "CategoryLocalLegends",
+        "Downtown & Neighborhoods": "CategoryDowntownNeighborhoods",
     ]
 
     static let categoryDescriptions: [String: String] = [
-        "General Knowledge": "A bit of everything",
-        "Science": "Facts and discovery",
-        "History": "Past events and figures",
-        "Sports": "Games, teams, and records",
-        "Movies & TV": "Screens big and small",
-        "Music": "Artists, songs, and genres",
+        "Motown & Music": "Hitsville, soul, hip-hop, and Detroit sound",
+        "Detroit Sports": "Lions, Tigers, Red Wings, Pistons, and Motor City sports lore",
+        "Auto City": "Assembly lines, automakers, and industrial Detroit",
+        "Local Legends": "Icons, history-makers, and hometown heroes",
+        "Downtown & Neighborhoods": "Streets, landmarks, and city culture",
     ]
 
     static func emoji(forCategory name: String) -> String? {
         categoryEmoji[name]
+    }
+
+    static func imageAsset(forCategory name: String) -> String? {
+        categoryImageAsset[name]
     }
 
     static func description(forCategory name: String) -> String? {
@@ -116,29 +147,33 @@ enum AppConfig {
     static func categories(for mood: TriviaMood) -> [String] {
         switch mood {
         case .deepConversations:
-            return ["History", "General Knowledge"]
+            return ["Local Legends", "Downtown & Neighborhoods"]
         case .funnyAndWild:
-            return ["Movies & TV", "Music", "Sports"]
+            return ["Motown & Music", "Detroit Sports", "Local Legends"]
         case .dateNight:
-            return ["Movies & TV", "Music", "General Knowledge"]
+            return ["Motown & Music", "Downtown & Neighborhoods", "Local Legends"]
         case .familyGameNight:
-            return ["General Knowledge", "Science", "Sports"]
+            return ["Downtown & Neighborhoods", "Auto City", "Detroit Sports"]
         case .learnSomethingNew:
-            return ["Science", "History", "General Knowledge"]
+            return ["Auto City", "Local Legends", "Downtown & Neighborhoods"]
         case .debateMode:
-            return ["History", "General Knowledge"]
+            return ["Local Legends", "Downtown & Neighborhoods"]
         case .custom:
             return []
         }
     }
 
+    static func isDetroitThemedCategory(_ category: String) -> Bool {
+        detroitThemedCategories.contains(category)
+    }
+
     // MARK: - User-facing copy
 
     enum Copy {
-        static let tagline = "Daily trivia for grown folks — bragging rights, not bets."
-        static let authSubtitle = "Invite-friendly daily trivia for 18+ players."
-        static let dailyJackpotTitle = "Today's Jackpot"
-        static let dailyJackpotSubtitle = "One official run per day — timed questions, instant feedback, difficulty tiers."
+        static let tagline = "If you know, you win — bragging rights, not bets."
+        static let authSubtitle = "Daily trivia for 18+ players. Know it, score it."
+        static let dailyJackpotTitle = "Today's Round"
+        static let dailyJackpotSubtitle = "10 questions · one official run per day."
         static let prizeDisclaimer = "XP has no cash value. Points are for bragging rights and in-app progression only."
         static let xpBankTitle = "Score bank"
         static let accessCodeTitle = "Enter your access code to join"
@@ -153,10 +188,49 @@ enum AppConfig {
         static let inviteInvalidMessage = "That invite code is not valid"
         static let inviteDisabledMessage = "Invite codes are not accepted right now"
 
-        static let resultsEmptyMessage = "Start a round from category selection to see your results here."
-        static let resultsHighScoreMessage = "Nice work! You really know your stuff."
-        static let resultsEncourageMessage = "Good effort! Want to try again and beat your score?"
+        static let resultsEmptyTitle = "No round to score"
+        static let resultsEmptyMessage = "Start from the hub or pick categories to see your results here."
+        static let resultsHeadlineDaily = "Round Results"
+        static let resultsHeadlinePractice = "Round Results"
+        static let triviaEmptyTitle = "Deck's thin right now"
+        static let triviaEmptyMessage = "Try different Detroit categories or check back later."
+        static let resultsHighScoreMessage = "You knew it — well played."
+        static let resultsEncourageMessage = "Close one. Run it back and climb the board."
+        static let resultsDailyHighScore = "Strong round — well played."
+        static let resultsDailyEncourage = "Tomorrow's deck is fresh. You'll get another shot."
+        static let resultsDailyBanner = "Today's round is on the books. See you tomorrow."
 
         static let highScoreAccuracyThreshold = 70
+
+        static let quickHitEyebrow = "FREE SAMPLE"
+        static let quickHitTitle = "If you know, you win"
+        static let quickHitSubtitle = "Three quick questions to see how it feels. No account — just play."
+        static let quickHitPlayCTA = "Play the Sample"
+        static let quickHitSignInPrompt = "I already have an account"
+        static let quickHitHighlightDuration = "3 questions · under a minute"
+        static let quickHitHighlightNoLogin = "No sign-up to start"
+        static let quickHitHighlightCategories = "Real trivia categories"
+        static let quickHitResultsTitle = "You showed up."
+        static let quickHitResultsTitleStrong = "You knew it."
+        static let quickHitResultsCTA = "Lock in today's official round — create a free account and compete on the daily board."
+        static let quickHitCreateAccountCTA = "Claim my free account"
+        static let quickHitSignInCTA = "Sign in"
+        static let firstJackpotTitle = "Your First Round"
+
+        static let hubHeadline = "If you know, you win"
+        static let hubGreeting = "One official run a day. Same 10 questions for everyone."
+        static let hubDailyEyebrow = "TODAY'S MAIN EVENT"
+        static let hubDailyTitle = "Daily Round"
+        static let hubDailyCTA = "Play Today's Round"
+        static let hubDailySubtitle = "10 questions · once per day."
+        static let hubDailyCompletedCTA = "Back tomorrow"
+        static let hubDailyCompletedNote = "Daily round locked for today."
+        static let hubSecondarySectionTitle = "More ways to play"
+        static let hubPickupRoundsTitle = "Pickup Rounds"
+        static let hubPickupRoundsSubtitle = "Practice any category — no daily limit."
+        static let hubMembersClubTitle = "Members Club"
+        static let hubMembersClubSubtitleMember = "18+ lounge deck unlocked"
+        static let hubMembersClubSubtitleLocked = "Invite-only · lounge code required"
+        static let hubLeaderboardLink = "Today's standings →"
     }
 }

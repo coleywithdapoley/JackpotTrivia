@@ -67,4 +67,8 @@ final class AuthManager: ObservableObject {
   var isMember: Bool {
     currentUser?.membershipTier.isMember == true
   }
+
+  var isAdmin: Bool {
+    currentUser?.isAdmin == true
+  }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
@@ -17,30 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trophy.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="icon-view">
-                                <rect key="frame" x="168.66666666666666" y="356" width="56" height="56"/>
-                                <color key="tintColor" name="BrandRoyalBlue"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchSplashWordmark" translatesAutoresizingMaskIntoConstraints="NO" id="splash-wordmark">
+                                <rect key="frame" x="24" y="301" width="345" height="250"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="56" id="icon-w"/>
-                                    <constraint firstAttribute="height" constant="56" id="icon-h"/>
+                                    <constraint firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.88" id="splash-width"/>
+                                    <constraint firstAttribute="height" constant="250" id="splash-h"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jackpot Trivia" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-label">
-                                <rect key="frame" x="24" y="428" width="345" height="34"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
-                                <color key="textColor" name="BrandRoyalBlue"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="LaunchBackground"/>
                         <constraints>
-                            <constraint firstItem="icon-view" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="icon-cx"/>
-                            <constraint firstItem="icon-view" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-24" id="icon-cy"/>
-                            <constraint firstItem="title-label" firstAttribute="top" secondItem="icon-view" secondAttribute="bottom" constant="16" id="title-top"/>
-                            <constraint firstItem="title-label" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="title-lead"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="title-label" secondAttribute="trailing" constant="24" id="title-trail"/>
-                            <constraint firstItem="title-label" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="title-cx"/>
+                            <constraint firstItem="splash-wordmark" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="splash-cx"/>
+                            <constraint firstItem="splash-wordmark" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="splash-cy"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -50,12 +39,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="trophy.fill" catalog="system" width="128" height="107"/>
-        <namedColor name="BrandRoyalBlue">
-            <color red="0.25490196078431371" green="0.41176470588235294" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
+        <image name="LaunchSplashWordmark" width="800" height="400"/>
         <namedColor name="LaunchBackground">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.039215686274509803" green="0.039215686274509803" blue="0.039215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

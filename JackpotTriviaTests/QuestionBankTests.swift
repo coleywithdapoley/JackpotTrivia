@@ -7,16 +7,22 @@ import XCTest
 @testable import JackpotTrivia
 
 final class QuestionBankTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        RecentQuestionStore.resetForTesting()
+    }
+
     /// Includes mature content so category-only tests are not affected by comfort filters.
     private var openProfile: UserContentProfile {
         UserContentProfile(matureTopicsEnabled: true, familySafeMode: false, educationalOnly: false)
     }
 
     func testFilteredQuestions_returnsOnlyMatchingCategories() {
-        let science = QuestionBank.filteredQuestions(for: ["Science"])
+        let category = "Auto City"
+        let autoCity = QuestionBank.filteredQuestions(for: [category])
 
-        XCTAssertFalse(science.isEmpty)
-        XCTAssertTrue(science.allSatisfy { $0.category == "Science" })
+        XCTAssertFalse(autoCity.isEmpty)
+        XCTAssertTrue(autoCity.allSatisfy { $0.category == category })
     }
 
     func testFilteredQuestions_fallsBackToAllWhenCategoryUnknown() {
@@ -32,7 +38,7 @@ final class QuestionBankTests: XCTestCase {
     }
 
     func testQuestions_shufflePreservesSameQuestionIDs() {
-        let categories = ["Science"]
+        let categories = ["Auto City"]
         let baseline = Set(QuestionBank.filteredQuestions(for: categories).map(\.id))
 
         var firstRun = SeededRandomNumberGenerator(seed: 42)
@@ -50,8 +56,8 @@ final class QuestionBankTests: XCTestCase {
         var generatorA = SeededRandomNumberGenerator(seed: 7)
         var generatorB = SeededRandomNumberGenerator(seed: 7)
 
-        let orderedA = QuestionBank.questions(for: ["History"], profile: .default, using: &generatorA)
-        let orderedB = QuestionBank.questions(for: ["History"], profile: .default, using: &generatorB)
+        let orderedA = QuestionBank.questions(for: ["Local Legends"], profile: .default, using: &generatorA)
+        let orderedB = QuestionBank.questions(for: ["Local Legends"], profile: .default, using: &generatorB)
 
         XCTAssertEqual(orderedA.map(\.id), orderedB.map(\.id))
     }
@@ -75,5 +81,20 @@ final class QuestionBankTests: XCTestCase {
 
         XCTAssertTrue(presented.answers.indices.contains(presented.correctIndex))
         XCTAssertEqual(presented.answers[presented.correctIndex], "C")
+    }
+
+    func testPlayableQuestions_excludesRetiredCatalogIDs() {
+        QuestionRetirementStore.resetForTesting()
+        let question = TriviaQuestion(
+            catalogID: "retire-all-players-test",
+            category: "Auto City",
+            question: "Should be hidden?",
+            answers: ["A", "B"],
+            correctIndex: 0
+        )
+        XCTAssertEqual(QuestionBank.playableQuestions(from: [question]).count, 1)
+        QuestionRetirementStore.retire(catalogID: "retire-all-players-test")
+        XCTAssertTrue(QuestionBank.playableQuestions(from: [question]).isEmpty)
+        QuestionRetirementStore.resetForTesting()
     }
 }

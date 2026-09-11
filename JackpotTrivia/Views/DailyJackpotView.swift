@@ -17,15 +17,42 @@ struct DailyJackpotView: View {
     var onPrivateLounge: () -> Void = {}
     var onMembership: () -> Void = {}
 
-    @State private var showPremiumUpgrade = false
     @State private var pendingChallenge: FriendChallenge?
 
     private var dailyCompleted: Bool { DailyGameService.hasCompletedDailyToday }
 
+    private var effectiveDailyQuestionCount: Int {
+        min(AppConfig.dailyQuestionCount, featureGates.maxQuestionsPerGame)
+    }
+
+    private var hubDailySubtitleText: String {
+        if featureGates.isFreeTier, effectiveDailyQuestionCount < AppConfig.dailyQuestionCount {
+            return "\(effectiveDailyQuestionCount) questions · free tier · once per day."
+        }
+        return AppConfig.Copy.hubDailySubtitle
+    }
+
+    private var playerProgress: PlayerProgress? {
+        guard let userID = auth.currentUser?.id else { return nil }
+        return PlayerProgressStore.progress(for: userID)
+    }
+
+    private var lastDailyEntry: LeaderboardEntry? {
+        guard let userID = auth.currentUser?.id else { return nil }
+        let todayKey = DailyGameService.dayKey()
+        return LeaderboardService.allEntries()
+            .filter { entry in
+                entry.userID == userID
+                    && entry.roundKind == .dailyJackpot
+                    && DailyGameService.dayKey(for: entry.recordedAt) == todayKey
+            }
+            .max(by: { $0.recordedAt < $1.recordedAt })
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                xpCard
+                scoreboardHeader
                     .padding(.top, AppSpacing.section)
 
                 if let pendingChallenge {
@@ -40,17 +67,20 @@ struct DailyJackpotView: View {
                     .padding(.top, AppSpacing.section)
                 }
 
-                dailyCard
+                jackpotHero
+                    .padding(.top, AppSpacing.sectionLarge)
+
+                secondaryActions
                     .padding(.top, AppSpacing.section)
 
-                leaderboardCard
-                    .padding(.top, AppSpacing.stackItem)
-
-                practiceCard
-                    .padding(.top, AppSpacing.stackItem)
-
-                privateLoungeCard
-                    .padding(.top, AppSpacing.stackItem)
+                Button(action: onLeaderboard) {
+                    Text(AppConfig.Copy.hubLeaderboardLink)
+                        .font(.footnote)
+                        .foregroundStyle(AppColors.textTertiary)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: AppMetrics.minimumTouchTarget)
+                .padding(.top, AppSpacing.stackItem)
 
                 if AppConfig.requiresInviteAfterAuth {
                     inviteCard
@@ -65,7 +95,7 @@ struct DailyJackpotView: View {
             .appScreenHorizontalPadding()
             .padding(.bottom, AppSpacing.section)
         }
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
         .navigationTitle("Home")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -79,171 +109,287 @@ struct DailyJackpotView: View {
                     }
                 } label: {
                     Image(systemName: "person.circle")
+                        .font(.body)
+                        .foregroundStyle(AppColors.textTertiary)
                         .accessibilityLabel("Account menu")
                 }
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showPremiumUpgrade = true
-                } label: {
-                    Image(systemName: "crown.fill")
-                }
-                .accessibilityLabel("Premium")
-            }
         }
-        .premiumUpgradeSheet(isPresented: $showPremiumUpgrade)
         .onAppear {
             pendingChallenge = ChallengeService.pendingChallenge
         }
+        .task {
+            await QuestionRepository.shared.refreshCatalog(
+                accessToken: SupabaseSessionStore.current?.accessToken
+            )
+        }
     }
 
-    private func dismissChallenge() {
-        ChallengeService.clearPendingChallenge()
-        pendingChallenge = nil
-    }
+    // MARK: - Top scoreboard
 
-    private var xpCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(AppConfig.Copy.xpBankTitle)
-                .appFieldLabel()
-            Text("\(PrizeWallet.pointsBalance) XP")
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundStyle(AppColors.brandGreen)
+    private var scoreboardHeader: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
+            HStack(alignment: .top, spacing: AppSpacing.stackItem) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(AppConfig.Copy.hubHeadline)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundStyle(AppColors.textPrimary)
 
-            if let userID = auth.currentUser?.id {
-                let progress = PlayerProgressStore.progress(for: userID)
-                Text("Level \(progress.level) · \(progress.totalCorrect) correct · best streak \(progress.bestStreak)")
-                    .appCaptionText()
+                    Text(AppConfig.Copy.hubGreeting)
+                        .font(.subheadline)
+                        .foregroundStyle(AppColors.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer()
+
+                Image(systemName: "building.2.fill")
+                    .font(.title2)
+                    .foregroundStyle(AppColors.brandPrimary.opacity(0.55))
+                    .accessibilityHidden(true)
+            }
+
+            HStack(spacing: AppSpacing.stackItem) {
+                statChip(
+                    label: "XP",
+                    value: "\(PrizeWallet.pointsBalance)",
+                    accent: AppColors.brandPrimary
+                )
+
+                if let progress = playerProgress {
+                    statChip(
+                        label: "Best streak",
+                        value: "\(progress.bestStreak)",
+                        accent: AppColors.brandPrimary
+                    )
+                }
+
+                if let lastDailyEntry {
+                    statChip(
+                        label: "Today",
+                        value: "\(lastDailyEntry.correctAnswers)/\(lastDailyEntry.totalQuestions)",
+                        accent: AppColors.brandPrimary
+                    )
+                }
             }
 
             if let name = auth.currentUser?.displayName ?? auth.currentUser?.email {
-                Text("Signed in as \(name)")
-                    .appCaptionText()
+                Text(name)
+                    .font(.caption2)
+                    .foregroundStyle(AppColors.textTertiary)
             }
+        }
+        .padding(AppSpacing.cardInnerHorizontal)
+        .background(AppColors.brandSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                .strokeBorder(AppColors.subtleBorder, lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
+    }
+
+    private func statChip(label: String, value: String, accent: Color) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(AppColors.textTertiary)
+            Text(value)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundStyle(accent)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(AppSpacing.cardInnerHorizontal)
-        .background(AppColors.brandGreen.opacity(0.08))
-        .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
+        .padding(.vertical, 8)
+        .padding(.horizontal, 10)
+        .background(AppColors.brandBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 
-    private var dailyCard: some View {
+    // MARK: - Dominant daily CTA
+
+    private var jackpotHero: some View {
         VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
-            Label(AppConfig.Copy.dailyJackpotTitle, systemImage: "calendar")
-                .font(.headline)
-                .foregroundStyle(AppColors.brandGreen)
+            Text(AppConfig.Copy.hubDailyEyebrow)
+                .font(.caption)
+                .fontWeight(.bold)
+                .tracking(1.2)
+                .foregroundStyle(AppColors.brandPrimary)
+                .frame(maxWidth: .infinity)
 
-            Text(AppConfig.Copy.dailyJackpotSubtitle)
-                .appBodyText()
-                .fixedSize(horizontal: false, vertical: true)
+            Text(AppConfig.Copy.hubDailyTitle)
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundStyle(AppColors.textPrimary)
+                .frame(maxWidth: .infinity)
 
-            HStack(spacing: AppSpacing.stackItem) {
-                Label("Timed", systemImage: "timer")
-                Label("Tiers", systemImage: "chart.bar")
-                Label("Instant feedback", systemImage: "bolt.fill")
-            }
-            .font(.caption)
-            .foregroundStyle(.secondary)
+            Text(hubDailySubtitleText)
+                .font(.subheadline)
+                .foregroundStyle(AppColors.textSecondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
 
             if dailyCompleted {
-                Label("You completed today's jackpot", systemImage: "checkmark.seal.fill")
-                    .font(.subheadline)
-                    .foregroundStyle(AppColors.brandGreen)
-            }
+                VStack(spacing: AppSpacing.labelToField) {
+                    Label(AppConfig.Copy.hubDailyCompletedNote, systemImage: "checkmark.seal.fill")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(AppColors.brandPrimary)
+                        .frame(maxWidth: .infinity)
 
-            Button(action: playDailyTapped) {
-                Text(dailyCompleted ? "Completed for today" : "Play Today's Jackpot")
+                    Text(AppConfig.Copy.hubDailyCompletedCTA)
+                        .font(.headline)
+                        .foregroundStyle(AppColors.textTertiary)
+                        .frame(maxWidth: .infinity)
+                        .frame(minHeight: AppMetrics.primaryButtonMinHeight)
+                        .background(AppColors.primaryButtonDisabled.opacity(0.35))
+                        .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
+                        .accessibilityLabel("Today's jackpot complete. Come back tomorrow.")
+                }
+                .padding(.top, 4)
+            } else {
+                Button(action: playDailyTapped) {
+                    Text(AppConfig.Copy.hubDailyCTA)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.appPrimary)
+                .controlSize(.large)
+                .frame(minHeight: 64)
+                .padding(.top, 4)
             }
-            .buttonStyle(.appPrimary)
-            .disabled(dailyCompleted)
         }
         .padding(AppSpacing.cardInnerHorizontal)
-        .background(AppColors.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
+        .padding(.vertical, AppSpacing.section + 4)
+        .frame(maxWidth: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                .fill(AppColors.brandSurface)
+                .overlay(
+                    RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                        .strokeBorder(
+                            AppColors.brandPrimary.opacity(dailyCompleted ? 0.2 : 0.65),
+                            lineWidth: dailyCompleted ? 1 : 2
+                        )
+                )
+        )
     }
 
-    private var leaderboardCard: some View {
-        Button(action: onLeaderboard) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Leaderboards")
-                        .font(.headline)
-                    Text("Today, this week, and all-time — QuizUp-style ranks.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.leading)
-                }
-                Spacer()
-                Image(systemName: "trophy.fill")
-                    .foregroundStyle(AppColors.brandGreen)
-            }
-            .padding(AppSpacing.cardInnerHorizontal)
-            .frame(minHeight: AppMetrics.minimumTouchTarget)
+    // MARK: - Secondary actions
+
+    private var secondaryActions: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
+            Text(AppConfig.Copy.hubSecondarySectionTitle)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(AppColors.textTertiary)
+                .textCase(.uppercase)
+                .tracking(0.6)
+                .padding(.bottom, 2)
+
+            pickupRoundsCard
+            membersClubCard
         }
-        .buttonStyle(.plain)
-        .background(AppColors.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 
-    private var practiceCard: some View {
+    private var pickupRoundsCard: some View {
         Button(action: onPractice) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Practice mode")
-                        .font(.headline)
-                    Text("Pick categories, moods, and party mode — no daily limit.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+            HStack(spacing: 14) {
+                Image(systemName: "shuffle")
+                    .font(.body)
+                    .foregroundStyle(AppColors.brandPrimary)
+                    .frame(width: 28)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(AppConfig.Copy.hubPickupRoundsTitle)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(AppColors.textPrimary)
+                    Text(AppConfig.Copy.hubPickupRoundsSubtitle)
+                        .font(.caption)
+                        .foregroundStyle(AppColors.textSecondary)
                         .multilineTextAlignment(.leading)
                 }
+
                 Spacer()
+
                 Image(systemName: "chevron.right")
-                    .foregroundStyle(.tertiary)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(AppColors.textTertiary)
             }
-            .padding(AppSpacing.cardInnerHorizontal)
+            .padding(.horizontal, AppSpacing.cardInnerHorizontal)
+            .padding(.vertical, 14)
             .frame(minHeight: AppMetrics.minimumTouchTarget)
         }
         .buttonStyle(.plain)
-        .background(AppColors.cardBackground)
+        .background(AppColors.brandSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                .strokeBorder(AppColors.subtleBorder, lineWidth: 1)
+        )
         .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 
-    private var privateLoungeCard: some View {
+    private var membersClubCard: some View {
         Button(action: onPrivateLounge) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Private Lounge")
-                        .font(.headline)
+            HStack(spacing: 14) {
+                Image(systemName: auth.isMember ? "lock.open.fill" : "lock.fill")
+                    .font(.body)
+                    .foregroundStyle(AppColors.brandSecondary)
+                    .frame(width: 28)
+
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(AppConfig.Copy.hubMembersClubTitle)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(AppColors.textPrimary)
                     Text(auth.isMember
-                        ? "18+ member deck — timed, no cheating."
-                        : "Members only — unlock with a lounge code.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        ? AppConfig.Copy.hubMembersClubSubtitleMember
+                        : AppConfig.Copy.hubMembersClubSubtitleLocked)
+                        .font(.caption)
+                        .foregroundStyle(AppColors.textSecondary)
                         .multilineTextAlignment(.leading)
                 }
+
                 Spacer()
-                Image(systemName: auth.isMember ? "lock.open.fill" : "lock.fill")
-                    .foregroundStyle(AppColors.brandGreen)
+
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(AppColors.brandSecondary.opacity(0.6))
             }
-            .padding(AppSpacing.cardInnerHorizontal)
+            .padding(.horizontal, AppSpacing.cardInnerHorizontal)
+            .padding(.vertical, 14)
             .frame(minHeight: AppMetrics.minimumTouchTarget)
         }
         .buttonStyle(.plain)
-        .background(AppColors.cardBackground)
+        .background(AppColors.brandSurface)
+        .overlay(
+            RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                .strokeBorder(AppColors.brandSecondary.opacity(0.28), lineWidth: 1)
+        )
         .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 
     private var inviteCard: some View {
         Button(action: onInviteJoin) {
             Label("Enter invite code", systemImage: "ticket")
-                .font(.subheadline)
-                .foregroundStyle(AppColors.brandGreen)
+                .font(.footnote)
+                .foregroundStyle(AppColors.textTertiary)
         }
+    }
+
+    // MARK: - Actions
+
+    private func dismissChallenge() {
+        ChallengeService.clearPendingChallenge()
+        pendingChallenge = nil
     }
 
     private func playDailyTapped() {
         gameSession.beginDailyRound()
+        featureGates.applyQuestionLimit(to: gameSession)
         onPlayDaily()
     }
 }

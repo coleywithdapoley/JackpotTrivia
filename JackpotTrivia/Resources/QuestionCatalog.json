@@ -1,81 +1,15 @@
 {
-  "version": 4,
+  "version": 10,
   "questions": [
     {
       "id": "gk-capital-france",
-      "category": "General Knowledge",
-      "question": "What is the capital of France?",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit is the largest city in which U.S. state?",
       "answers": [
-        "Berlin",
-        "Madrid",
-        "Paris",
-        "Rome"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "gk-continents-count",
-      "category": "General Knowledge",
-      "question": "How many continents are there on Earth?",
-      "answers": [
-        "5",
-        "6",
-        "7",
-        "8"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "gk-pacific-largest-ocean",
-      "category": "General Knowledge",
-      "question": "The Pacific Ocean is the largest ocean on Earth.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sci-gold-symbol",
-      "category": "Science",
-      "question": "What is the chemical symbol for gold?",
-      "answers": [
-        "Go",
-        "Gd",
-        "Au",
-        "Ag"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sci-red-planet",
-      "category": "Science",
-      "question": "What planet is known as the Red Planet?",
-      "answers": [
-        "Venus",
-        "Mars",
-        "Jupiter",
-        "Saturn"
+        "Ohio",
+        "Michigan",
+        "Indiana",
+        "Illinois"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
@@ -85,9 +19,26 @@
       "verifiedAt": "2026-05-27"
     },
     {
-      "id": "sci-water-freezes",
-      "category": "Science",
-      "question": "Water freezes at 0\u00b0C at standard atmospheric pressure.",
+      "id": "gk-continents-count",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit sits across the river from which Canadian city?",
+      "answers": [
+        "Toronto",
+        "Windsor",
+        "Montreal",
+        "Ottawa"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-pacific-largest-ocean",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Detroit River flows south into Lake Erie.",
       "answers": [
         "True",
         "False"
@@ -97,12 +48,61 @@
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-gold-symbol",
+      "category": "Auto City",
+      "question": "Which automaker introduced the moving assembly line at its Highland Park plant?",
+      "answers": [
+        "General Motors",
+        "Ford",
+        "Chrysler",
+        "Packard"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-red-planet",
+      "category": "Auto City",
+      "question": "Which of the U.S. \"Big Three\" automakers was founded by William C. Durant?",
+      "answers": [
+        "Ford",
+        "General Motors",
+        "Chrysler",
+        "Studebaker"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-water-freezes",
+      "category": "Auto City",
+      "question": "Ford's River Rouge Complex is one of the largest industrial complexes ever built.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
     },
     {
       "id": "sci-speed-of-light",
-      "category": "Science",
-      "question": "The speed of light is approximately 300,000 km per second in a vacuum.",
+      "category": "Auto City",
+      "question": "Ransom E. Olds used an early progressive assembly method before Ford's moving line.",
       "answers": [
         "True",
         "False"
@@ -113,95 +113,46 @@
       "timeLimitSeconds": 10,
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
       "id": "hist-ww2-end",
-      "category": "History",
-      "question": "In which year did World War II end?",
+      "category": "Local Legends",
+      "question": "Which Detroit boxer, nicknamed the Brown Bomber, became a heavyweight champion and city icon?",
       "answers": [
-        "1943",
-        "1944",
-        "1945",
-        "1946"
+        "Muhammad Ali",
+        "Joe Louis",
+        "Mike Tyson",
+        "George Foreman"
       ],
-      "correctIndex": 2,
+      "correctIndex": 1,
       "questionType": "multipleChoice",
-      "difficulty": "medium",
+      "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
       "id": "hist-first-us-president",
-      "category": "History",
-      "question": "Who was the first President of the United States?",
+      "category": "Local Legends",
+      "question": "The Nation of Islam was founded in 1930 in which city?",
       "answers": [
-        "Thomas Jefferson",
-        "George Washington",
-        "John Adams",
-        "Benjamin Franklin"
+        "Chicago",
+        "Detroit",
+        "Harlem",
+        "Philadelphia"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
-      "difficulty": "easy",
+      "difficulty": "hard",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
       "id": "hist-great-wall-one-year",
-      "category": "History",
-      "question": "The Great Wall of China was built in a single year.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 1,
-      "questionType": "trueFalse",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sports-basketball-players",
-      "category": "Sports",
-      "question": "How many players are on the court for one basketball team during play?",
-      "answers": [
-        "4",
-        "5",
-        "6",
-        "7"
-      ],
-      "correctIndex": 1,
-      "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sports-fifa-world-cup",
-      "category": "Sports",
-      "question": "Which country has won the most FIFA World Cup titles?",
-      "answers": [
-        "Germany",
-        "Italy",
-        "Brazil",
-        "Argentina"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sports-marathon-length",
-      "category": "Sports",
-      "question": "A marathon is longer than 26 miles.",
+      "category": "Local Legends",
+      "question": "Coleman Young was Detroit's first Black mayor.",
       "answers": [
         "True",
         "False"
@@ -211,530 +162,1407 @@
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "movies-inception-director",
-      "category": "Movies & TV",
-      "question": "Who directed the film Inception?",
+      "id": "sports-basketball-players",
+      "category": "Detroit Sports",
+      "question": "Which Detroit Tigers outfielder was nicknamed \"the Georgia Peach\"?",
       "answers": [
-        "Steven Spielberg",
-        "Christopher Nolan",
-        "Quentin Tarantino",
-        "Ridley Scott"
+        "Al Kaline",
+        "Ty Cobb",
+        "Kirk Gibson",
+        "Miguel Cabrera"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
       "difficulty": "medium",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "movies-walter-white",
-      "category": "Movies & TV",
-      "question": "Which series features the character Walter White?",
+      "id": "sports-fifa-world-cup",
+      "category": "Detroit Sports",
+      "question": "Which Detroit Tigers legend was known as \"Mr. Tiger\"?",
       "answers": [
-        "The Sopranos",
-        "Breaking Bad",
-        "Mad Men",
-        "Better Call Saul"
+        "Ty Cobb",
+        "Al Kaline",
+        "Hank Greenberg",
+        "Sparky Anderson"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sports-marathon-length",
+      "category": "Detroit Sports",
+      "question": "Ford Field has a retractable roof.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 1,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-inception-director",
+      "category": "Local Legends",
+      "question": "Which filmmaker from suburban Detroit created The Evil Dead and later directed Spider-Man films?",
+      "answers": [
+        "Steven Spielberg",
+        "Sam Raimi",
+        "James Cameron",
+        "George Lucas"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-walter-white",
+      "category": "Local Legends",
+      "question": "Which Detroit mayor, elected in 1973, was the city's first Black mayor?",
+      "answers": [
+        "Kwame Kilpatrick",
+        "Coleman Young",
+        "Mike Duggan",
+        "Dennis Archer"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-oscars-film",
+      "category": "Local Legends",
+      "question": "Diana Ross, who grew up in Detroit, later starred in films including Lady Sings the Blues.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "music-piano-keys",
+      "category": "Motown & Music",
+      "question": "Which Motown group recorded the hit \"My Girl\"?",
+      "answers": [
+        "The Four Tops",
+        "The Temptations",
+        "The Miracles",
+        "The Spinners"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "music-king-of-pop",
+      "category": "Motown & Music",
+      "question": "Michael Jackson first became famous as the young lead singer of which Motown act?",
+      "answers": [
+        "The Temptations",
+        "The Jackson 5",
+        "New Edition",
+        "The Commodores"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "music-guitar-strings",
+      "category": "Motown & Music",
+      "question": "Aaliyah, a 1990s R&B star, was raised in Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-planet-closest-sun",
+      "category": "Downtown & Neighborhoods",
+      "question": "Campus Martius Park is a central public square in which part of Detroit?",
+      "answers": [
+        "Corktown",
+        "Downtown",
+        "Belle Isle",
+        "Downriver only"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-dna-full-name",
+      "category": "Auto City",
+      "question": "Cadillac was founded in Detroit in 1902.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "hist-renaissance-italy",
+      "category": "Local Legends",
+      "question": "The 1967 Detroit uprising was one of the largest urban uprisings in U.S. history.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sports-tennis-net",
+      "category": "Detroit Sports",
+      "question": "The Detroit Tigers play in Major League Baseball's American League.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-light-faster-sound",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Detroit People Mover is an elevated rail loop that circles downtown.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "timeLimitSeconds": 8,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-largest-mammal",
+      "category": "Downtown & Neighborhoods",
+      "question": "Which historic Detroit train station was restored as a mobility hub and event space?",
+      "answers": [
+        "Grand Central",
+        "Michigan Central Station",
+        "Union Station Chicago",
+        "Penn Station"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-human-bones-count",
+      "category": "Downtown & Neighborhoods",
+      "question": "Hamtramck is a city completely surrounded by Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-tokyo-capital-japan",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit's motto includes \"We hope for better things\" and a promise to rise from what?",
+      "answers": [
+        "Ashes",
+        "The river",
+        "The factories",
+        "The snow"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-human-heart-chambers",
+      "category": "Auto City",
+      "question": "How many of the traditional U.S. \"Big Three\" automakers grew up in metro Detroit?",
+      "answers": [
+        "1",
+        "2",
+        "3",
+        "5"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-oxygen-symbol",
+      "category": "Auto City",
+      "question": "Which Chrysler-family brand is best known for Jeeps and has major Michigan operations?",
+      "answers": [
+        "Ferrari",
+        "Jeep",
+        "Volvo",
+        "Mazda"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-earth-revolves-sun",
+      "category": "Auto City",
+      "question": "Pontiac was a GM brand named in part after a Michigan city and an Odawa leader.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-boiling-water-100c",
+      "category": "Auto City",
+      "question": "Dodge was founded by brothers Horace and John Dodge in Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "hist-moon-landing-year",
+      "category": "Local Legends",
+      "question": "In which year was Coleman Young elected mayor of Detroit?",
+      "answers": [
+        "1967",
+        "1973",
+        "1984",
+        "1994"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "hist-ancient-egypt-pyramids",
+      "category": "Local Legends",
+      "question": "Henry Ford was born on a farm in what is now Dearborn, Michigan.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "hist-magna-carta-century",
+      "category": "Local Legends",
+      "question": "Frank Murphy served as Detroit mayor, Michigan governor, and a U.S. Supreme Court justice.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "hard",
+      "timeLimitSeconds": 12,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sports-olympic-rings-count",
+      "category": "Detroit Sports",
+      "question": "Joe Louis Arena was demolished after the Red Wings moved to Little Caesars Arena.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sports-soccer-players-field",
+      "category": "Detroit Sports",
+      "question": "The Detroit Tigers won the World Series in both 1968 and 1984.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sports-super-bowl-sport",
+      "category": "Detroit Sports",
+      "question": "Super Bowl XL was played in Detroit in 2006 at which stadium?",
+      "answers": [
+        "Tiger Stadium",
+        "Ford Field",
+        "The Palace of Auburn Hills",
+        "Joe Louis Arena"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-star-wars-luke-father",
+      "category": "Local Legends",
+      "question": "Which Detroit-born boxer nicknamed \"the Hitman\" trained out of Kronk Gym?",
+      "answers": [
+        "Joe Louis",
+        "Thomas Hearns",
+        "Sugar Ray Leonard",
+        "George Foreman"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-animated-lion-king",
+      "category": "Local Legends",
+      "question": "The Detroit Institute of Arts is home to Diego Rivera's Detroit Industry Murals.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-friends-city",
+      "category": "Local Legends",
+      "question": "Diego Rivera painted his Detroit Industry Murals at which museum?",
+      "answers": [
+        "Motown Museum",
+        "Detroit Institute of Arts",
+        "The Henry Ford",
+        "Charles H. Wright Museum"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "music-beethoven-country",
+      "category": "Motown & Music",
+      "question": "Which Detroit techno pioneer is often called the \"Godfather of Techno\"?",
+      "answers": [
+        "Berry Gordy",
+        "Juan Atkins",
+        "Jack White",
+        "Eminem"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "music-beatles-origin",
+      "category": "Motown & Music",
+      "question": "Anita Baker is a Grammy-winning R&B singer closely associated with Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "music-tempo-term",
+      "category": "Motown & Music",
+      "question": "The Detroit Symphony Orchestra is one of America's major orchestras.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-longest-river",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Detroit River connects Lake St. Clair to which Great Lake?",
+      "answers": [
+        "Lake Michigan",
+        "Lake Erie",
+        "Lake Superior",
+        "Lake Ontario"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "timeLimitSeconds": 12,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-photosynthesis-gas",
+      "category": "Auto City",
+      "question": "Which labor union, founded in the 1930s, became central to Detroit auto plants?",
+      "answers": [
+        "ILWU",
+        "UAW",
+        "NHLPA",
+        "SAG-AFTRA"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "hist-berlin-wall-fall",
+      "category": "Local Legends",
+      "question": "The Charles H. Wright Museum of African American History is located in Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sports-wimbledon-sport",
+      "category": "Detroit Sports",
+      "question": "Which team won the 2004 NBA championship while playing at The Palace of Auburn Hills?",
+      "answers": [
+        "Los Angeles Lakers",
+        "Detroit Pistons",
+        "San Antonio Spurs",
+        "Boston Celtics"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-harry-potter-school",
+      "category": "Local Legends",
+      "question": "Which Detroit museum is dedicated to African American history and culture?",
+      "answers": [
+        "Motown Museum",
+        "Charles H. Wright Museum",
+        "Pewabic Pottery",
+        "Ford Piquette Avenue Plant"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "music-national-anthem-instrument",
+      "category": "Motown & Music",
+      "question": "Madonna was born in Bay City, Michigan, and grew up in the Detroit metro area.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "gk-antarctica-continent",
+      "category": "Downtown & Neighborhoods",
+      "question": "Highland Park is a city completely surrounded by Detroit, like Hamtramck.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-speed-of-light-vacuum",
+      "category": "Auto City",
+      "question": "The Packard Motor Car Company was a major Detroit automaker before it collapsed in the 1950s.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sci-human-bones-adult",
+      "category": "Auto City",
+      "question": "By the 1920s, the auto boom had helped make Detroit one of America's largest cities.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "hist-ancient-egypt-writing",
+      "category": "Local Legends",
+      "question": "Which Detroit-born poet served as Consultant in Poetry to the Library of Congress (U.S. Poet Laureate) in the 1970s?",
+      "answers": [
+        "Maya Angelou",
+        "Robert Hayden",
+        "Langston Hughes",
+        "Gwendolyn Brooks"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "sports-basketball-hoop-height",
+      "category": "Detroit Sports",
+      "question": "The Palace of Auburn Hills was the Pistons' home arena before Little Caesars Arena.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-lion-king-protagonist",
+      "category": "Local Legends",
+      "question": "Which comedian and actress, born in Detroit, starred in 9 to 5 and Laugh-In?",
+      "answers": [
+        "Lucille Ball",
+        "Lily Tomlin",
+        "Carol Burnett",
+        "Betty White"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "movies-oscar-statue-name",
+      "category": "Local Legends",
+      "question": "Kid Rock grew up in the Detroit area.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "lounge-rainbow-first-color",
+      "category": "Downtown & Neighborhoods",
+      "question": "Which downtown park at the foot of Woodward is often called Detroit's outdoor living room?",
+      "answers": [
+        "Belle Isle",
+        "Campus Martius Park",
+        "Rouge Park",
+        "Chandler Park"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "lounge-jfk-election-year",
+      "category": "Local Legends",
+      "question": "Detroit's 1963 Walk to Freedom was a major civil rights march held weeks before the March on Washington.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "lounge-brady-rings-mc",
+      "category": "Detroit Sports",
+      "question": "Which jersey number did Barry Sanders wear for the Detroit Lions?",
+      "answers": [
+        "4",
+        "20",
+        "81",
+        "88"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "lounge-cocktail-martini-base",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Detroit Athletic Club is a historic private club downtown on Madison Avenue.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "lounge-streaming-netflix-founded",
+      "category": "Local Legends",
+      "question": "J Dilla (James Yancey) was an influential hip-hop producer from Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "detroit-motown-hitsville",
+      "category": "Motown & Music",
+      "question": "Motown's legendary Hitsville U.S.A. studio is on West Grand Boulevard in Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-motown-gordy",
+      "category": "Motown & Music",
+      "question": "Who founded Motown Records in Detroit?",
+      "answers": [
+        "Berry Gordy",
+        "Smokey Robinson",
+        "Diana Ross",
+        "Marvin Gaye"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-sports-lions-nfl",
+      "category": "Detroit Sports",
+      "question": "Which NFL team represents Detroit?",
+      "answers": [
+        "Bears",
+        "Lions",
+        "Vikings",
+        "Browns"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-sports-red-wings",
+      "category": "Detroit Sports",
+      "question": "Detroit's NHL team is nicknamed the Red Wings.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-sports-pistons",
+      "category": "Detroit Sports",
+      "question": "The Detroit Pistons are an NBA team.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-auto-ford",
+      "category": "Auto City",
+      "question": "Which automaker is headquartered in Dearborn, part of metro Detroit?",
+      "answers": [
+        "Ford",
+        "Toyota",
+        "BMW",
+        "Hyundai"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-auto-motor-city",
+      "category": "Auto City",
+      "question": "Detroit earned the nickname \"Motor City\" largely because of its automobile industry.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-legend-aretha",
+      "category": "Local Legends",
+      "question": "Aretha Franklin, the \"Queen of Soul,\" was closely associated with Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-legend-stevie",
+      "category": "Local Legends",
+      "question": "Stevie Wonder signed with Motown as a child prodigy in Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "detroit-downtown-belle-isle",
+      "category": "Downtown & Neighborhoods",
+      "question": "Belle Isle is a Detroit island park in the Detroit River.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-downtown-renaissance",
+      "category": "Downtown & Neighborhoods",
+      "question": "The GM Renaissance Center towers over Detroit's downtown riverfront.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "detroit-downtown-8-mile",
+      "category": "Downtown & Neighborhoods",
+      "question": "8 Mile Road is a famous boundary associated with Detroit's metro area.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "lounge-detroit-greektown",
+      "category": "Downtown & Neighborhoods",
+      "question": "Greektown is a well-known Detroit nightlife and dining district.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "isEducational": false,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-07"
+    },
+    {
+      "id": "lounge-detroit-cass-corridor",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Cass Corridor was a historic Detroit arts and music scene hub.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
       "difficulty": "medium",
       "allowsMatureTopics": true,
       "isFamilySafe": false,
       "isEducational": false,
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "movies-oscars-film",
-      "category": "Movies & TV",
-      "question": "The Oscars honor achievements in the film industry.",
+      "id": "dtx-music-hitsville-grand-blvd",
+      "category": "Motown & Music",
+      "question": "In the D, Motown's original \"Hitsville U.S.A.\" house sat on which Detroit street?",
       "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "music-piano-keys",
-      "category": "Music",
-      "question": "Which instrument has 88 keys?",
-      "answers": [
-        "Guitar",
-        "Violin",
-        "Piano",
-        "Harp"
+        "Jefferson Avenue",
+        "Woodward Avenue",
+        "West Grand Boulevard",
+        "Gratiot Avenue"
       ],
       "correctIndex": 2,
       "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "music-king-of-pop",
-      "category": "Music",
-      "question": "Who is known as the King of Pop?",
-      "answers": [
-        "Prince",
-        "Elvis Presley",
-        "Michael Jackson",
-        "Madonna"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "music-guitar-strings",
-      "category": "Music",
-      "question": "A standard guitar has six strings.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "gk-planet-closest-sun",
-      "category": "General Knowledge",
-      "question": "Which planet is closest to the Sun?",
-      "answers": [
-        "Venus",
-        "Mercury",
-        "Earth",
-        "Mars"
-      ],
-      "correctIndex": 1,
-      "questionType": "multipleChoice",
       "difficulty": "medium",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "sci-dna-full-name",
-      "category": "Science",
-      "question": "DNA stands for deoxyribonucleic acid.",
+      "id": "dtx-music-techno-born-in-detroit",
+      "category": "Motown & Music",
+      "question": "When folks say techno was born in the D, what kind of music are they talking about?",
       "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "hist-renaissance-italy",
-      "category": "History",
-      "question": "The Renaissance began in Italy.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sports-tennis-net",
-      "category": "Sports",
-      "question": "Tennis is played on a court divided by a net.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "gk-light-faster-sound",
-      "category": "General Knowledge",
-      "question": "Light travels faster than sound.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "hard",
-      "timeLimitSeconds": 8,
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "gk-largest-mammal",
-      "category": "General Knowledge",
-      "question": "What is the largest mammal on Earth?",
-      "answers": [
-        "African elephant",
-        "Blue whale",
-        "Giraffe",
-        "Polar bear"
+        "Jazz",
+        "Electronic dance music",
+        "Country",
+        "Blues"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "gk-human-bones-count",
-      "category": "General Knowledge",
-      "question": "Adults typically have 206 bones in the human body.",
+      "id": "dtx-music-motor-city-sound-name",
+      "category": "Motown & Music",
+      "question": "What do people call the slick, crossover sound that Motown cooked up in the Motor City?",
       "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "gk-tokyo-capital-japan",
-      "category": "General Knowledge",
-      "question": "What is the capital of Japan?",
-      "answers": [
-        "Seoul",
-        "Beijing",
-        "Tokyo",
-        "Osaka"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sci-human-heart-chambers",
-      "category": "Science",
-      "question": "How many chambers does a human heart have?",
-      "answers": [
-        "2",
-        "3",
-        "4",
-        "5"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sci-oxygen-symbol",
-      "category": "Science",
-      "question": "What is the chemical symbol for oxygen?",
-      "answers": [
-        "O",
-        "Ox",
-        "Og",
-        "Om"
-      ],
-      "correctIndex": 0,
-      "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sci-earth-revolves-sun",
-      "category": "Science",
-      "question": "Earth revolves around the Sun.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sci-boiling-water-100c",
-      "category": "Science",
-      "question": "Water boils at 100\u00b0C at standard sea-level atmospheric pressure.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "hist-moon-landing-year",
-      "category": "History",
-      "question": "In which year did humans first land on the Moon?",
-      "answers": [
-        "1965",
-        "1969",
-        "1972",
-        "1980"
+        "The Detroit Shuffle",
+        "The Motown Sound",
+        "Rust Belt Blues",
+        "Midwest Funk"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
       "difficulty": "medium",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "hist-ancient-egypt-pyramids",
-      "category": "History",
-      "question": "The Great Pyramid of Giza was built in ancient Egypt.",
+      "id": "dtx-sports-hockeytown-nickname",
+      "category": "Detroit Sports",
+      "question": "When somebody says they're from \"Hockeytown,\" what city are they really repping?",
       "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "hist-magna-carta-century",
-      "category": "History",
-      "question": "The Magna Carta was signed in the 13th century.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "hard",
-      "timeLimitSeconds": 12,
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sports-olympic-rings-count",
-      "category": "Sports",
-      "question": "The Olympic flag features five interlocking rings.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sports-soccer-players-field",
-      "category": "Sports",
-      "question": "A standard soccer match has 11 players per team on the field.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "sports-super-bowl-sport",
-      "category": "Sports",
-      "question": "The Super Bowl is the championship game of which sport?",
-      "answers": [
-        "Baseball",
-        "Basketball",
-        "American football",
-        "Hockey"
-      ],
-      "correctIndex": 2,
-      "questionType": "multipleChoice",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "movies-star-wars-luke-father",
-      "category": "Movies & TV",
-      "question": "In the original Star Wars trilogy, who is revealed to be Luke Skywalker's father?",
-      "answers": [
-        "Obi-Wan Kenobi",
-        "Darth Vader",
-        "Emperor Palpatine",
-        "Yoda"
-      ],
-      "correctIndex": 1,
-      "questionType": "multipleChoice",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "movies-animated-lion-king",
-      "category": "Movies & TV",
-      "question": "The Lion King is primarily set in the African savanna.",
-      "answers": [
-        "True",
-        "False"
-      ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "movies-friends-city",
-      "category": "Movies & TV",
-      "question": "The sitcom Friends is set primarily in which U.S. city?",
-      "answers": [
-        "Los Angeles",
+        "Toronto",
+        "Detroit",
         "Chicago",
-        "New York City",
         "Boston"
       ],
-      "correctIndex": 2,
+      "correctIndex": 1,
       "questionType": "multipleChoice",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-06-09"
     },
     {
-      "id": "music-beethoven-country",
-      "category": "Music",
-      "question": "Ludwig van Beethoven was born in which present-day country?",
+      "id": "dtx-sports-ford-field-squad",
+      "category": "Detroit Sports",
+      "question": "Which squad holds it down at Ford Field when the D is watching football on Sunday?",
       "answers": [
-        "Austria",
-        "Germany",
-        "Italy",
-        "France"
+        "Chicago Bears",
+        "Detroit Lions",
+        "Green Bay Packers",
+        "Cleveland Browns"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx-sports-lions-thanksgiving",
+      "category": "Detroit Sports",
+      "question": "Every Thanksgiving, which Detroit team has the whole city tapped in for a home game?",
+      "answers": [
+        "Detroit Pistons",
+        "Detroit Tigers",
+        "Detroit Lions",
+        "Detroit Red Wings"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx-auto-whip-motor-city",
+      "category": "Auto City",
+      "question": "If someone says, \"We got blessed with this new whip from the Motor City,\" what are they talking about?",
+      "answers": [
+        "A new car",
+        "A new house",
+        "A new job",
+        "A new stadium"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx-auto-assembly-line-history",
+      "category": "Auto City",
+      "question": "Which Detroit-area innovator leveled up the game by putting cars on a moving assembly line?",
+      "answers": [
+        "Walter P. Chrysler",
+        "Louis Chevrolet",
+        "Henry Ford",
+        "Ransom Olds"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx-landmark-fox-theatre",
+      "category": "Downtown & Neighborhoods",
+      "question": "If you're dressed up and headed to a show at the Fox, what are you pulling up to in downtown Detroit?",
+      "answers": [
+        "A baseball stadium",
+        "A historic theater",
+        "A casino",
+        "A riverfront park"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx-landmark-masonic-temple",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit's Masonic Temple is so huge people in the D joke it's basically its own block. What makes it special?",
+      "answers": [
+        "It's the tallest building in Detroit",
+        "It's the largest Masonic Temple in the world",
+        "It's the oldest church in the city",
+        "It's Detroit's city hall"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
       "difficulty": "medium",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-06-09"
     },
     {
-      "id": "music-beatles-origin",
-      "category": "Music",
-      "question": "The Beatles formed in Liverpool, England.",
+      "id": "dtx-metro-vernors-pop",
+      "category": "Downtown & Neighborhoods",
+      "question": "If somebody from the D says they need a cold Vernors, what kind of drink are they talking about?",
       "answers": [
-        "True",
-        "False"
+        "Ginger ale",
+        "Cherry cola",
+        "Orange juice",
+        "Iced tea"
       ],
       "correctIndex": 0,
-      "questionType": "trueFalse",
+      "questionType": "multipleChoice",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-06-09"
     },
     {
-      "id": "music-tempo-term",
-      "category": "Music",
-      "question": "In music, the term 'tempo' refers to the speed of a piece.",
+      "id": "dtx-metro-the-d-slang",
+      "category": "Downtown & Neighborhoods",
+      "question": "When locals say \"the D\" in a convo, what city are they putting on?",
       "answers": [
-        "True",
-        "False"
+        "Dallas",
+        "Denver",
+        "Detroit",
+        "Duluth"
       ],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-06-09"
     },
     {
-      "id": "gk-longest-river",
-      "category": "General Knowledge",
-      "question": "Which river is generally considered the longest in the world?",
+      "id": "lounge-dtx-night-cass-corridor",
+      "category": "Downtown & Neighborhoods",
+      "question": "Tyree Guyton created which outdoor Detroit art environment on the city's east side?",
       "answers": [
-        "Amazon",
-        "Nile",
-        "Yangtze",
-        "Mississippi"
+        "The High Line",
+        "The Heidelberg Project",
+        "Millennium Park",
+        "Cloud Gate"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx2-music-berry-gordy-loan",
+      "category": "Motown & Music",
+      "question": "Berry Gordy got Motown off the floor with a family loan for how much?",
+      "answers": [
+        "$80",
+        "$800",
+        "$8,000",
+        "$80,000"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx2-music-hitsville-address-number",
+      "category": "Motown & Music",
+      "question": "Real Detroit music heads know Hitsville U.S.A. sat at 2648 what?",
+      "answers": [
+        "Woodward Avenue",
+        "Michigan Avenue",
+        "West Grand Boulevard",
+        "Jefferson Avenue"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx2-music-smokey-helped-motown",
+      "category": "Motown & Music",
+      "question": "Which Motown legend gave Berry Gordy major early help building the label in Detroit?",
+      "answers": [
+        "Marvin Gaye",
+        "Smokey Robinson",
+        "Stevie Wonder",
+        "The Temptations"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx2-sports-lions-origin-portsmouth",
+      "category": "Detroit Sports",
+      "question": "Before they were the Detroit Lions, the franchise came over from Ohio as the what?",
+      "answers": [
+        "Cleveland Bulldogs",
+        "Portsmouth Spartans",
+        "Toledo Rockets",
+        "Akron Arrows"
       ],
       "correctIndex": 1,
       "questionType": "multipleChoice",
       "difficulty": "hard",
-      "timeLimitSeconds": 12,
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-06-09"
     },
     {
-      "id": "sci-photosynthesis-gas",
-      "category": "Science",
-      "question": "During photosynthesis, plants primarily release which gas?",
+      "id": "dtx2-sports-lions-title-1935",
+      "category": "Detroit Sports",
+      "question": "The Lions won an NFL championship in their second Detroit season. What year was that?",
       "answers": [
-        "Carbon dioxide",
-        "Nitrogen",
-        "Oxygen",
-        "Hydrogen"
+        "1934",
+        "1935",
+        "1936",
+        "1938"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx2-sports-comerica-team",
+      "category": "Detroit Sports",
+      "question": "When somebody says they're headed downtown for nine innings at Comerica, which Detroit team are they going to see?",
+      "answers": [
+        "Pistons",
+        "Lions",
+        "Tigers",
+        "Red Wings"
       ],
       "correctIndex": 2,
       "questionType": "multipleChoice",
       "difficulty": "medium",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-06-09"
     },
     {
-      "id": "hist-berlin-wall-fall",
-      "category": "History",
-      "question": "The Berlin Wall fell in 1989.",
+      "id": "dtx2-auto-chrysler-hq-city",
+      "category": "Auto City",
+      "question": "Which metro Detroit city became known for housing Chrysler's U.S. headquarters?",
+      "answers": [
+        "Dearborn",
+        "Auburn Hills",
+        "Southfield",
+        "Livonia"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx2-auto-henry-ford-museum-city",
+      "category": "Auto City",
+      "question": "If you slide over to the Henry Ford Museum, what metro Detroit city are you in?",
+      "answers": [
+        "Detroit",
+        "Hamtramck",
+        "Dearborn",
+        "Royal Oak"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx2-auto-motor-city-truefalse",
+      "category": "Auto City",
+      "question": "During World War II, Detroit's factories earned the city the nickname \"Arsenal of Democracy.\"",
       "answers": [
         "True",
         "False"
@@ -744,210 +1572,1233 @@
       "difficulty": "medium",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "sports-wimbledon-sport",
-      "category": "Sports",
-      "question": "Wimbledon is a major tournament in which sport?",
+      "id": "dtx2-landmarks-renaissance-center",
+      "category": "Downtown & Neighborhoods",
+      "question": "What downtown Detroit complex still dominates the riverfront skyline with its cluster of towers?",
       "answers": [
-        "Golf",
+        "Fisher Building",
+        "Renaissance Center",
+        "Book Tower",
+        "Campus Martius Center"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx2-landmarks-belle-isle-superlative",
+      "category": "Downtown & Neighborhoods",
+      "question": "Belle Isle gets talked about as one of the biggest what in the country?",
+      "answers": [
+        "Indoor malls",
+        "City-owned island parks",
+        "Casino districts",
+        "Historic train stations"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx2-landmarks-woodward-first-concrete",
+      "category": "Downtown & Neighborhoods",
+      "question": "Woodward Avenue made history in the U.S. for having the first mile of what kind of road?",
+      "answers": [
+        "Toll road",
+        "Concrete-paved road",
+        "Raised expressway",
+        "Bike-only lane"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx2-landmarks-fox-size",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit's Fox Theatre is often ranked second in size nationally behind which famous venue?",
+      "answers": [
+        "Apollo Theater",
+        "Chicago Theatre",
+        "Radio City Music Hall",
+        "Kennedy Center"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx2-metro-vernors-origin",
+      "category": "Downtown & Neighborhoods",
+      "question": "A Detroit Coney is a chili dog associated with which local diner style?",
+      "answers": [
+        "Coney Island restaurants",
+        "Texas barbecue joints",
+        "New England clam shacks",
+        "California taco trucks"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx2-metro-thanksgiving-parade-order",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit's America's Thanksgiving Parade (1924) is among the nation's oldest. Which city's parade, begun in 1920, is generally cited as older?",
+      "answers": [
+        "Chicago",
+        "Philadelphia",
+        "Boston",
+        "New York City"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "lounge-dtx2-greektown-nightlife",
+      "category": "Downtown & Neighborhoods",
+      "question": "Wayne State University's main campus is in which Detroit district?",
+      "answers": [
+        "Corktown",
+        "Midtown",
+        "Grosse Pointe",
+        "Dearborn"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx3-sports-tiger-stadium-neighborhood",
+      "category": "Detroit Sports",
+      "question": "Old heads still talk about Michigan and Trumbull. In which Detroit neighborhood did Tiger Stadium stand for decades?",
+      "answers": [
+        "Corktown",
+        "Midtown",
+        "Hamtramck",
+        "Indian Village"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx3-sports-red-wings-joe-louis-arena",
+      "category": "Detroit Sports",
+      "question": "Before Little Caesars Arena, Red Wings fans packed the building named for which Detroit boxing icon?",
+      "answers": [
+        "Emanuel Steward",
+        "Joe Louis",
+        "Thomas Hearns",
+        "Sugar Ray Robinson"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx3-sports-lions-57-champs-browns",
+      "category": "Detroit Sports",
+      "question": "Detroit's last pre-Super Bowl NFL title came in 1957 when the Lions blew out which rival?",
+      "answers": [
+        "Green Bay Packers",
+        "Chicago Bears",
+        "Cleveland Browns",
+        "New York Giants"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx3-music-funk-brothers-band",
+      "category": "Motown & Music",
+      "question": "On all those Motown classics cut in the D, which house band was really playing the grooves behind the stars?",
+      "answers": [
+        "The Wrecking Crew",
+        "The Funk Brothers",
+        "The Muscle Shoals Rhythm Section",
+        "Booker T. & the M.G.'s"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx3-music-tamla-imprint",
+      "category": "Motown & Music",
+      "question": "Before \"Motown\" became the name everybody knows, Berry Gordy's first Detroit label imprint was called what?",
+      "answers": [
+        "Tamla Records",
+        "Anna Records",
+        "Gordy Records",
+        "Soulville Records"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx3-music-hitsville-purchase-year",
+      "category": "Motown & Music",
+      "question": "Berry Gordy bought the little house that became Hitsville U.S.A. in what year?",
+      "answers": [
+        "1955",
+        "1957",
+        "1959",
+        "1962"
+      ],
+      "correctIndex": 2,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx3-auto-highland-park-assembly",
+      "category": "Auto City",
+      "question": "Ford's moving assembly line breakthrough is tied to the plant in which Detroit-area city?",
+      "answers": [
+        "Dearborn",
+        "Highland Park",
+        "Hamtramck",
+        "Pontiac"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx3-auto-chrysler-buys-dodge",
+      "category": "Auto City",
+      "question": "Chrysler swallowed the Dodge Brothers automaker in what year?",
+      "answers": [
+        "1918",
+        "1928",
+        "1938",
+        "1948"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx3-landmarks-guardian-art-deco",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Guardian Building downtown is a textbook example of which architectural style?",
+      "answers": [
+        "Gothic Revival",
+        "Art Deco",
+        "Brutalism",
+        "Prairie School"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx3-landmarks-pewabic-tile",
+      "category": "Downtown & Neighborhoods",
+      "question": "Pewabic Pottery, founded in Detroit in 1903, is legendary for handmade what?",
+      "answers": [
+        "Stained-glass windows",
+        "Ceramic tile and pottery",
+        "Cast-iron stoves",
+        "Neon signage"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "lounge-dtx3-black-bottom-hastings",
+      "category": "Downtown & Neighborhoods",
+      "question": "Before redevelopment wiped much of it out, Hastings Street was the commercial spine of which historic Detroit Black neighborhood?",
+      "answers": [
+        "Black Bottom",
+        "Boston-Edison",
+        "Palmer Woods",
+        "Mexicantown"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "allowsMatureTopics": true,
+      "isFamilySafe": false,
+      "isEducational": true,
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-09"
+    },
+    {
+      "id": "dtx4-music-supremes-origin",
+      "category": "Motown & Music",
+      "question": "The Supremes became Motown's breakout girl group while based in which city?",
+      "answers": [
+        "Chicago",
+        "Detroit",
+        "Atlanta",
+        "Philadelphia"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-marvin-whats-going-on",
+      "category": "Motown & Music",
+      "question": "Marvin Gaye recorded the classic album \"What's Going On\" while signed to which Detroit label?",
+      "answers": [
+        "Atlantic Records",
+        "Motown",
+        "Stax Records",
+        "Chess Records"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-stevie-wonder-motown",
+      "category": "Motown & Music",
+      "question": "Stevie Wonder's first Billboard Hot 100 No. 1 was the live Motown recording \"Fingertips.\"",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx4-music-four-tops-city",
+      "category": "Motown & Music",
+      "question": "The Four Tops were one of Motown's signature vocal groups from which city?",
+      "answers": [
+        "Chicago",
+        "Detroit",
+        "Philadelphia",
+        "New Orleans"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-temptations-city",
+      "category": "Motown & Music",
+      "question": "The Temptations built their Motown legacy while repping which city?",
+      "answers": [
+        "Detroit",
+        "Memphis",
+        "Chicago",
+        "St. Louis"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-martha-vandellas-dancing",
+      "category": "Motown & Music",
+      "question": "Martha and the Vandellas recorded \"Dancing in the Street\" as part of which Detroit label's roster?",
+      "answers": [
+        "Motown",
+        "Blue Note",
+        "Sun Records",
+        "Capitol"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-motown-la-move",
+      "category": "Motown & Music",
+      "question": "Motown Records relocated its headquarters from Detroit to Los Angeles in what year?",
+      "answers": [
+        "1965",
+        "1972",
+        "1980",
+        "1988"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-techno-belleville",
+      "category": "Motown & Music",
+      "question": "Detroit techno pioneers known as the Belleville Three include Juan Atkins and which other artist?",
+      "answers": [
+        "Prince",
+        "Derrick May",
+        "Jay-Z",
+        "Kanye West"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-jack-white-stripes",
+      "category": "Motown & Music",
+      "question": "The White Stripes helped spark a garage-rock revival out of which city?",
+      "answers": [
+        "Cleveland",
+        "Detroit",
+        "Chicago",
+        "Minneapolis"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-aretha-detroit-queen",
+      "category": "Motown & Music",
+      "question": "Aretha Franklin, the Queen of Soul, was raised primarily in which city?",
+      "answers": [
+        "Detroit",
+        "Memphis",
+        "New Orleans",
+        "Chicago"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx4-music-tamla-first-label",
+      "category": "Motown & Music",
+      "question": "Motown's main Hitsville recording room was commonly nicknamed what?",
+      "answers": [
+        "Studio A",
+        "The Loft",
+        "Abbey Road",
+        "Sun Studio"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx4-music-motown-sound-style",
+      "category": "Motown & Music",
+      "question": "The \"Motown Sound\" is best known for polished pop-soul built around what?",
+      "answers": [
+        "Heavy guitar distortion",
+        "Tight grooves and pop hooks",
+        "A cappella only",
+        "Country fiddle"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-hitsville-studio-house",
+      "category": "Motown & Music",
+      "question": "Motown's Hitsville U.S.A. started as a converted house on West Grand Boulevard in Detroit.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-detroit-techno-global",
+      "category": "Motown & Music",
+      "question": "Detroit techno became a globally influential electronic music style.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-smokie-robinson-miracles",
+      "category": "Motown & Music",
+      "question": "Smokey Robinson led which Motown group before his solo career?",
+      "answers": [
+        "The Miracles",
+        "The Jackson 5",
+        "The O'Jays",
+        "The Isley Brothers"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-jackson5-motown",
+      "category": "Motown & Music",
+      "question": "The Jackson 5 were signed to Motown after being discovered performing in which Midwest city?",
+      "answers": [
+        "Detroit",
+        "Gary, Indiana",
+        "Chicago",
+        "Cleveland"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-gordy-nickname-motor",
+      "category": "Motown & Music",
+      "question": "Berry Gordy combined \"motor\" and \"town\" to name Motown because Detroit was known as what?",
+      "answers": [
+        "Motor City",
+        "Steel City",
+        "Windy City",
+        "Music City"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-detroit-eminem-slim",
+      "category": "Motown & Music",
+      "question": "Eminem's breakout album \"The Slim Shady LP\" helped put which city's hip-hop scene on the map?",
+      "answers": [
+        "Atlanta",
+        "Detroit",
+        "Houston",
+        "Miami"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-funk-brothers-studio",
+      "category": "Motown & Music",
+      "question": "The Funk Brothers were the house band for recordings at which Detroit label?",
+      "answers": [
+        "Motown",
+        "Blue Note",
+        "Def Jam",
+        "Columbia"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-music-diana-ross-supremes-lead",
+      "category": "Motown & Music",
+      "question": "Diana Ross rose to fame as the lead singer of which Motown group?",
+      "answers": [
+        "The Supremes",
+        "Labelle",
+        "En Vogue",
+        "Destiny's Child"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-model-t-year",
+      "category": "Auto City",
+      "question": "Ford's Model T, which put millions of Americans behind the wheel, debuted in what year?",
+      "answers": [
+        "1908",
+        "1918",
+        "1928",
+        "1938"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-river-rouge-complex",
+      "category": "Auto City",
+      "question": "Ford's massive River Rouge Complex became a symbol of industrial Detroit in which city?",
+      "answers": [
+        "Dearborn",
+        "Flint",
+        "Pontiac",
+        "Toledo"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-gm-founded",
+      "category": "Auto City",
+      "question": "General Motors was founded in 1908 in which Michigan city?",
+      "answers": [
+        "Detroit",
+        "Flint",
+        "Lansing",
+        "Grand Rapids"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-cadillac-name-origin",
+      "category": "Auto City",
+      "question": "The Cadillac car brand was named after the French explorer who founded which city?",
+      "answers": [
+        "Quebec",
+        "Detroit",
+        "Montreal",
+        "New Orleans"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-packard-plant",
+      "category": "Auto City",
+      "question": "Detroit's sprawling Packard Plant became famous as a symbol of what?",
+      "answers": [
+        "Post-industrial urban decay",
+        "Silicon Valley tech campuses",
+        "Suburban shopping malls",
+        "Airport expansion"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-uaw-reuther",
+      "category": "Auto City",
+      "question": "Labor leader Walter Reuther helped build the UAW into a powerhouse based in which city?",
+      "answers": [
+        "Detroit",
+        "Chicago",
+        "Pittsburgh",
+        "Milwaukee"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-ambassador-bridge",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Ambassador Bridge connects Detroit to Windsor in which country?",
+      "answers": [
+        "Canada",
+        "Mexico",
+        "United Kingdom",
+        "France"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx4-auto-detroit-show-naias",
+      "category": "Auto City",
+      "question": "Detroit long hosted one of North America's major international auto shows.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-walter-chrysler-company",
+      "category": "Auto City",
+      "question": "Walter Chrysler founded the company that bears his name after working in which city's auto industry?",
+      "answers": [
+        "Detroit",
+        "Los Angeles",
+        "Seattle",
+        "Denver"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-dodge-brothers",
+      "category": "Auto City",
+      "question": "The Dodge Brothers began building cars in Detroit before their brand was absorbed by which company?",
+      "answers": [
+        "Chrysler",
+        "Ford",
+        "Toyota",
+        "Honda"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-fisher-body",
+      "category": "Auto City",
+      "question": "Fisher Body became a major Detroit-area supplier best known for making what?",
+      "answers": [
+        "Car bodies",
+        "Tires",
+        "Windshields only",
+        "Engine blocks only"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-8-mile-road",
+      "category": "Auto City",
+      "question": "The United Auto Workers (UAW) became the union most closely tied to which Detroit industry?",
+      "answers": [
+        "Automobile manufacturing",
+        "Commercial fishing",
+        "Hollywood film studios",
+        "Atlantic shipping"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx4-auto-stellantis-hq-region",
+      "category": "Auto City",
+      "question": "Stellantis (Chrysler/Dodge/Jeep) maintains major Michigan operations tied to which metro region?",
+      "answers": [
+        "Detroit metro",
+        "Upper Peninsula only",
+        "Traverse City",
+        "Marquette"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-assembly-line-revolution",
+      "category": "Auto City",
+      "question": "Detroit's moving assembly line helped transform car manufacturing worldwide.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-auto-renaissance-gm-tower",
+      "category": "Downtown & Neighborhoods",
+      "question": "The Fisher Building is a historic landmark in which Detroit district?",
+      "answers": [
+        "Corktown",
+        "New Center",
+        "Grosse Pointe",
+        "Downriver"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx4-sports-red-wings-original-six",
+      "category": "Detroit Sports",
+      "question": "The Detroit Red Wings are members of the NHL's historic group known as what?",
+      "answers": [
+        "Original Six",
+        "Expansion Ten",
+        "Pacific Rim",
+        "Metro Division"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-pistons-bad-boys",
+      "category": "Detroit Sports",
+      "question": "The \"Bad Boys\" nickname is most associated with which Detroit championship team?",
+      "answers": [
+        "Pistons",
+        "Lions",
+        "Tigers",
+        "Red Wings"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-pistons-fort-wayne",
+      "category": "Detroit Sports",
+      "question": "The Detroit Pistons relocated from which Indiana city in 1957?",
+      "answers": [
+        "Fort Wayne",
+        "Indianapolis",
+        "South Bend",
+        "Evansville"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-lca-opened",
+      "category": "Detroit Sports",
+      "question": "Little Caesars Arena, home to the Red Wings and Pistons, opened in downtown Detroit in what year?",
+      "answers": [
+        "2010",
+        "2017",
+        "2020",
+        "2023"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-tigers-1984-series",
+      "category": "Detroit Sports",
+      "question": "The Detroit Tigers won the World Series in 1984 under manager Sparky Anderson by beating which NL team?",
+      "answers": [
+        "San Diego Padres",
+        "Atlanta Braves",
+        "Los Angeles Dodgers",
+        "Chicago Cubs"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-yzerman-wings",
+      "category": "Detroit Sports",
+      "question": "Steve Yzerman spent his entire NHL playing career with which Detroit team?",
+      "answers": [
+        "Red Wings",
+        "Tigers",
+        "Lions",
+        "Pistons"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-barry-sanders-team",
+      "category": "Detroit Sports",
+      "question": "Barry Sanders won an NFL MVP while starring for which Detroit team?",
+      "answers": [
+        "Lions",
+        "Tigers",
+        "Pistons",
+        "Red Wings"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-red-wings-stanley-cups",
+      "category": "Detroit Sports",
+      "question": "The Red Wings have won more Stanley Cups than any U.S.-based NHL franchise.",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-tigers-old-english-d",
+      "category": "Detroit Sports",
+      "question": "The Detroit Tigers' classic logo features an Old English \"D\".",
+      "answers": [
+        "True",
+        "False"
+      ],
+      "correctIndex": 0,
+      "questionType": "trueFalse",
+      "difficulty": "easy",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-sports-isiah-pistons-finals",
+      "category": "Detroit Sports",
+      "question": "Isiah Thomas led the Pistons to back-to-back NBA titles in 1989 and what other year?",
+      "answers": [
+        "1990",
+        "1991",
+        "1992",
+        "1993"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-legend-rosa-parks-bus",
+      "category": "Local Legends",
+      "question": "Rosa Parks' bus protest in Montgomery became a civil rights milestone; she later lived and worked in which Michigan city?",
+      "answers": [
+        "Detroit",
+        "Flint",
+        "Grand Rapids",
+        "Ann Arbor"
+      ],
+      "correctIndex": 0,
+      "questionType": "multipleChoice",
+      "difficulty": "medium",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-06-19"
+    },
+    {
+      "id": "dtx4-legend-malcolm-x-detroit",
+      "category": "Local Legends",
+      "question": "Malcolm X spent much of his Michigan childhood in and around which city?",
+      "answers": [
+        "Detroit",
+        "Lansing",
+        "Kalamazoo",
+        "Saginaw"
+      ],
+      "correctIndex": 1,
+      "questionType": "multipleChoice",
+      "difficulty": "hard",
+      "status": "approved",
+      "source": "human",
+      "verifiedAt": "2026-09-02"
+    },
+    {
+      "id": "dtx4-legend-joe-louis-arena-name",
+      "category": "Local Legends",
+      "question": "Detroit's Joe Louis Arena was named for a champion known for dominating which sport?",
+      "answers": [
+        "Boxing",
         "Tennis",
-        "Cricket",
-        "Rugby"
+        "Golf",
+        "Track and field"
       ],
-      "correctIndex": 1,
+      "correctIndex": 0,
       "questionType": "multipleChoice",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-06-19"
     },
     {
-      "id": "movies-harry-potter-school",
-      "category": "Movies & TV",
-      "question": "In the Harry Potter series, what is the name of the school of witchcraft and wizardry?",
+      "id": "dtx4-legend-elijah-mclain-mirror",
+      "category": "Motown & Music",
+      "question": "The Motown Museum lets visitors stand in the mirrored studio where legends recorded at Hitsville in which city?",
       "answers": [
-        "Durmstrang",
-        "Beauxbatons",
-        "Hogwarts",
-        "Ilvermorny"
+        "Detroit",
+        "Chicago",
+        "Memphis",
+        "Nashville"
       ],
-      "correctIndex": 2,
+      "correctIndex": 0,
       "questionType": "multipleChoice",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-27"
+      "verifiedAt": "2026-09-02"
     },
     {
-      "id": "music-national-anthem-instrument",
-      "category": "Music",
-      "question": "A national anthem is always sung without any instruments.",
+      "id": "dtx4-legend-henry-ford-museum-dearborn",
+      "category": "Local Legends",
+      "question": "The Henry Ford museum complex is located in Dearborn, part of metro Detroit.",
       "answers": [
         "True",
         "False"
       ],
-      "correctIndex": 1,
-      "questionType": "trueFalse",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-27"
-    },
-    {
-      "id": "gk-antarctica-continent",
-      "category": "General Knowledge",
-      "question": "Antarctica is the coldest continent on Earth.",
-      "answers": ["True", "False"],
       "correctIndex": 0,
       "questionType": "trueFalse",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-20"
+      "verifiedAt": "2026-06-19"
     },
     {
-      "id": "sci-speed-of-light-vacuum",
-      "category": "Science",
-      "question": "Light travels faster in a vacuum than in water.",
-      "answers": ["True", "False"],
+      "id": "dtx4-downtown-corktown-oldest",
+      "category": "Downtown & Neighborhoods",
+      "question": "Corktown is often cited as one of the oldest neighborhoods in which city?",
+      "answers": [
+        "Detroit",
+        "Boston",
+        "San Francisco",
+        "New Orleans"
+      ],
       "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "medium",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-20"
-    },
-    {
-      "id": "sci-human-bones-adult",
-      "category": "Science",
-      "question": "About how many bones are in an adult human body?",
-      "answers": ["106", "206", "306", "406"],
-      "correctIndex": 1,
       "questionType": "multipleChoice",
       "difficulty": "medium",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-20"
+      "verifiedAt": "2026-06-19"
     },
     {
-      "id": "hist-ancient-egypt-writing",
-      "category": "History",
-      "question": "Ancient Egyptians used hieroglyphs as a writing system.",
-      "answers": ["True", "False"],
+      "id": "dtx4-downtown-eastern-market",
+      "category": "Downtown & Neighborhoods",
+      "question": "Eastern Market is a historic public market district in which city?",
+      "answers": [
+        "Detroit",
+        "Cleveland",
+        "Milwaukee",
+        "Buffalo"
+      ],
       "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-20"
-    },
-    {
-      "id": "sports-basketball-hoop-height",
-      "category": "Sports",
-      "question": "A standard basketball hoop is 10 feet above the floor.",
-      "answers": ["True", "False"],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-20"
-    },
-    {
-      "id": "movies-lion-king-protagonist",
-      "category": "Movies & TV",
-      "question": "Who is the main character in Disney's \"The Lion King\" (1994)?",
-      "answers": ["Mufasa", "Scar", "Simba", "Timon"],
-      "correctIndex": 2,
       "questionType": "multipleChoice",
       "difficulty": "easy",
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-20"
+      "verifiedAt": "2026-06-19"
     },
     {
-      "id": "movies-oscar-statue-name",
-      "category": "Movies & TV",
-      "question": "The Academy Award statuette is commonly called an Oscar.",
-      "answers": ["True", "False"],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-20"
-    },
-    {
-      "id": "lounge-rainbow-first-color",
-      "category": "General Knowledge",
-      "question": "What is the first color in a standard rainbow (top band)?",
-      "answers": ["Red", "Orange", "Violet", "Blue"],
+      "id": "dtx4-downtown-mexicantown-southwest",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit's Mexicantown neighborhood is located in the city's southwest near which international border?",
+      "answers": [
+        "U.S.–Canada",
+        "U.S.–Mexico",
+        "Ohio",
+        "Lake Huron"
+      ],
       "correctIndex": 0,
       "questionType": "multipleChoice",
       "difficulty": "medium",
-      "allowsMatureTopics": true,
-      "isFamilySafe": false,
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-20"
+      "verifiedAt": "2026-06-19"
     },
     {
-      "id": "lounge-jfk-election-year",
-      "category": "History",
-      "question": "John F. Kennedy was elected U.S. president in 1942.",
-      "answers": ["True", "False"],
-      "correctIndex": 1,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "allowsMatureTopics": true,
-      "isFamilySafe": false,
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-20"
-    },
-    {
-      "id": "lounge-brady-rings-mc",
-      "category": "Sports",
-      "question": "How many Super Bowl rings did Tom Brady win as a player?",
-      "answers": ["5", "6", "7", "8"],
-      "correctIndex": 2,
+      "id": "dtx4-downtown-boston-edison-homes",
+      "category": "Downtown & Neighborhoods",
+      "question": "Boston-Edison is a historic Detroit district known for grand what?",
+      "answers": [
+        "Residential homes",
+        "Factory complexes",
+        "Airport runways",
+        "Casino towers"
+      ],
+      "correctIndex": 0,
       "questionType": "multipleChoice",
       "difficulty": "medium",
-      "allowsMatureTopics": true,
-      "isFamilySafe": false,
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-20"
+      "verifiedAt": "2026-06-19"
     },
     {
-      "id": "lounge-cocktail-martini-base",
-      "category": "General Knowledge",
-      "question": "A classic martini is primarily made with gin and vermouth.",
-      "answers": ["True", "False"],
+      "id": "dtx4-downtown-riverwalk-detroit",
+      "category": "Downtown & Neighborhoods",
+      "question": "Detroit's riverfront has been redeveloped with parks and walkways along the Detroit River.",
+      "answers": [
+        "True",
+        "False"
+      ],
       "correctIndex": 0,
       "questionType": "trueFalse",
       "difficulty": "easy",
-      "allowsMatureTopics": true,
-      "isFamilySafe": false,
       "status": "approved",
       "source": "human",
-      "verifiedAt": "2026-05-20"
-    },
-    {
-      "id": "lounge-streaming-netflix-founded",
-      "category": "Movies & TV",
-      "question": "Netflix originally mailed DVDs to subscribers before streaming dominated.",
-      "answers": ["True", "False"],
-      "correctIndex": 0,
-      "questionType": "trueFalse",
-      "difficulty": "easy",
-      "allowsMatureTopics": true,
-      "isFamilySafe": false,
-      "status": "approved",
-      "source": "human",
-      "verifiedAt": "2026-05-20"
+      "verifiedAt": "2026-06-19"
     }
   ]
 }

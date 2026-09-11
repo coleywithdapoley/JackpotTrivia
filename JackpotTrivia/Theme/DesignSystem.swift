@@ -2,24 +2,62 @@
 //  DesignSystem.swift
 //  JackpotTrivia
 //
+//  Brand visual identity — black surfaces, green CTAs, purple club accents.
+//
 
 import SwiftUI
 
 // MARK: - Colors
 
 enum AppColors {
-    /// Primary brand accent (green) — sourced from AppConfig.
-    static let brandGreen = AppConfig.primaryAccentColor
-    /// Backward-compatible alias used across existing views.
-    static let royalBlue = brandGreen
-    static let primaryButtonDisabled = Color(.systemGray3)
-    static let cardBackground = Color(.secondarySystemBackground)
-    static let cardBorder = Color(.separator)
+    // MARK: Brand palette
+
+    /// Soft black app chrome (#0A0A0A) — easier on eyes than pure black.
+    static let brandBackground = Color("BrandBackground")
+    /// Elevated cards and inputs (#1A1A1A).
+    static let brandSurface = Color("BrandSurface")
+    /// Green — primary CTAs, progress, highlights (#00C853).
+    static let brandPrimary = Color("BrandPrimary")
+    /// Purple — premium / club / lounge accents (#9333EA).
+    static let brandSecondary = Color("BrandSecondary")
+
+    /// Primary body text on dark surfaces (#E6E6E6).
+    static let textPrimary = Color("BrandTextPrimary")
+    /// Supporting labels and metadata — bumped for WCAG AA on dark (#ADB5BD).
+    static let textSecondary = Color("BrandTextSecondary")
+    /// Tertiary captions (#949BA8).
+    static let textTertiary = Color(red: 148 / 255, green: 155 / 255, blue: 168 / 255)
+
+    /// Hairline dividers and card outlines (#3A3A3A).
+    static let subtleBorder = Color("BrandSubtleBorder")
+    /// Validation and destructive feedback (#EF4444).
+    static let error = Color("BrandError")
+    /// Correct answers and positive states (green).
+    static let success = brandPrimary
+
+    /// Green used for labels/icons on dark — full brand hue, slightly softened.
+    static let brandPrimaryOnDark = brandPrimary.opacity(0.92)
+    /// Selected card wash — visible but low-glare.
+    static let brandPrimarySoft = brandPrimary.opacity(0.14)
+    /// Purple icons on dark backgrounds.
+    static let brandSecondaryOnDark = brandSecondary.opacity(0.95)
+
+    /// Dark text on green primary buttons — meets contrast on brandPrimary fill.
+    static let textOnPrimary = Color(red: 0, green: 0, blue: 0)
+    static let primaryButtonDisabled = Color(red: 64 / 255, green: 64 / 255, blue: 64 / 255)
+    static let primaryButtonDisabledLabel = Color(red: 160 / 255, green: 160 / 255, blue: 160 / 255)
+
+    // MARK: Backward-compatible aliases
+
+    static let brandGreen = brandPrimary
+    static let royalBlue = brandPrimary
+    static let cardBackground = brandSurface
+    static let cardBorder = subtleBorder
 }
 
 extension Color {
-    /// Backward-compatible alias for `AppColors.royalBlue`.
-    static let appAccent = AppColors.royalBlue
+    static let appAccent = AppColors.brandPrimary
+    static let appClubAccent = AppColors.brandSecondary
 }
 
 // MARK: - Spacing & metrics
@@ -51,31 +89,78 @@ enum AppMetrics {
 
 extension View {
     func appScreenTitle() -> some View {
-        font(.largeTitle).fontWeight(.bold).foregroundStyle(.primary)
+        font(.largeTitle).fontWeight(.bold).foregroundStyle(AppColors.textPrimary)
     }
 
     func appScreenSubtitle() -> some View {
-        font(.title2).fontWeight(.semibold).foregroundStyle(.primary)
+        font(.title2).fontWeight(.semibold).foregroundStyle(AppColors.textPrimary)
     }
 
     func appBodyText() -> some View {
-        font(.body).foregroundStyle(.secondary)
+        font(.body)
+            .foregroundStyle(AppColors.textSecondary)
+            .lineSpacing(4)
     }
 
     func appFieldLabel() -> some View {
-        font(.subheadline).fontWeight(.medium).foregroundStyle(.primary)
+        font(.subheadline)
+            .fontWeight(.semibold)
+            .foregroundStyle(AppColors.textPrimary)
     }
 
     func appHelperText() -> some View {
-        font(.footnote).foregroundStyle(.secondary)
+        font(.footnote)
+            .foregroundStyle(AppColors.textSecondary)
+            .lineSpacing(3)
     }
 
     func appCaptionText() -> some View {
-        font(.caption).foregroundStyle(.tertiary)
+        font(.footnote)
+            .foregroundStyle(AppColors.textTertiary)
+            .lineSpacing(3)
     }
 
     func appScreenHorizontalPadding() -> some View {
         padding(.horizontal, AppSpacing.screenHorizontal)
+    }
+
+    /// Full-screen dark background with a very subtle top green wash.
+    func brandScreenBackground() -> some View {
+        background {
+            ZStack {
+                AppColors.brandBackground
+                LinearGradient(
+                    colors: [AppColors.brandPrimary.opacity(0.04), .clear],
+                    startPoint: .top,
+                    endPoint: UnitPoint(x: 0.5, y: 0.4)
+                )
+            }
+            .ignoresSafeArea()
+        }
+    }
+
+    /// Standard elevated card surface for lists and panels.
+    func appCardSurface() -> some View {
+        background(AppColors.brandSurface)
+            .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                    .strokeBorder(AppColors.subtleBorder, lineWidth: 1)
+            )
+    }
+
+    /// Selectable list/card row — green wash + border when selected; works with checkmarks for a11y.
+    func appSelectableCard(isSelected: Bool) -> some View {
+        let borderWidth: CGFloat = isSelected ? 2 : 1
+        return background(isSelected ? AppColors.brandPrimarySoft : AppColors.brandSurface)
+            .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                    .strokeBorder(
+                        isSelected ? AppColors.brandPrimaryOnDark : AppColors.subtleBorder,
+                        lineWidth: borderWidth
+                    )
+            )
     }
 }
 
@@ -87,11 +172,11 @@ struct PrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
-            .foregroundStyle(.white)
+            .foregroundStyle(isEnabled ? AppColors.textOnPrimary : AppColors.primaryButtonDisabledLabel)
             .frame(maxWidth: .infinity)
             .frame(minHeight: AppMetrics.primaryButtonMinHeight)
-            .background(isEnabled ? AppColors.royalBlue : AppColors.primaryButtonDisabled)
-            .opacity(configuration.isPressed ? 0.88 : 1)
+            .background(isEnabled ? AppColors.brandPrimary : AppColors.primaryButtonDisabled)
+            .opacity(configuration.isPressed ? 0.9 : 1)
             .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 }
@@ -102,14 +187,36 @@ struct SecondaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
-            .foregroundStyle(isEnabled ? AppColors.royalBlue : Color(.secondaryLabel))
+            .foregroundStyle(isEnabled ? AppColors.brandPrimary : AppColors.textTertiary)
             .frame(maxWidth: .infinity)
             .frame(minHeight: AppMetrics.secondaryButtonMinHeight)
-            .background(Color(.systemBackground))
+            .background(AppColors.brandSurface)
             .overlay(
                 RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
                     .strokeBorder(
-                        isEnabled ? AppColors.royalBlue : Color(.separator),
+                        isEnabled ? AppColors.brandPrimary : AppColors.subtleBorder,
+                        lineWidth: 1.5
+                    )
+            )
+            .opacity(configuration.isPressed ? 0.88 : 1)
+    }
+}
+
+/// Purple-outline style for club / membership secondary actions.
+struct ClubButtonStyle: ButtonStyle {
+    @Environment(\.isEnabled) private var isEnabled
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.headline)
+            .foregroundStyle(isEnabled ? AppColors.brandSecondary : AppColors.textTertiary)
+            .frame(maxWidth: .infinity)
+            .frame(minHeight: AppMetrics.secondaryButtonMinHeight)
+            .background(AppColors.brandSurface)
+            .overlay(
+                RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                    .strokeBorder(
+                        isEnabled ? AppColors.brandSecondary : AppColors.subtleBorder,
                         lineWidth: 1.5
                     )
             )
@@ -123,6 +230,10 @@ extension ButtonStyle where Self == PrimaryButtonStyle {
 
 extension ButtonStyle where Self == SecondaryButtonStyle {
     static var appSecondary: SecondaryButtonStyle { SecondaryButtonStyle() }
+}
+
+extension ButtonStyle where Self == ClubButtonStyle {
+    static var appClub: ClubButtonStyle { ClubButtonStyle() }
 }
 
 // MARK: - Motion

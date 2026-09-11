@@ -24,7 +24,7 @@ final class GameSessionTests: XCTestCase {
         (0..<count).map { index in
             TriviaQuestion(
                 catalogID: "test-science-\(index)",
-                category: "Science",
+                category: "Auto City",
                 question: "Question \(index)?",
                 answers: ["A", "B", "C", "D"],
                 correctIndex: 0
@@ -44,25 +44,25 @@ final class GameSessionTests: XCTestCase {
     func testStartRound_setsTotalQuestionsFromList() {
         let questions = sampleQuestions(count: 4)
 
-        session.startRound(with: questions, categories: ["Science"])
+        session.startRound(with: questions, categories: ["Auto City"])
 
         XCTAssertEqual(session.totalQuestions, 4)
         XCTAssertEqual(session.currentRoundQuestions.count, 4)
-        XCTAssertEqual(session.selectedCategories, ["Science"])
+        XCTAssertEqual(session.selectedCategories, ["Auto City"])
         XCTAssertEqual(session.correctAnswers, 0)
         XCTAssertEqual(session.currentQuestionIndex, 0)
     }
 
     func testBeginRound_usesFilteredQuestionBank() {
-        session.beginRound(categories: ["Science"])
+        session.beginRound(categories: ["Auto City"])
 
         XCTAssertGreaterThan(session.totalQuestions, 0)
-        XCTAssertTrue(session.currentRoundQuestions.allSatisfy { $0.category == "Science" })
+        XCTAssertTrue(session.currentRoundQuestions.allSatisfy { $0.category == "Auto City" })
     }
 
     func testResetForReplay_clearsScoreAndReloadsQuestions() {
         let fixedRound = sampleQuestions(count: 3)
-        session.startRound(with: fixedRound, categories: ["Science"])
+        session.startRound(with: fixedRound, categories: ["Auto City"])
         session.incrementCorrectAnswers()
         session.incrementCorrectAnswers()
         XCTAssertEqual(session.correctAnswers, 2)
@@ -71,11 +71,11 @@ final class GameSessionTests: XCTestCase {
 
         XCTAssertEqual(session.correctAnswers, 0)
         XCTAssertEqual(session.totalQuestions, session.currentRoundQuestions.count)
-        XCTAssertEqual(session.selectedCategories, ["Science"])
+        XCTAssertEqual(session.selectedCategories, ["Auto City"])
     }
 
     func testClearRound_resetsAllSessionFields() {
-        session.startRound(with: sampleQuestions(count: 2), categories: ["History"])
+        session.startRound(with: sampleQuestions(count: 2), categories: ["Local Legends"])
         session.incrementCorrectAnswers()
         session.currentQuestionIndex = 1
 

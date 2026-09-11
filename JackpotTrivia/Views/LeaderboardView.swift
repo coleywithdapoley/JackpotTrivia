@@ -10,17 +10,9 @@ struct LeaderboardView: View {
     @Environment(\.analytics) private var analytics
 
     @State private var period: LeaderboardPeriod = .daily
-
-    private var standings: [LeaderboardStanding] {
-        LeaderboardService.standings(
-            for: period,
-            currentUserID: auth.currentUser?.id
-        )
-    }
-
-    private var userRank: LeaderboardStanding? {
-        LeaderboardService.currentUserRank(for: period, userID: auth.currentUser?.id)
-    }
+    @State private var standings: [LeaderboardStanding] = []
+    @State private var userRank: LeaderboardStanding?
+    @State private var isRefreshing = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -33,33 +25,105 @@ struct LeaderboardView: View {
             .appScreenHorizontalPadding()
             .padding(.vertical, AppSpacing.stackItem)
 
+            Text(boardCaption)
+                .appCaptionText()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .appScreenHorizontalPadding()
+                .padding(.bottom, AppSpacing.stackItem)
+
             if let userRank {
                 yourRankCard(userRank)
                     .appScreenHorizontalPadding()
                     .padding(.bottom, AppSpacing.stackItem)
             }
 
-            List {
-                ForEach(standings) { standing in
-                    leaderboardRow(standing)
-                        .listRowBackground(
-                            standing.isCurrentUser
-                                ? AppColors.brandGreen.opacity(0.08)
-                                : AppColors.cardBackground
-                        )
+            if standings.isEmpty {
+                ScrollView {
+                    emptyState
+                }
+                .refreshable {
+                    await reload(forceRemote: true)
+                }
+            } else {
+                List {
+                    ForEach(standings) { standing in
+                        leaderboardRow(standing)
+                            .listRowBackground(
+                                standing.isCurrentUser
+                                    ? AppColors.brandPrimary.opacity(0.08)
+                                    : AppColors.cardBackground
+                            )
+                    }
+                }
+                .listStyle(.plain)
+                .refreshable {
+                    await reload(forceRemote: true)
                 }
             }
-            .listStyle(.plain)
         }
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
         .navigationTitle("Leaderboard")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            analytics.track(.leaderboardViewed(period: period.rawValue))
+        .overlay {
+            if isRefreshing && standings.isEmpty {
+                ProgressView()
+                    .tint(AppColors.brandPrimary)
+            }
+        }
+        .task {
+            await reload(forceRemote: true)
         }
         .onChange(of: period) { _, newPeriod in
             analytics.track(.leaderboardViewed(period: newPeriod.rawValue))
+            applyLocalStandings()
+            Task { await reload(forceRemote: true) }
         }
+        .onAppear {
+            analytics.track(.leaderboardViewed(period: period.rawValue))
+            applyLocalStandings()
+        }
+    }
+
+    private var boardCaption: String {
+        if LeaderboardService.usesLiveBoard {
+            return "Live standings — every signed-in player who posted a score."
+        }
+        return "This device only. Connect Supabase to share scores with other players."
+    }
+
+    private var emptyState: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
+            Text("No scores yet")
+                .font(.headline)
+                .foregroundStyle(AppColors.textPrimary)
+            Text(
+                LeaderboardService.usesLiveBoard
+                    ? "Finish a round to post. Other players appear here after they post theirs."
+                    : "Add SupabaseSecrets.plist so everyone’s scores land on one board."
+            )
+            .appBodyText()
+            .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .appScreenHorizontalPadding()
+        .padding(.top, AppSpacing.section)
+    }
+
+    private func reload(forceRemote: Bool) async {
+        if forceRemote {
+            await MainActor.run { isRefreshing = true }
+            await LeaderboardService.refreshRemote()
+        }
+        await MainActor.run {
+            applyLocalStandings()
+            isRefreshing = false
+        }
+    }
+
+    private func applyLocalStandings() {
+        let userID = auth.currentUser?.id
+        standings = LeaderboardService.standings(for: period, currentUserID: userID)
+        userRank = LeaderboardService.currentUserRank(for: period, userID: userID)
     }
 
     private func yourRankCard(_ standing: LeaderboardStanding) -> some View {
@@ -70,7 +134,7 @@ struct LeaderboardView: View {
                 Text("#\(standing.rank)")
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundStyle(AppColors.brandGreen)
+                    .foregroundStyle(AppColors.brandPrimary)
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
@@ -81,7 +145,7 @@ struct LeaderboardView: View {
             }
         }
         .padding(AppSpacing.cardInnerHorizontal)
-        .background(AppColors.brandGreen.opacity(0.1))
+        .background(AppColors.brandPrimary.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 
@@ -89,7 +153,7 @@ struct LeaderboardView: View {
         HStack(spacing: 12) {
             Text("\(standing.rank)")
                 .font(.headline)
-                .foregroundStyle(standing.rank <= 3 ? AppColors.brandGreen : .secondary)
+                .foregroundStyle(standing.rank <= 3 ? AppColors.brandPrimary : AppColors.textSecondary)
                 .frame(width: 28, alignment: .leading)
 
             VStack(alignment: .leading, spacing: 2) {
@@ -98,14 +162,14 @@ struct LeaderboardView: View {
                     .fontWeight(standing.isCurrentUser ? .semibold : .regular)
                 Text("\(standing.entry.correctAnswers)/\(standing.entry.totalQuestions) correct")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
             }
 
             Spacer()
 
             Text("\(standing.entry.points)")
                 .font(.headline)
-                .foregroundStyle(AppColors.brandGreen)
+                .foregroundStyle(AppColors.brandPrimary)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(

@@ -28,7 +28,7 @@ struct AuthSignInView: View {
                 if let errorMessage {
                     Text(errorMessage)
                         .font(.footnote)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(AppColors.error)
                         .padding(.top, AppSpacing.stackItem)
                         .accessibilityLabel("Error: \(errorMessage)")
                 }
@@ -36,7 +36,7 @@ struct AuthSignInView: View {
                 Button(action: signInTapped) {
                     if isLoading {
                         ProgressView()
-                            .tint(.white)
+                            .tint(AppColors.textOnPrimary)
                     } else {
                         Text("Sign In")
                     }
@@ -47,26 +47,26 @@ struct AuthSignInView: View {
 
                 Button("Create account", action: onSignUp)
                     .font(.subheadline)
-                    .foregroundStyle(AppColors.brandGreen)
+                    .foregroundStyle(AppColors.brandPrimary)
                     .frame(maxWidth: .infinity, minHeight: AppMetrics.minimumTouchTarget)
 
                 Button("Forgot password?", action: onForgotPassword)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
                     .frame(maxWidth: .infinity, minHeight: AppMetrics.minimumTouchTarget)
             }
             .appScreenHorizontalPadding()
             .padding(.bottom, AppSpacing.section)
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
     }
 
     private var header: some View {
         VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
             Image(systemName: "star.circle.fill")
                 .font(.system(size: 48))
-                .foregroundStyle(AppColors.brandGreen)
+                .foregroundStyle(AppColors.brandPrimary)
                 .accessibilityHidden(true)
 
             Text(AppConfig.appDisplayName)

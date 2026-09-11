@@ -38,12 +38,12 @@ struct AppAccessCodeView: View {
                 if let errorMessage {
                     Text(errorMessage)
                         .font(.footnote)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(AppColors.error)
                 }
 
                 Button(action: unlockTapped) {
                     if isLoading {
-                        ProgressView().tint(.white)
+                        ProgressView().tint(AppColors.textOnPrimary)
                     } else {
                         Text("Continue")
                     }
@@ -58,7 +58,7 @@ struct AppAccessCodeView: View {
             .appScreenHorizontalPadding()
             .padding(.vertical, AppSpacing.section)
         }
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
         .navigationTitle("Join")
         .navigationBarTitleDisplayMode(.inline)
     }

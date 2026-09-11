@@ -2,7 +2,8 @@
 //  QuestionRetirementStore.swift
 //  JackpotTrivia
 //
-//  Locally retires questions until Phase 3 sets is_active in Supabase.
+//  Locally retires questions. When Supabase is connected, admin retire also
+//  writes catalog_retired_slugs so every signed-in player hides the same IDs.
 //
 
 import Foundation
@@ -33,9 +34,11 @@ enum QuestionRetirementStore {
 
     static func isRetired(catalogID: String) -> Bool {
         retiredCatalogIDs.contains(catalogID)
+            || QuestionRepository.shared.retiredCatalogSlugs.contains(catalogID)
     }
 
     static func resetForTesting() {
         UserDefaults.standard.removeObject(forKey: key)
+        QuestionRepository.shared.resetRetiredSlugsForTesting()
     }
 }

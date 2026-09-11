@@ -45,7 +45,7 @@ struct InviteFriendsSheet: View {
                 if let errorMessage {
                     Text(errorMessage)
                         .font(.footnote)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(AppColors.error)
                 }
 
                 Spacer()

@@ -9,7 +9,6 @@ struct ResultsView: View {
     @EnvironmentObject private var gameSession: GameSession
     @EnvironmentObject private var auth: AuthManager
     @Environment(\.analytics) private var analytics
-    @Environment(\.featureGates) private var featureGates
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var onPlayAgain: () -> Void = {}
@@ -18,7 +17,6 @@ struct ResultsView: View {
 
     @State private var scoreRevealed = false
     @State private var didPlayFinishHaptic = false
-    @State private var showPremiumUpgrade = false
     @State private var showChallengeSheet = false
     @State private var leaderboardRank: LeaderboardStanding?
 
@@ -45,6 +43,19 @@ struct ResultsView: View {
         return categories.joined(separator: ", ")
     }
 
+    private var resultsHeadline: String {
+        switch gameSession.roundKind {
+        case .dailyJackpot:
+            return AppConfig.Copy.resultsHeadlineDaily
+        default:
+            return AppConfig.Copy.resultsHeadlinePractice
+        }
+    }
+
+    private var secondaryActionTitle: String {
+        gameSession.roundKind == .dailyJackpot ? "Back to Hub" : "Pick Categories"
+    }
+
     var body: some View {
         Group {
             if hasValidRound {
@@ -53,8 +64,7 @@ struct ResultsView: View {
                 emptyResultsContent
             }
         }
-        .background(Color(.systemBackground))
-        .premiumUpgradeSheet(isPresented: $showPremiumUpgrade)
+        .brandScreenBackground()
         .sheet(isPresented: $showChallengeSheet) {
             if let challenge = currentChallenge {
                 ChallengeFriendSheet(challenge: challenge)
@@ -62,12 +72,10 @@ struct ResultsView: View {
         }
         .onAppear {
             gameSession.finalizeRound(for: auth.currentUser)
-            leaderboardRank = LeaderboardService.currentUserRank(
-                for: .daily,
-                userID: auth.currentUser?.id
-            )
+            refreshLocalRank()
             revealScoreIfNeeded()
             trackQuizCompletedIfNeeded()
+            Task { await refreshLiveRank() }
         }
     }
 
@@ -79,6 +87,19 @@ struct ResultsView: View {
         ))
     }
 
+    private func refreshLocalRank() {
+        leaderboardRank = LeaderboardService.currentUserRank(
+            for: .daily,
+            userID: auth.currentUser?.id
+        )
+    }
+
+    private func refreshLiveRank() async {
+        await SupabaseSyncService.flushPending()
+        await LeaderboardService.refreshRemote()
+        await MainActor.run { refreshLocalRank() }
+    }
+
     // MARK: - Valid results
 
     private var resultsContent: some View {
@@ -87,7 +108,7 @@ struct ResultsView: View {
                 if gameSession.roundForfeited, let reason = gameSession.forfeitReason {
                     Label(reason, systemImage: "exclamationmark.triangle.fill")
                         .font(.subheadline)
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(AppColors.brandSecondary)
                         .padding(.bottom, AppSpacing.stackItem)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -123,11 +144,6 @@ struct ResultsView: View {
                     dailyCompleteBanner
                         .padding(.top, AppSpacing.stackItem)
                 }
-
-                if featureGates.isFreeTier {
-                    premiumUpgradeHint
-                        .padding(.top, AppSpacing.section)
-                }
             }
             .appScreenHorizontalPadding()
             .padding(.bottom, AppSpacing.section)
@@ -138,7 +154,7 @@ struct ResultsView: View {
                 .appScreenHorizontalPadding()
                 .padding(.top, AppSpacing.bottomBarTop)
                 .padding(.bottom, AppSpacing.screenBottom)
-                .background(Color(.systemBackground))
+                .background(AppColors.brandBackground)
         }
     }
 
@@ -148,15 +164,15 @@ struct ResultsView: View {
                 VStack(spacing: AppSpacing.section) {
                     Image(systemName: "tray")
                         .font(.largeTitle)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColors.textSecondary)
                         .accessibilityHidden(true)
 
-                    Text("No questions answered")
+                    Text(AppConfig.Copy.resultsEmptyTitle)
                         .appScreenSubtitle()
                         .multilineTextAlignment(.center)
                         .accessibilityAddTraits(.isHeader)
 
-                    Text("Start a round from category selection to see your results here.")
+                    Text(AppConfig.Copy.resultsEmptyMessage)
                         .appBodyText()
                         .multilineTextAlignment(.center)
                 }
@@ -176,7 +192,7 @@ struct ResultsView: View {
 
     private var scoreSection: some View {
         VStack(spacing: AppSpacing.labelToField) {
-            Text("Results")
+            Text(resultsHeadline)
                 .appScreenSubtitle()
                 .accessibilityAddTraits(.isHeader)
 
@@ -185,7 +201,7 @@ struct ResultsView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .fontDesign(.rounded)
-                .foregroundStyle(AppColors.royalBlue)
+                .foregroundStyle(AppColors.brandPrimary)
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
                 .scaleEffect(scoreRevealed ? 1 : (reduceMotion ? 1 : 0.92))
@@ -203,21 +219,24 @@ struct ResultsView: View {
 
     @ViewBuilder
     private var summarySection: some View {
-        if accuracyPercentage >= AppConfig.Copy.highScoreAccuracyThreshold {
-            Text("Nice work! You really know your stuff.")
-                .font(.body)
-                .foregroundStyle(.primary)
-                .fixedSize(horizontal: false, vertical: true)
-                .lineSpacing(2)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        } else {
-            Text("Good effort! Want to try again and beat your score?")
-                .font(.body)
-                .foregroundStyle(.primary)
-                .fixedSize(horizontal: false, vertical: true)
-                .lineSpacing(2)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
+        let isStrong = accuracyPercentage >= AppConfig.Copy.highScoreAccuracyThreshold
+        let message: String = {
+            if gameSession.roundKind == .dailyJackpot {
+                return isStrong
+                    ? AppConfig.Copy.resultsDailyHighScore
+                    : AppConfig.Copy.resultsDailyEncourage
+            }
+            return isStrong
+                ? AppConfig.Copy.resultsHighScoreMessage
+                : AppConfig.Copy.resultsEncourageMessage
+        }()
+
+        Text(message)
+            .font(.body)
+            .foregroundStyle(AppColors.textPrimary)
+            .fixedSize(horizontal: false, vertical: true)
+            .lineSpacing(3)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func categoriesSection(_ text: String) -> some View {
@@ -225,59 +244,36 @@ struct ResultsView: View {
             Text("Categories")
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
                 .textCase(.uppercase)
 
             Text(text)
                 .font(.subheadline)
-                .foregroundStyle(.primary)
+                .foregroundStyle(AppColors.textPrimary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Categories played: \(text)")
     }
 
-    /// Generic upgrade copy only — no purchase UI yet.
-    private var premiumUpgradeHint: some View {
-        Button {
-            showPremiumUpgrade = true
-        } label: {
-            HStack(spacing: 8) {
-                Image(systemName: "crown.fill")
-                    .foregroundStyle(AppColors.royalBlue)
-                Text("Enjoyed this game? Unlock Premium for more questions and categories.")
-                    .font(.footnote)
-                    .foregroundStyle(AppColors.royalBlue)
-                    .multilineTextAlignment(.leading)
-                Spacer(minLength: 0)
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(AppColors.royalBlue)
-            }
-            .padding(AppSpacing.cardInnerHorizontal)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(AppColors.royalBlue.opacity(0.08))
-            .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Upgrade to Premium")
-        .accessibilityHint("Opens Premium benefits")
-    }
-
     private var pointsSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
-            Text("Points earned")
+            Text("Round score")
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
                 .textCase(.uppercase)
 
             Text("\(gameSession.roundPoints) pts")
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundStyle(AppColors.brandGreen)
+                .foregroundStyle(AppColors.brandPrimary)
 
-            Text("Wallet balance: \(PrizeWallet.pointsBalance) pts (≈ \(PrizeWallet.estimatedCashDisplay) demo)")
+            Text("\(gameSession.correctAnswers)/\(gameSession.totalQuestions) correct · 100 pts each")
+                .appCaptionText()
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text("\(AppConfig.Copy.xpBankTitle): \(PrizeWallet.pointsBalance) XP")
                 .appCaptionText()
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -287,7 +283,7 @@ struct ResultsView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Points earned \(gameSession.roundPoints). Wallet balance \(PrizeWallet.pointsBalance) points.")
+        .accessibilityLabel("Round score \(gameSession.roundPoints) points. \(gameSession.correctAnswers) of \(gameSession.totalQuestions) correct. Score bank \(PrizeWallet.pointsBalance) XP.")
     }
 
     private var currentChallenge: FriendChallenge? {
@@ -315,10 +311,10 @@ struct ResultsView: View {
             systemImage: "trophy.fill"
         )
         .font(.subheadline)
-        .foregroundStyle(AppColors.brandGreen)
+        .foregroundStyle(AppColors.brandPrimary)
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(AppSpacing.cardInnerHorizontal)
-        .background(AppColors.brandGreen.opacity(0.08))
+        .background(AppColors.brandPrimary.opacity(0.08))
         .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 
@@ -345,12 +341,12 @@ struct ResultsView: View {
     }
 
     private var dailyCompleteBanner: some View {
-        Label("Today's jackpot recorded — come back tomorrow.", systemImage: "calendar.badge.checkmark")
+        Label(AppConfig.Copy.resultsDailyBanner, systemImage: "calendar.badge.checkmark")
             .font(.subheadline)
-            .foregroundStyle(AppColors.brandGreen)
+            .foregroundStyle(AppColors.brandPrimary)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(AppSpacing.cardInnerHorizontal)
-            .background(AppColors.brandGreen.opacity(0.08))
+            .background(AppColors.brandPrimary.opacity(0.08))
             .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 
@@ -359,7 +355,7 @@ struct ResultsView: View {
             Text("Breakdown")
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
                 .textCase(.uppercase)
                 .accessibilityAddTraits(.isHeader)
 
@@ -377,10 +373,10 @@ struct ResultsView: View {
             Text(value)
                 .font(.title3)
                 .fontWeight(.semibold)
-                .foregroundStyle(AppColors.royalBlue)
+                .foregroundStyle(AppColors.brandPrimary)
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
         }
         .frame(maxWidth: .infinity)
         .frame(minHeight: AppMetrics.minimumTouchTarget)
@@ -410,23 +406,27 @@ struct ResultsView: View {
             Group {
                 if hasValidRound {
                     Button(action: chooseCategoriesTapped) {
-                        Text("Choose Categories")
+                        Text(secondaryActionTitle)
                     }
                     .buttonStyle(.appSecondary)
                 } else {
                     Button(action: chooseCategoriesTapped) {
-                        Text("Choose Categories")
+                        Text(secondaryActionTitle)
                     }
                     .buttonStyle(.appPrimary)
                 }
             }
-            .accessibilityLabel("Choose Categories")
-            .accessibilityHint("Returns to category selection")
+            .accessibilityLabel(secondaryActionTitle)
+            .accessibilityHint(
+                gameSession.roundKind == .dailyJackpot
+                    ? "Returns to the home hub"
+                    : "Returns to category selection"
+            )
 
             Button(action: exitTapped) {
                 Text("Exit")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: AppMetrics.minimumTouchTarget)
             }
@@ -469,7 +469,7 @@ struct ResultsView: View {
 
 #Preview("Strong score") {
     let session = GameSession()
-    session.selectedCategories = ["Science", "History", "Sports"]
+    session.selectedCategories = ["Auto City", "Local Legends", "Detroit Sports"]
     session.totalQuestions = 10
     session.correctAnswers = 8
     return ResultsView()

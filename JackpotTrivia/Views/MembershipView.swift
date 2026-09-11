@@ -24,7 +24,7 @@ struct MembershipView: View {
                 Label("Membership", systemImage: tier.isMember ? "checkmark.seal.fill" : "person.crop.circle")
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundStyle(AppColors.brandGreen)
+                    .foregroundStyle(AppColors.brandSecondary)
 
                 LabeledContent("Current tier", value: tier.displayName)
 
@@ -37,7 +37,7 @@ struct MembershipView: View {
             .appScreenHorizontalPadding()
             .padding(.vertical, AppSpacing.section)
         }
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
         .navigationTitle("Membership")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
@@ -49,7 +49,7 @@ struct MembershipView: View {
         VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
             Text("You're a Member!")
                 .font(.headline)
-                .foregroundStyle(AppColors.brandGreen)
+                .foregroundStyle(AppColors.brandSecondary)
 
             Text("Perks include access to the Private Lounge (18+ topics) and future member-only modes.")
                 .appBodyText()
@@ -61,7 +61,11 @@ struct MembershipView: View {
             }
         }
         .padding(AppSpacing.cardInnerHorizontal)
-        .background(AppColors.brandGreen.opacity(0.08))
+        .background(AppColors.brandSecondary.opacity(0.12))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
+                .strokeBorder(AppColors.brandSecondary.opacity(0.35), lineWidth: 1)
+        )
         .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
     }
 
@@ -85,18 +89,18 @@ struct MembershipView: View {
             if let errorMessage {
                 Text(errorMessage)
                     .font(.footnote)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(AppColors.error)
             }
 
             if let successMessage {
                 Text(successMessage)
                     .font(.footnote)
-                    .foregroundStyle(AppColors.brandGreen)
+                    .foregroundStyle(AppColors.brandSecondary)
             }
 
             Button(action: unlockTapped) {
                 if isLoading {
-                    ProgressView().tint(.white)
+                    ProgressView().tint(AppColors.textOnPrimary)
                 } else {
                     Text("Unlock")
                 }

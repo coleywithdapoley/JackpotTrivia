@@ -45,16 +45,16 @@ enum QuestionBank {
 
     private static let embeddedFallbackQuestions: [TriviaQuestion] = [
         TriviaQuestion(
-            catalogID: "gk-capital-france-fallback",
-            category: "General Knowledge",
-            question: "What is the capital of France?",
-            answers: ["Berlin", "Madrid", "Paris", "Rome"],
-            correctIndex: 2
+            catalogID: "detroit-fallback-motown",
+            category: "Motown & Music",
+            question: "Motown Records was founded in which city?",
+            answers: ["Chicago", "Detroit", "Memphis", "Atlanta"],
+            correctIndex: 1
         ),
         TriviaQuestion(
-            catalogID: "sci-water-freeze-fallback",
-            category: "Science",
-            question: "Water freezes at 0°C at standard atmospheric pressure.",
+            catalogID: "detroit-fallback-auto",
+            category: "Auto City",
+            question: "Detroit is known as the Motor City.",
             answers: QuestionType.trueFalseAnswers,
             correctIndex: 0,
             questionType: .trueFalse,
@@ -96,6 +96,8 @@ enum QuestionBank {
             .filter(\.isPracticeEligible)
             .filter { !excludingJackpotIDs.contains($0.catalogID) }
 
+        filtered = RecentQuestionStore.deprioritizingRecent(filtered)
+
         if filtered.count < AppConfig.minimumPracticePoolSize {
             #if DEBUG
             print("[QuestionBank] Practice pool small after excluding today's jackpot (\(filtered.count)); allowing overlap.")
@@ -115,9 +117,12 @@ enum QuestionBank {
         let base = filteredQuestions(for: categories, profile: profile)
             .filter(\.isPracticeEligible)
             .filter { !DailyGameService.todaysJackpotQuestionIDs().contains($0.catalogID) }
-        let source = base.count >= AppConfig.minimumPracticePoolSize
-            ? base
-            : filteredQuestions(for: categories, profile: profile).filter(\.isPracticeEligible)
+        let recencyAware = RecentQuestionStore.deprioritizingRecent(base)
+        let source = recencyAware.count >= AppConfig.minimumPracticePoolSize
+            ? recencyAware
+            : (base.count >= AppConfig.minimumPracticePoolSize
+                ? base
+                : filteredQuestions(for: categories, profile: profile).filter(\.isPracticeEligible))
         return source.shuffled(using: &generator)
     }
 
@@ -125,11 +130,84 @@ enum QuestionBank {
         count: Int = AppConfig.onboardingWarmupQuestionCount,
         profile: UserContentProfile = UserProfileStore.profile
     ) -> [TriviaQuestion] {
-        let categories = ["General Knowledge"]
+        let categories = [AppConfig.defaultCategories.first ?? "Downtown & Neighborhoods"]
         var generator = SeededRandomNumberGenerator(seed: UInt64(Date().timeIntervalSince1970))
         let pool = questions(for: categories, profile: profile, using: &generator)
         return Array(pool.prefix(count))
     }
+
+    /// Curated Motor City sample for guest Quick Hit (falls back to Sports / History / Music).
+    static func quickHitQuestions(
+        count: Int = AppConfig.quickHitQuestionCount,
+        profile: UserContentProfile = .default
+    ) -> [TriviaQuestion] {
+        var generator = SeededRandomNumberGenerator(seed: 0xDE770117)
+        let curated = detroitQuickHitPool.filter { matchesContent($0, profile: profile) }
+        if curated.count >= count {
+            return Array(curated.shuffled(using: &generator).prefix(count))
+        }
+
+        let detroitCategories = Array(AppConfig.detroitThemedCategories)
+        var themed = filteredQuestions(for: detroitCategories, profile: profile)
+            .filter(\.isPracticeEligible)
+        if themed.count < count {
+            themed = filteredQuestions(for: [], profile: profile).filter(\.isPracticeEligible)
+        }
+        let merged = (curated + themed).uniqued(by: \.catalogID)
+        return Array(merged.shuffled(using: &generator).prefix(count))
+    }
+
+    /// First signed-in daily run: warmup segment + today's official jackpot deck (deduped).
+    static func firstDailyJackpotQuestions(
+        profile: UserContentProfile = UserProfileStore.profile,
+        warmupCount: Int = AppConfig.onboardingWarmupQuestionCount,
+        dailyCount: Int = AppConfig.dailyQuestionCount,
+        date: Date = .now
+    ) -> [TriviaQuestion] {
+        let warmup = warmupQuestions(count: warmupCount, profile: profile)
+        let warmupIDs = Set(warmup.map(\.catalogID))
+        let daily = DailyGameService.questionsForDailyJackpot(
+            profile: profile,
+            count: dailyCount,
+            date: date
+        ).filter { !warmupIDs.contains($0.catalogID) }
+        return warmup + daily
+    }
+
+    private static let detroitQuickHitPool: [TriviaQuestion] = [
+        TriviaQuestion(
+            catalogID: "detroit-quickhit-motown",
+            category: "Motown & Music",
+            question: "Motown Records was founded in which city?",
+            answers: ["Chicago", "Detroit", "Memphis", "Atlanta"],
+            correctIndex: 1,
+            difficulty: .easy
+        ),
+        TriviaQuestion(
+            catalogID: "detroit-quickhit-lions",
+            category: "Detroit Sports",
+            question: "Which NFL team plays home games in Detroit?",
+            answers: ["Bears", "Packers", "Lions", "Browns"],
+            correctIndex: 2,
+            difficulty: .easy
+        ),
+        TriviaQuestion(
+            catalogID: "detroit-quickhit-automotive",
+            category: "Auto City",
+            question: "Detroit is widely known as the historic center of which U.S. industry?",
+            answers: ["Steel", "Automobiles", "Textiles", "Shipbuilding"],
+            correctIndex: 1,
+            difficulty: .easy
+        ),
+        TriviaQuestion(
+            catalogID: "detroit-quickhit-river",
+            category: "Downtown & Neighborhoods",
+            question: "Detroit sits on the bank of which river?",
+            answers: ["Mississippi", "Hudson", "Detroit River", "Ohio River"],
+            correctIndex: 2,
+            difficulty: .easy
+        ),
+    ]
 
     static func presentedQuestion(from question: TriviaQuestion) -> PresentedQuestion {
         var pairs = question.answers.enumerated().map { ($0, $1) }
@@ -148,5 +226,12 @@ enum QuestionBank {
             difficulty: question.difficulty,
             timeLimitSeconds: question.effectiveTimeLimitSeconds
         )
+    }
+}
+
+private extension Array {
+    func uniqued<ID: Hashable>(by keyPath: KeyPath<Element, ID>) -> [Element] {
+        var seen = Set<ID>()
+        return filter { seen.insert($0[keyPath: keyPath]).inserted }
     }
 }

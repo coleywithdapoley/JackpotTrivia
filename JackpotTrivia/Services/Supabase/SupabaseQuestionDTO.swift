@@ -63,7 +63,7 @@ struct SupabaseQuestionRow: Decodable {
         }
 
         let slug = catalogSlug ?? id
-        let category = categories?.name ?? "General Knowledge"
+        let category = categories?.name ?? (AppConfig.defaultCategories.first ?? "Auto City")
         let type = QuestionType(rawValue: questionType ?? "") ?? (answers.count == 2 ? .trueFalse : .multipleChoice)
         let diff = QuestionDifficulty(rawValue: difficulty ?? "") ?? .medium
         let content = QuestionContentFlags(

@@ -24,6 +24,9 @@ final class SupabaseAuthService: AuthServiceProtocol {
         let body = TokenRequest(email: normalized, password: password)
         let data = try await client.post(path: "/auth/v1/token?grant_type=password", body: body)
         let response = try decodeAuthResponse(data)
+        guard response.accessToken != nil else {
+            throw AuthError.message("Confirm this email, then try Sign In again.")
+        }
         try persistSession(response)
         let user = try await upsertProfileIfNeeded(response: response, displayName: nil)
         currentUser = user
@@ -43,6 +46,9 @@ final class SupabaseAuthService: AuthServiceProtocol {
         )
         let data = try await client.post(path: "/auth/v1/signup", body: body)
         let response = try decodeAuthResponse(data)
+        guard response.accessToken != nil else {
+            throw AuthError.message("Account created. If you don’t get a session, tap Sign In with the same email and password.")
+        }
         try persistSession(response)
         let user = try await upsertProfileIfNeeded(response: response, displayName: displayName)
         currentUser = user
@@ -132,8 +138,8 @@ final class SupabaseAuthService: AuthServiceProtocol {
     }
 
     private struct AuthResponse: Decodable {
-        let accessToken: String
-        let refreshToken: String
+        let accessToken: String?
+        let refreshToken: String?
         let expiresIn: Int?
         let user: AuthUserPayload
 
@@ -166,7 +172,13 @@ final class SupabaseAuthService: AuthServiceProtocol {
             if text.localizedCaseInsensitiveContains("already") {
                 throw AuthError.emailAlreadyRegistered
             }
-            if text.localizedCaseInsensitiveContains("password") {
+            if text.localizedCaseInsensitiveContains("invalid") && text.localizedCaseInsensitiveContains("email") {
+                throw AuthError.invalidEmail
+            }
+            if text.localizedCaseInsensitiveContains("confirm") {
+                throw AuthError.message("Confirm this email, then try Sign In again.")
+            }
+            if text.localizedCaseInsensitiveContains("password") && !text.localizedCaseInsensitiveContains("credentials") {
                 throw AuthError.weakPassword
             }
             throw AuthError.message(text)
@@ -175,10 +187,13 @@ final class SupabaseAuthService: AuthServiceProtocol {
     }
 
     private func persistSession(_ response: AuthResponse) throws {
+        guard let accessToken = response.accessToken, let refreshToken = response.refreshToken else {
+            throw AuthError.invalidCredentials
+        }
         let expiresAt = response.expiresIn.map { Date().addingTimeInterval(TimeInterval($0)) }
         let session = SupabaseSession(
-            accessToken: response.accessToken,
-            refreshToken: response.refreshToken,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
             userID: response.user.id,
             email: response.user.email ?? "",
             displayName: response.user.userMetadata?.displayName,

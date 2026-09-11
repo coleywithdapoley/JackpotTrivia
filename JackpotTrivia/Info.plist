@@ -7,10 +7,12 @@
 -->
 <plist version="1.0">
 <dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CFBundleDisplayName</key>
-	<string>Jackpot Trivia</string>
+	<string>If You Know, You Win</string>
 	<key>CFBundleName</key>
-	<string>Jackpot Trivia</string>
+	<string>If You Know, You Win</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleURLTypes</key>

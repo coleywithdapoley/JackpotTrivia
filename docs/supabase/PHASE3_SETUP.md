@@ -13,6 +13,8 @@ The iOS app uses **Supabase REST + GoTrue** when `SupabaseSecrets.plist` is pres
 2. `docs/supabase/phase2_leaderboards.sql`
 3. `docs/supabase/phase2_question_quality.sql`
 4. `docs/supabase/phase3_complete.sql`
+5. `docs/supabase/phase4_live_leaderboard.sql`
+6. `docs/supabase/phase5_shared_catalog.sql`
 
 ## 3. Seed categories & questions
 
@@ -59,6 +61,7 @@ For SMS reset, configure a phone provider later; the app still calls the API but
 | Remote catalog | `questions` + `question_answers` + `categories` |
 | Official daily deck | `daily_games` + `daily_game_questions` |
 | Round finish | `leaderboard_scores`, `game_rounds`, `daily_completions` |
+| Leaderboard screen | **Reads** `leaderboard_scores` (best score per player) |
 | Question reports | `question_reports` |
 | Per-question stats | `upsert_question_stats_by_slug` RPC |
 

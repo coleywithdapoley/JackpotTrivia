@@ -26,8 +26,8 @@ final class ScoringEngineTests: XCTestCase {
       difficulty: .medium,
       streakAfterAnswer: 3
     )
-    XCTAssertEqual(result.base, 150)
-    XCTAssertGreaterThan(result.timeBonus, 0)
+    XCTAssertEqual(result.base, 100)
+    XCTAssertEqual(result.timeBonus, 25)
     XCTAssertEqual(result.streakBonus, 20)
     XCTAssertEqual(result.total, result.base + result.timeBonus + result.streakBonus)
   }

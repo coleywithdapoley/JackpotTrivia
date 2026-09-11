@@ -48,13 +48,13 @@ struct InviteAccessView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .scrollDismissesKeyboard(.interactively)
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
         .safeAreaInset(edge: .bottom) {
             footerNote
                 .appScreenHorizontalPadding()
                 .padding(.bottom, AppSpacing.screenBottom)
                 .frame(maxWidth: .infinity)
-                .background(Color(.systemBackground))
+                .background(AppColors.brandBackground)
         }
         .onAppear {
             refreshAccessRules()
@@ -68,7 +68,7 @@ struct InviteAccessView: View {
         VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
             Image(systemName: "trophy.fill")
                 .font(.largeTitle)
-                .foregroundStyle(AppColors.royalBlue)
+                .foregroundStyle(AppColors.brandPrimary)
                 .accessibilityHidden(true)
 
             Text(AppConfig.appDisplayName)
@@ -111,7 +111,7 @@ struct InviteAccessView: View {
             } else if !isOpenAccess {
                 Label(AppConfig.Copy.inviteDisabledMessage, systemImage: "lock.fill")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
@@ -156,11 +156,11 @@ struct InviteAccessView: View {
     private func statusColor(for status: InviteStatus) -> Color {
         switch status {
         case .pendingApproval:
-            return .orange
+            return AppColors.brandSecondary
         case .approved:
-            return AppColors.royalBlue
+            return AppColors.brandPrimary
         default:
-            return readyToProceed ? AppColors.royalBlue : .red
+            return readyToProceed ? AppColors.brandPrimary : AppColors.error
         }
     }
 

@@ -87,7 +87,20 @@ final class GameSession: ObservableObject {
         startRound(with: questions, categories: ["Daily Jackpot"])
     }
 
-    /// First-session warmup — does not consume the official daily run.
+    /// Guest Detroit Quick Hit — no account; does not touch daily jackpot.
+    func beginQuickHitRound(profile: UserContentProfile = .default) {
+        roundKind = .quickHitSample
+        playMode = .chooseCategories
+        activeMood = .custom
+        roundForfeited = false
+        forfeitReason = nil
+        lastContentProfile = profile
+        bumpRoundShuffleSeed()
+        let questions = QuestionBank.quickHitQuestions(profile: profile)
+        startRound(with: questions, categories: ["Detroit"])
+    }
+
+    /// Legacy warmup-only round (tests / admin); prefer `beginFirstDailyJackpotRound` for new users.
     func beginWarmupRound(profile: UserContentProfile = UserProfileStore.profile) {
         roundKind = .onboardingWarmup
         playMode = .chooseCategories
@@ -97,7 +110,20 @@ final class GameSession: ObservableObject {
         lastContentProfile = profile
         bumpRoundShuffleSeed()
         let questions = QuestionBank.warmupQuestions(profile: profile)
-        startRound(with: questions, categories: ["General Knowledge"])
+        let category = AppConfig.defaultCategories.first ?? "Auto City"
+        startRound(with: questions, categories: [category])
+    }
+
+    /// First signed-in run: warmup segment + today's jackpot — counts as the official daily run.
+    func beginFirstDailyJackpotRound(profile: UserContentProfile = UserProfileStore.profile) {
+        roundKind = .dailyJackpot
+        playMode = .partyMode
+        activeMood = .custom
+        roundForfeited = false
+        forfeitReason = nil
+        lastContentProfile = profile
+        let questions = QuestionBank.firstDailyJackpotQuestions(profile: profile)
+        startRound(with: questions, categories: ["First Detroit Jackpot"])
     }
 
     /// Legacy entry — category names only (custom mood, pick-categories mode).
@@ -158,9 +184,18 @@ final class GameSession: ObservableObject {
 
     /// Credits wallet, marks daily complete, and posts to leaderboards.
     func finalizeRound(for user: AuthUser?) {
-        if roundKind == .dailyJackpot {
+        if roundKind == .practice || roundKind == .privateLounge {
+            RecentQuestionStore.recordRound(catalogIDs: currentRoundQuestions.map(\.catalogID))
+        }
+
+        if roundKind == .quickHitSample {
+            OnboardingStore.markQuickHitCompleted()
+        } else if roundKind == .dailyJackpot {
             DailyGameService.markDailyCompleted()
             PrizeWallet.creditRound(points: roundPoints)
+            if let user, !OnboardingStore.hasCompletedWarmup(for: user.id) {
+                OnboardingStore.markWarmupCompleted(for: user.id)
+            }
         } else if roundKind == .onboardingWarmup, let user {
             OnboardingStore.markWarmupCompleted(for: user.id)
             PrizeWallet.creditRound(points: roundPoints)
@@ -178,7 +213,7 @@ final class GameSession: ObservableObject {
 
         guard let user, roundPoints > 0 || roundKind == .dailyJackpot || roundKind == .onboardingWarmup else { return }
         let name = user.displayName ?? user.email
-        if roundKind != .onboardingWarmup {
+        if roundKind != .onboardingWarmup, roundKind != .quickHitSample {
             LeaderboardService.recordRound(
                 userID: user.id,
                 displayName: name,
@@ -213,6 +248,8 @@ final class GameSession: ObservableObject {
             questions = DailyGameService.questionsForDailyJackpot(profile: lastContentProfile)
         case .privateLounge:
             questions = QuestionBank.privateLoungeQuestions()
+        case .quickHitSample:
+            questions = QuestionBank.quickHitQuestions(profile: lastContentProfile)
         case .practice, .onboardingWarmup:
             questions = shuffledPracticeQuestions()
         }

@@ -13,33 +13,64 @@ struct RootContentView: View {
     private let analytics: AnalyticsTracking = ConsoleAnalyticsService()
     private let appAccess: AppAccessServiceProtocol = LocalAppAccessService.shared
     @State private var featureGates = FeatureGates.current
-    @State private var showPremiumUpgrade = false
-    @State private var showSignUp = false
-    @State private var showForgotPassword = false
     @State private var hasPassedInviteGate = false
     @State private var hasAppAccess = LocalAppAccessService.shared.hasAppAccess
-    @State private var needsWarmup = false
+    @State private var firstRunPhase: FirstRunPhase = .quickHitIntro
 
     var body: some View {
         Group {
-            if AppConfig.requireAppAccessCode && !hasAppAccess {
+            switch firstRunPhase {
+            case .quickHitIntro:
+                QuickHitIntroView(
+                    onPlaySample: startQuickHit,
+                    onSignIn: { firstRunPhase = .auth(showSignUp: false) }
+                )
+
+            case .quickHitPlaying:
+                guestTriviaStack
+
+            case .quickHitResults:
+                QuickHitResultsView(
+                    onCreateAccount: { firstRunPhase = .auth(showSignUp: true) },
+                    onSignIn: { firstRunPhase = .auth(showSignUp: false) }
+                )
+
+            case .auth(let showSignUp):
+                AuthGateView(initialShowSignUp: showSignUp)
+
+            case .appAccessGate:
                 appAccessFlow
-            } else if auth.isAuthenticated {
-                authenticatedFlow
-            } else {
-                unauthenticatedFlow
+
+            case .firstJackpotPlaying:
+                firstJackpotStack
+
+            case .home:
+                authenticatedHub
             }
         }
         .environmentObject(gameSession)
         .environment(\.analytics, analytics)
         .environment(\.featureGates, featureGates)
-        .tint(AppColors.brandGreen)
+        .tint(AppColors.brandPrimary)
         .onAppear {
             analytics.track(.appOpened)
-            refreshSessionFlags()
+            syncInviteGateFromPersistence()
+            syncFirstRunPhase()
+        }
+        .onChange(of: auth.isAuthenticated) { _, isAuthenticated in
+            if isAuthenticated {
+                syncInviteGateFromPersistence()
+                handleAuthenticatedEntry()
+            } else {
+                resetSessionOnSignOut()
+                syncFirstRunPhase()
+            }
         }
         .onChange(of: auth.currentUser?.id) { _, _ in
-            refreshSessionFlags()
+            if auth.isAuthenticated {
+                syncInviteGateFromPersistence()
+                handleAuthenticatedEntry()
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .premiumAccessDidChange)) { _ in
             featureGates = FeatureGates.current
@@ -49,54 +80,141 @@ struct RootContentView: View {
         }
     }
 
-    private func refreshSessionFlags() {
+    // MARK: - Phase resolution
+
+    private func syncFirstRunPhase() {
         hasAppAccess = appAccess.hasAppAccess
-        if let userID = auth.currentUser?.id {
-            needsWarmup = !OnboardingStore.hasCompletedWarmup(for: userID)
-        } else {
-            needsWarmup = false
+        guard !auth.isAuthenticated else {
+            handleAuthenticatedEntry()
+            return
+        }
+
+        switch firstRunPhase {
+        case .quickHitPlaying, .quickHitResults, .auth:
+            return
+        default:
+            firstRunPhase = OnboardingStore.hasCompletedQuickHit
+                ? .auth(showSignUp: false)
+                : .quickHitIntro
         }
     }
 
-  // MARK: - App access gate
+    private func handleAuthenticatedEntry() {
+        hasAppAccess = appAccess.hasAppAccess
+
+        if AppConfig.requireAppAccessCode && !hasAppAccess {
+            firstRunPhase = .appAccessGate
+            return
+        }
+
+        // Invite gates hub and first jackpot until resolved (in-session or persisted member).
+        if AppConfig.requiresInviteAfterAuth && !isInviteGateResolved {
+            firstRunPhase = .home
+            return
+        }
+
+        if needsFirstJackpot(for: auth.currentUser?.id) {
+            if firstRunPhase != .firstJackpotPlaying {
+                startFirstJackpot()
+            }
+            return
+        }
+
+        firstRunPhase = .home
+    }
+
+    /// True when invite-only launch is satisfied for this installation.
+    private var isInviteGateResolved: Bool {
+        guard AppConfig.requiresInviteAfterAuth else { return true }
+        return hasPassedInviteGate || InviteLinkService.currentMemberID != nil
+    }
+
+    private func syncInviteGateFromPersistence() {
+        if InviteLinkService.currentMemberID != nil {
+            hasPassedInviteGate = true
+        }
+    }
+
+    private func resetSessionOnSignOut() {
+        gameSession.clearRound()
+        navigationPath = NavigationPath()
+        hasPassedInviteGate = false
+    }
+
+    private func needsFirstJackpot(for userID: String?) -> Bool {
+        guard let userID else { return false }
+        return !OnboardingStore.hasCompletedWarmup(for: userID)
+    }
+
+    // MARK: - Guest Quick Hit
+
+    private func startQuickHit() {
+        gameSession.beginQuickHitRound()
+        firstRunPhase = .quickHitPlaying
+    }
+
+    private var guestTriviaStack: some View {
+        NavigationStack {
+            TriviaQuestionView(
+                onSessionComplete: {
+                    firstRunPhase = .quickHitResults
+                },
+                onBackToCategories: {
+                    gameSession.clearRound()
+                    firstRunPhase = .quickHitIntro
+                }
+            )
+            .navigationTitle(AppConfig.Copy.quickHitTitle)
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    // MARK: - App access (beta — after account, not before Quick Hit)
 
     private var appAccessFlow: some View {
         NavigationStack {
             AppAccessCodeView {
                 hasAppAccess = true
+                handleAuthenticatedEntry()
             }
         }
     }
 
-  // MARK: - Auth gate
+    // MARK: - First Detroit Jackpot
 
-    private var unauthenticatedFlow: some View {
-        NavigationStack {
-            AuthSignInView(
-                onSignUp: { showSignUp = true },
-                onForgotPassword: { showForgotPassword = true }
-            )
-            .navigationDestination(isPresented: $showSignUp) {
-                AuthSignUpView()
-            }
-            .navigationDestination(isPresented: $showForgotPassword) {
-                ForgotPasswordView()
-            }
+    private func startFirstJackpot() {
+        gameSession.beginDailyRound()
+        featureGates.applyQuestionLimit(to: gameSession)
+        navigationPath = NavigationPath()
+        firstRunPhase = .firstJackpotPlaying
+    }
+
+    private var firstJackpotStack: some View {
+        NavigationStack(path: $navigationPath) {
+            Color.clear
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .brandScreenBackground()
+                .onAppear {
+                    guard navigationPath.isEmpty else { return }
+                    navigationPath.append(AppRoute.trivia)
+                }
+                .navigationDestination(for: AppRoute.self) { route in
+                    destination(for: route)
+                }
         }
     }
 
-  // MARK: - Signed-in flow
+    // MARK: - Signed-in hub
 
-    private var authenticatedFlow: some View {
+    private var authenticatedHub: some View {
         NavigationStack(path: $navigationPath) {
             Group {
-                if AppConfig.requiresInviteAfterAuth && !hasPassedInviteGate {
+                if AppConfig.requiresInviteAfterAuth && !isInviteGateResolved {
                     InviteAccessView {
                         hasPassedInviteGate = true
+                        handleAuthenticatedEntry()
                     }
                     .navigationTitle("Join")
-                } else if needsWarmup {
-                    warmupPrompt
                 } else {
                     DailyJackpotView(
                         onPlayDaily: startDailyTrivia,
@@ -116,6 +234,8 @@ struct RootContentView: View {
                             AdminAccessSettingsView()
                         } label: {
                             Image(systemName: "gearshape")
+                                .font(.footnote)
+                                .foregroundStyle(AppColors.textTertiary)
                                 .accessibilityLabel("Admin access settings")
                         }
                     }
@@ -125,40 +245,14 @@ struct RootContentView: View {
                 destination(for: route)
             }
         }
-        .premiumUpgradeSheet(isPresented: $showPremiumUpgrade)
     }
 
     private var showAdminGear: Bool {
-        (!AppConfig.requiresInviteAfterAuth || hasPassedInviteGate) && !needsWarmup
-    }
-
-    private var warmupPrompt: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.section) {
-            Text("Quick warmup")
-                .appScreenTitle()
-            Text("Answer 5 fast questions to get started. This does not use your official daily jackpot run.")
-                .appBodyText()
-                .fixedSize(horizontal: false, vertical: true)
-            Button("Start warmup") {
-                startWarmup()
-            }
-            .buttonStyle(.appPrimary)
-        }
-        .appScreenHorizontalPadding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(Color(.systemBackground))
-        .navigationTitle("Welcome")
-    }
-
-    private func startWarmup() {
-        featureGates.applyQuestionLimit(to: gameSession)
-        gameSession.beginWarmupRound()
-        navigationPath.append(AppRoute.trivia)
+        auth.isAdmin && (!AppConfig.requiresInviteAfterAuth || isInviteGateResolved)
     }
 
     private func startDailyTrivia() {
         analytics.track(.dailyStarted)
-        featureGates.applyQuestionLimit(to: gameSession)
         navigationPath.append(AppRoute.trivia)
     }
 
@@ -199,7 +293,11 @@ struct RootContentView: View {
             )
 
         case .addQuestion:
-            AddQuestionView()
+            if auth.isAdmin {
+                AddQuestionView()
+            } else {
+                adminOnlyPlaceholder
+            }
 
         case .trivia:
             TriviaQuestionView(
@@ -224,9 +322,11 @@ struct RootContentView: View {
                 onPlayAgain: {
                     guard gameSession.roundKind != .dailyJackpot || !DailyGameService.hasCompletedDailyToday else {
                         popToHome()
+                        if firstRunPhase == .firstJackpotPlaying {
+                            firstRunPhase = .home
+                        }
                         return
                     }
-                    gameSession.resetForReplay()
                     featureGates.applyQuestionLimit(to: gameSession)
                     navigationPath.removeLast()
                 },
@@ -234,7 +334,6 @@ struct RootContentView: View {
                     let wasPractice = gameSession.roundKind == .practice
                     gameSession.clearRound()
                     popToHome()
-                    refreshSessionFlags()
                     if wasPractice {
                         navigationPath.append(AppRoute.categorySelection)
                     }
@@ -242,12 +341,31 @@ struct RootContentView: View {
                 onExit: {
                     gameSession.clearRound()
                     navigationPath = NavigationPath()
-                    refreshSessionFlags()
+                    if firstRunPhase == .firstJackpotPlaying {
+                        firstRunPhase = .home
+                    }
                 }
             )
             .navigationTitle("Results")
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+
+    private var adminOnlyPlaceholder: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.stackItem) {
+            Text("Admin only")
+                .font(.title3)
+                .fontWeight(.bold)
+                .foregroundStyle(AppColors.textPrimary)
+            Text("This screen is limited to founder accounts.")
+                .appBodyText()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .appScreenHorizontalPadding()
+        .padding(.top, AppSpacing.section)
+        .brandScreenBackground()
+        .navigationTitle("Admin")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func popToHome() {
@@ -256,10 +374,47 @@ struct RootContentView: View {
 
     private var triviaNavigationTitle: String {
         switch gameSession.roundKind {
-        case .dailyJackpot: return "Daily Jackpot"
+        case .dailyJackpot:
+            if needsFirstJackpot(for: auth.currentUser?.id) {
+                return AppConfig.Copy.firstJackpotTitle
+            }
+            return "Daily Jackpot"
         case .privateLounge: return "Private Lounge"
         case .onboardingWarmup: return "Warmup"
+        case .quickHitSample: return AppConfig.Copy.quickHitTitle
         case .practice: return "Trivia"
+        }
+    }
+}
+
+// MARK: - Auth gate (post–Quick Hit)
+
+private struct AuthGateView: View {
+    let initialShowSignUp: Bool
+
+    @State private var showSignUp: Bool
+    @State private var showForgotPassword = false
+
+    init(initialShowSignUp: Bool) {
+        self.initialShowSignUp = initialShowSignUp
+        _showSignUp = State(initialValue: initialShowSignUp)
+    }
+
+    var body: some View {
+        NavigationStack {
+            AuthSignInView(
+                onSignUp: { showSignUp = true },
+                onForgotPassword: { showForgotPassword = true }
+            )
+            .navigationDestination(isPresented: $showSignUp) {
+                AuthSignUpView()
+            }
+            .navigationDestination(isPresented: $showForgotPassword) {
+                ForgotPasswordView()
+            }
+        }
+        .onChange(of: initialShowSignUp) { _, value in
+            if value { showSignUp = true }
         }
     }
 }

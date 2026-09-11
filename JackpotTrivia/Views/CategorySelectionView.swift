@@ -10,6 +10,7 @@ import SwiftUI
 struct TriviaCategory: Identifiable, Equatable {
     let id: UUID
     let name: String
+    let imageAsset: String?
     let emoji: String?
     let description: String?
 
@@ -18,6 +19,7 @@ struct TriviaCategory: Identifiable, Equatable {
             TriviaCategory(
                 id: UUID(),
                 name: name,
+                imageAsset: AppConfig.imageAsset(forCategory: name),
                 emoji: AppConfig.emoji(forCategory: name),
                 description: AppConfig.description(forCategory: name)
             )
@@ -44,7 +46,6 @@ struct CategorySelectionView: View {
     @State private var narrowToSingleCategory = false
     @State private var showCategoryUpgradeHint = false
     @State private var showInviteFriends = false
-    @State private var showPremiumUpgrade = false
 
     private var selectedCategories: [TriviaCategory] {
         categories.filter { selectedCategoryIDs.contains($0.id) }
@@ -75,14 +76,14 @@ struct CategorySelectionView: View {
                     .padding(.top, AppSpacing.section)
 
                 playModeSection
-                    .padding(.top, AppSpacing.section)
+                    .padding(.top, AppSpacing.sectionLarge)
 
                 moodSection
-                    .padding(.top, AppSpacing.section)
+                    .padding(.top, AppSpacing.sectionLarge)
 
                 if playMode == .chooseCategories, selectedMood == .custom {
                     categoryList
-                        .padding(.top, AppSpacing.section)
+                        .padding(.top, AppSpacing.sectionLarge)
 
                     narrowCategoryToggle
                         .padding(.top, AppSpacing.stackItem)
@@ -101,28 +102,24 @@ struct CategorySelectionView: View {
             .padding(.bottom, AppSpacing.section)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
         .sheet(isPresented: $showInviteFriends) {
             InviteFriendsSheet()
-        }
-        .premiumUpgradeSheet(isPresented: $showPremiumUpgrade)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showPremiumUpgrade = true
-                } label: {
-                    Image(systemName: "crown.fill")
-                }
-                .accessibilityLabel("Premium")
-                .accessibilityHint("Opens the Premium upgrade screen")
-            }
         }
         .safeAreaInset(edge: .bottom) {
             bottomBar
                 .appScreenHorizontalPadding()
                 .padding(.top, AppSpacing.bottomBarTop)
                 .padding(.bottom, AppSpacing.screenBottom)
-                .background(Color(.systemBackground))
+                .background {
+                    AppColors.brandBackground
+                        .overlay(alignment: .top) {
+                            Rectangle()
+                                .fill(AppColors.subtleBorder)
+                                .frame(height: 1)
+                        }
+                        .ignoresSafeArea()
+                }
         }
     }
 
@@ -160,32 +157,30 @@ struct CategorySelectionView: View {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: mode == .partyMode ? "sparkles" : "square.grid.2x2")
                     .font(.title3)
-                    .foregroundStyle(isSelected ? AppColors.royalBlue : .secondary)
+                    .foregroundStyle(isSelected ? AppColors.brandPrimaryOnDark : AppColors.textSecondary)
                     .frame(width: 28)
 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 6) {
                     Text(mode.displayName)
                         .font(.body)
                         .fontWeight(.semibold)
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(AppColors.textPrimary)
                     Text(mode.subtitle)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColors.textSecondary)
                         .multilineTextAlignment(.leading)
+                        .lineSpacing(2)
                 }
                 Spacer()
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundStyle(isSelected ? AppColors.royalBlue : Color(.tertiaryLabel))
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? AppColors.brandPrimaryOnDark : AppColors.textTertiary)
             }
             .padding(AppSpacing.cardInnerHorizontal)
-            .frame(minHeight: AppMetrics.minimumTouchTarget)
+            .padding(.vertical, AppSpacing.cardInnerVertical)
+            .frame(minHeight: max(AppMetrics.minimumTouchTarget, 56))
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(isSelected ? AppColors.royalBlue.opacity(0.1) : AppColors.cardBackground)
-            .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
-                    .strokeBorder(isSelected ? AppColors.royalBlue : AppColors.cardBorder, lineWidth: isSelected ? 2 : 1)
-            )
+            .appSelectableCard(isSelected: isSelected)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(.isButton)
@@ -198,7 +193,7 @@ struct CategorySelectionView: View {
                 .appFieldLabel()
 
             Text("Mood-based trivia pulls categories automatically. Choose Custom to pick categories yourself.")
-                .appCaptionText()
+                .appHelperText()
                 .fixedSize(horizontal: false, vertical: true)
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -219,25 +214,28 @@ struct CategorySelectionView: View {
                 selectedCategoryIDs.removeAll()
             }
         } label: {
-            VStack(spacing: 6) {
+            VStack(spacing: 8) {
                 Text(mood.emoji)
                     .font(.title2)
                 Text(mood.displayName)
                     .font(.caption)
-                    .fontWeight(.medium)
+                    .fontWeight(.semibold)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
-                    .minimumScaleFactor(0.8)
+                    .minimumScaleFactor(0.85)
             }
-            .foregroundStyle(isSelected ? .white : .primary)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .frame(minWidth: 88, minHeight: AppMetrics.minimumTouchTarget)
-            .background(isSelected ? AppColors.royalBlue : AppColors.cardBackground)
+            .foregroundStyle(isSelected ? AppColors.textOnPrimary : AppColors.textPrimary)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .frame(minWidth: 92, minHeight: AppMetrics.minimumTouchTarget)
+            .background(isSelected ? AppColors.brandPrimary : AppColors.brandSurface)
             .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
-                    .strokeBorder(isSelected ? AppColors.royalBlue : AppColors.cardBorder, lineWidth: 1)
+                    .strokeBorder(
+                        isSelected ? AppColors.brandPrimaryOnDark : AppColors.subtleBorder,
+                        lineWidth: isSelected ? 2 : 1
+                    )
             )
         }
         .buttonStyle(.plain)
@@ -246,7 +244,7 @@ struct CategorySelectionView: View {
     }
 
     private var categoryList: some View {
-        LazyVStack(spacing: AppSpacing.stackItem) {
+        LazyVStack(spacing: AppSpacing.stackItem + 4) {
             ForEach(categories) { category in
                 categoryRow(category)
             }
@@ -256,6 +254,8 @@ struct CategorySelectionView: View {
     private var narrowCategoryToggle: some View {
         Toggle("Advanced: focus on one category only", isOn: $narrowToSingleCategory)
             .font(.subheadline)
+            .foregroundStyle(AppColors.textPrimary)
+            .tint(AppColors.brandPrimary)
             .disabled(selectedCategoryIDs.count != 1)
     }
 
@@ -271,18 +271,13 @@ struct CategorySelectionView: View {
         }
 
         if featureGates.isFreeTier, playMode == .chooseCategories, selectedMood == .custom {
-            Text("Free tier: up to \(featureGates.maxCategoriesSelectable) categories per round.")
+            Text("This beta allows up to \(featureGates.maxCategoriesSelectable) categories per round.")
                 .appCaptionText()
         }
 
         if showCategoryUpgradeHint {
-            Button {
-                showPremiumUpgrade = true
-            } label: {
-                Label("Upgrade to unlock more categories", systemImage: "crown.fill")
-                    .font(.footnote)
-                    .foregroundStyle(AppColors.royalBlue)
-            }
+            Text("This beta allows up to \(featureGates.maxCategoriesSelectable) categories per round.")
+                .appCaptionText()
         }
     }
 
@@ -292,7 +287,7 @@ struct CategorySelectionView: View {
         } label: {
             Label("Comfort & content filters", systemImage: "slider.horizontal.3")
                 .font(.subheadline)
-                .foregroundStyle(AppColors.royalBlue)
+                .foregroundStyle(AppColors.brandPrimaryOnDark)
         }
     }
 
@@ -307,7 +302,7 @@ struct CategorySelectionView: View {
                     systemImage: "person.badge.plus"
                 )
                 .font(.subheadline)
-                .foregroundStyle(AppColors.royalBlue)
+                .foregroundStyle(AppColors.brandPrimary)
             }
         }
     }
@@ -319,38 +314,31 @@ struct CategorySelectionView: View {
             toggleSelection(for: category.id)
         } label: {
             HStack(spacing: 14) {
-                if let emoji = category.emoji {
-                    Text(emoji)
-                        .font(.title2)
-                        .accessibilityHidden(true)
-                }
+                CategoryArtwork(category: category.name, size: 52, cornerRadius: 10, isDimmed: !isSelected)
 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 6) {
                     Text(category.name)
                         .font(.body)
                         .fontWeight(.semibold)
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(AppColors.textPrimary)
                     if let description = category.description {
                         Text(description)
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(AppColors.textSecondary)
+                            .lineSpacing(2)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-                Spacer()
+                Spacer(minLength: 8)
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .font(.title2)
-                    .foregroundStyle(isSelected ? AppColors.royalBlue : Color(.tertiaryLabel))
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? AppColors.brandPrimaryOnDark : AppColors.textTertiary)
             }
             .padding(.horizontal, AppSpacing.cardInnerHorizontal)
-            .padding(.vertical, AppSpacing.cardInnerVertical)
-            .frame(minHeight: max(56, AppMetrics.minimumTouchTarget))
+            .padding(.vertical, AppSpacing.cardInnerVertical + 2)
+            .frame(minHeight: max(64, AppMetrics.minimumTouchTarget))
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(isSelected ? AppColors.royalBlue.opacity(0.1) : AppColors.cardBackground)
-            .clipShape(RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: AppMetrics.cornerRadius, style: .continuous)
-                    .strokeBorder(isSelected ? AppColors.royalBlue : AppColors.cardBorder, lineWidth: isSelected ? 2 : 1)
-            )
+            .appSelectableCard(isSelected: isSelected)
         }
         .buttonStyle(.plain)
         .appSelectionScale(isActive: isSelected, reduceMotion: reduceMotion)

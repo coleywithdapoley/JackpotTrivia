@@ -19,10 +19,10 @@ struct TriviaQuestionView: View {
     @State private var selectedAnswerIndex: Int?
     @State private var sessionComplete = false
     @State private var currentPresentation: PresentedQuestion?
-    @State private var showPremiumUpgrade = false
     @State private var timeRemaining: Int = 0
     @State private var timedOut = false
     @State private var lastPointsEarned: Int = 0
+    @State private var lastScoreBreakdown: String?
     @State private var showReportSheet = false
     @State private var showReportThanks = false
 
@@ -47,8 +47,12 @@ struct TriviaQuestionView: View {
         selectedAnswerIndex != nil
     }
 
+    private var canProceedToNext: Bool {
+        hasSelectedAnswer || timedOut
+    }
+
     private var isNextEnabled: Bool {
-        (hasSelectedAnswer || timedOut) && !sessionComplete && currentPresentation != nil
+        canProceedToNext && !sessionComplete && currentPresentation != nil
     }
 
     var body: some View {
@@ -87,15 +91,15 @@ struct TriviaQuestionView: View {
             }
         }
         .background {
-            if let presentation = currentPresentation {
-                CategoryTheme.backgroundGradient(for: presentation.category)
-                    .ignoresSafeArea()
-            } else {
-                Color(.systemBackground).ignoresSafeArea()
+            ZStack {
+                AppColors.brandBackground
+                if let presentation = currentPresentation {
+                    CategoryTheme.backgroundTint(for: presentation.category)
+                }
             }
+            .ignoresSafeArea()
         }
         .animation(AppAnimation.quick, value: currentPresentation?.id)
-        .premiumUpgradeSheet(isPresented: $showPremiumUpgrade)
         .onAppear {
             featureGates.applyQuestionLimit(to: gameSession)
             restoreOrStartRound()
@@ -130,23 +134,23 @@ struct TriviaQuestionView: View {
         VStack(spacing: AppSpacing.section) {
             Image(systemName: "questionmark.circle")
                 .font(.largeTitle)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
                 .accessibilityHidden(true)
 
-            Text("No questions available for these categories yet.")
+            Text(AppConfig.Copy.triviaEmptyTitle)
                 .appScreenSubtitle()
                 .multilineTextAlignment(.center)
                 .accessibilityAddTraits(.isHeader)
 
-            Text("Try choosing different categories or check back later.")
+            Text(AppConfig.Copy.triviaEmptyMessage)
                 .appBodyText()
                 .multilineTextAlignment(.center)
 
             Button(action: onBackToCategories) {
-                Text("Choose Categories")
+                Text("Pick Categories")
             }
             .buttonStyle(.appPrimary)
-            .accessibilityLabel("Choose Categories")
+            .accessibilityLabel("Pick Categories")
             .accessibilityHint("Returns to category selection")
         }
         .appScreenHorizontalPadding()
@@ -170,7 +174,7 @@ struct TriviaQuestionView: View {
             Text("Party mode — random questions from every category.")
         }
         .font(.footnote)
-        .foregroundStyle(AppColors.royalBlue)
+        .foregroundStyle(AppColors.brandPrimary)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
@@ -181,12 +185,12 @@ struct TriviaQuestionView: View {
                     Text("Session complete")
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundStyle(AppColors.brandGreen)
+                        .foregroundStyle(AppColors.brandPrimary)
                 } else if questionTotal > 0 {
                     Text("Question \(currentQuestionIndex + 1) of \(questionTotal)")
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundStyle(AppColors.brandGreen)
+                        .foregroundStyle(AppColors.brandPrimary)
                 }
 
                 Spacer()
@@ -195,16 +199,18 @@ struct TriviaQuestionView: View {
                     Label("\(timeRemaining)s", systemImage: "timer")
                         .font(.subheadline.monospacedDigit())
                         .fontWeight(.semibold)
-                        .foregroundStyle(timeRemaining <= 3 ? .red : AppColors.brandGreen)
+                        .foregroundStyle(timeRemaining <= 3 ? AppColors.error : AppColors.brandPrimary)
                         .accessibilityLabel("\(timeRemaining) seconds remaining")
                 }
             }
 
             HStack(spacing: 8) {
+                CategoryArtwork(category: presentation.category, size: 28, cornerRadius: 6)
+
                 Text(presentation.category)
                     .font(.caption)
                     .fontWeight(.medium)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
                     .textCase(.uppercase)
 
                 Text(presentation.difficulty.displayName)
@@ -212,25 +218,25 @@ struct TriviaQuestionView: View {
                     .fontWeight(.semibold)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(AppColors.brandGreen.opacity(0.12))
-                    .foregroundStyle(AppColors.brandGreen)
+                    .background(AppColors.brandPrimary.opacity(0.12))
+                    .foregroundStyle(AppColors.brandPrimary)
                     .clipShape(Capsule())
 
                 Text(presentation.questionType.displayName)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
             }
 
             if gameSession.activeMood != .custom, gameSession.roundKind == .practice {
                 Text("Mood: \(gameSession.activeMood.displayName)")
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
             }
 
             if gameSession.currentStreak > 1 {
                 Text("Streak: \(gameSession.currentStreak)")
                     .font(.caption2)
-                    .foregroundStyle(AppColors.brandGreen)
+                    .foregroundStyle(AppColors.brandPrimary)
             }
         }
         .accessibilityElement(children: .combine)
@@ -266,10 +272,10 @@ struct TriviaQuestionView: View {
                 Label("Time's up!", systemImage: "clock.badge.exclamationmark")
                     .font(.subheadline)
                     .fontWeight(.medium)
-                    .foregroundStyle(.red)
+                    .foregroundStyle(AppColors.error)
                 Text("Correct: \(presentation.answers[presentation.correctIndex])")
                     .font(.footnote)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(AppColors.textSecondary)
             }
             .accessibilityElement(children: .combine)
         } else if let selectedAnswerIndex {
@@ -277,24 +283,31 @@ struct TriviaQuestionView: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 8) {
                     Image(systemName: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .foregroundStyle(isCorrect ? AppColors.brandGreen : .red)
+                        .foregroundStyle(isCorrect ? AppColors.brandPrimary : AppColors.error)
                         .accessibilityHidden(true)
                     if isCorrect {
-                        Text("Correct! +\(lastPointsEarned) pts")
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(AppColors.brandGreen)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Correct! +\(lastPointsEarned) pts")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(AppColors.brandPrimary)
+                            if let breakdown = lastScoreBreakdown {
+                                Text(breakdown)
+                                    .font(.caption)
+                                    .foregroundStyle(AppColors.textSecondary)
+                            }
+                        }
                     } else {
                         Text("Not quite — try the next one.")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundStyle(.red)
+                            .foregroundStyle(AppColors.error)
                     }
                 }
                 if !isCorrect {
                     Text("Correct: \(presentation.answers[presentation.correctIndex])")
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColors.textSecondary)
                 }
             }
             .accessibilityElement(children: .combine)
@@ -312,26 +325,12 @@ struct TriviaQuestionView: View {
         } else if sessionComplete {
             Text("You've answered all questions.")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(AppColors.textSecondary)
         }
     }
 
     private var bottomBar: some View {
         VStack(spacing: AppSpacing.stackItem) {
-            if featureGates.isFreeTier {
-                Button {
-                    showPremiumUpgrade = true
-                } label: {
-                    Label(
-                        "Free tier: \(featureGates.maxQuestionsPerGame) questions — Upgrade",
-                        systemImage: "crown.fill"
-                    )
-                    .appCaptionText()
-                    .foregroundStyle(AppColors.royalBlue)
-                }
-                .frame(maxWidth: .infinity)
-            }
-
             if sessionComplete {
                 Text("You've answered all questions.")
                     .appHelperText()
@@ -352,19 +351,19 @@ struct TriviaQuestionView: View {
             .accessibilityHint(
                 isNextEnabled
                     ? (isLastQuestion ? "Completes the trivia round" : "Goes to the next question")
-                    : "Select an answer first"
+                    : (timedOut ? "Time expired — continue to the next question" : "Select an answer first")
             )
         }
         .appScreenHorizontalPadding()
         .padding(.top, AppSpacing.bottomBarTop)
         .padding(.bottom, AppSpacing.screenBottom)
-        .background(Color(.systemBackground))
+        .brandScreenBackground()
     }
 
     // MARK: - Answer button
 
     private func answerButton(index: Int, text: String, correctIndex: Int) -> some View {
-        let isLocked = selectedAnswerIndex != nil
+        let isLocked = selectedAnswerIndex != nil || timedOut
         let isSelected = selectedAnswerIndex == index
         let isCorrectAnswer = index == correctIndex
         let showResult = isLocked
@@ -389,7 +388,7 @@ struct TriviaQuestionView: View {
                 if showResult && (isSelected || isCorrectAnswer) {
                     Image(systemName: isCorrectAnswer ? "checkmark.circle.fill" : (isSelected ? "xmark.circle.fill" : ""))
                         .font(.title3)
-                        .foregroundStyle(isCorrectAnswer ? AppColors.royalBlue : .red)
+                        .foregroundStyle(isCorrectAnswer ? AppColors.brandPrimary : AppColors.error)
                         .accessibilityHidden(true)
                 }
             }
@@ -456,24 +455,24 @@ struct TriviaQuestionView: View {
 
     private func answerTextColor(showResult: Bool, isSelected: Bool, isCorrectAnswer: Bool) -> Color {
         if showResult {
-            if isCorrectAnswer { return AppColors.royalBlue }
-            if isSelected { return .red }
+            if isCorrectAnswer { return AppColors.brandPrimary }
+            if isSelected { return AppColors.error }
         }
-        return .primary
+        return AppColors.textPrimary
     }
 
     private func answerBackground(showResult: Bool, isSelected: Bool, isCorrectAnswer: Bool) -> Color {
         if showResult {
-            if isCorrectAnswer { return AppColors.royalBlue.opacity(0.12) }
-            if isSelected { return Color.red.opacity(0.08) }
+            if isCorrectAnswer { return AppColors.brandPrimary.opacity(0.12) }
+            if isSelected { return AppColors.error.opacity(0.08) }
         }
         return AppColors.cardBackground
     }
 
     private func answerBorderColor(showResult: Bool, isSelected: Bool, isCorrectAnswer: Bool) -> Color {
         if showResult {
-            if isCorrectAnswer { return AppColors.royalBlue }
-            if isSelected { return .red }
+            if isCorrectAnswer { return AppColors.brandPrimary }
+            if isSelected { return AppColors.error }
         }
         return AppColors.cardBorder
     }
@@ -501,6 +500,7 @@ struct TriviaQuestionView: View {
         selectedAnswerIndex = nil
         timedOut = false
         lastPointsEarned = 0
+        lastScoreBreakdown = nil
         timeRemaining = question.effectiveTimeLimitSeconds
     }
 
@@ -526,7 +526,7 @@ struct TriviaQuestionView: View {
         } label: {
             Text("Report an issue with this question")
                 .font(.footnote)
-                .foregroundStyle(AppColors.brandGreen)
+                .foregroundStyle(AppColors.brandPrimary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(minHeight: AppMetrics.minimumTouchTarget)
@@ -542,6 +542,7 @@ struct TriviaQuestionView: View {
             difficulty: presentation.difficulty
         )
         lastPointsEarned = breakdown.total
+        lastScoreBreakdown = breakdown.total > 0 ? breakdown.breakdownLabel : nil
         recordQuestionOutcome(
             presentation: presentation,
             isCorrect: false,
@@ -561,6 +562,7 @@ struct TriviaQuestionView: View {
             difficulty: presentation.difficulty
         )
         lastPointsEarned = breakdown.total
+        lastScoreBreakdown = breakdown.total > 0 ? breakdown.breakdownLabel : nil
         recordQuestionOutcome(
             presentation: presentation,
             isCorrect: isCorrect,
@@ -605,7 +607,7 @@ struct TriviaQuestionView: View {
     }
 
     private func nextTapped() {
-        guard hasSelectedAnswer, !sessionComplete, !gameSession.roundForfeited else { return }
+        guard canProceedToNext, !sessionComplete, !gameSession.roundForfeited else { return }
 
         if isLastQuestion {
             gameSession.currentQuestionIndex = currentQuestionIndex
@@ -623,7 +625,7 @@ struct TriviaQuestionView: View {
 
 #Preview {
     let session = GameSession()
-    session.beginRound(categories: ["Science", "History"])
+    session.beginRound(categories: ["Auto City", "Local Legends"])
     return TriviaQuestionView()
         .environmentObject(session)
 }

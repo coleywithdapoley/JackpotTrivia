@@ -101,18 +101,19 @@ In Xcode: **Product → Test** (⌘U), or open the Test navigator and run indivi
 
 - **Invite links:** Shareable links with quotas ("You have N invites"); 72h expiry — `InviteLinkService`
 - **Private Lounge:** 18+ member deck — requires `MembershipTier.member`
-- **Add questions on device:** Admin → *Add a question on this device*
+- **Add questions:** Admin types a question and answers as regular text (live for all players when Supabase is connected)
 - **Anti-cheat:** Leaving app during a timed question forfeits the round
 - **Category backgrounds:** Tinted trivia backdrop per category (`CategoryTheme`)
 - **Vision doc:** `docs/PRODUCT_VISION.md`
 
-## TestFlight beta (no Supabase)
+## TestFlight (external)
 
 - **Guide:** `docs/TESTFLIGHT.md`
-- **Access settings persist** on device (`AccessControlStore`)
-- **Beta tip:** Admin → set **Open (Not Listed)** so testers can tap Continue without codes
-- **Manual approval:** optional queue in Admin → Pending join requests
-- **Catalog:** 60 approved questions in `QuestionCatalog.json` (v4)
+- **Privacy policy (required for external testers):** `docs/PRIVACY.md` — host it and paste the URL in App Store Connect
+- **Access:** `requireAppAccessCode = false` so testers sign up without an app code. Lounge membership is separate.
+- **Accounts:** Supabase when `JackpotTrivia/Config/SupabaseSecrets.plist` is present on the Mac that archives. Testers create a **new** account.
+- **Catalog:** Detroit-themed questions in `QuestionCatalog.json` (v10)
+- **No IAP** in this beta. XP has no cash value.
 
 ## Phase 3 (Supabase backend)
 

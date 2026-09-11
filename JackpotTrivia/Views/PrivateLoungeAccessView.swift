@@ -27,9 +27,9 @@ struct PrivateLoungeAccessView: View {
                 Label("Private Lounge", systemImage: "lock.fill")
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundStyle(AppColors.brandGreen)
+                    .foregroundStyle(AppColors.brandSecondary)
 
-                Text("18+ topics for members. Cash prizes stay at live events — not in-app gambling.")
+                Text("Members-only 18+ deck. Cash prizes stay at live events — not in-app gambling.")
                     .appBodyText()
                     .fixedSize(horizontal: false, vertical: true)
 
@@ -42,10 +42,13 @@ struct PrivateLoungeAccessView: View {
             .appScreenHorizontalPadding()
             .padding(.vertical, AppSpacing.section)
         }
-        .background(
-            CategoryTheme.backgroundGradient(for: "Private Lounge")
-                .ignoresSafeArea()
-        )
+        .background {
+            ZStack {
+                AppColors.brandBackground
+                CategoryTheme.backgroundTint(for: "Private Lounge")
+            }
+            .ignoresSafeArea()
+        }
         .navigationTitle("Private Lounge")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {

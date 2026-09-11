@@ -29,12 +29,8 @@ enum QuestionDifficulty: String, Codable, CaseIterable, Identifiable {
         }
     }
 
-    /// Base points before time and streak bonuses.
+    /// Base points before time and streak bonuses (uniform — difficulty affects timer only).
     var basePoints: Int {
-        switch self {
-        case .easy: return 100
-        case .medium: return 150
-        case .hard: return 200
-        }
+        AppConfig.pointsPerCorrectAnswer
     }
 }

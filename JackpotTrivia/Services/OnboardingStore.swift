@@ -7,6 +7,19 @@ import Foundation
 
 enum OnboardingStore {
     private static let prefix = "jackpotTrivia.onboarding.warmupCompleted."
+    private static let quickHitKey = "jackpotTrivia.onboarding.quickHitCompleted"
+
+    static var hasCompletedQuickHit: Bool {
+        UserDefaults.standard.bool(forKey: quickHitKey)
+    }
+
+    static func markQuickHitCompleted() {
+        UserDefaults.standard.set(true, forKey: quickHitKey)
+    }
+
+    static func resetQuickHitForTesting() {
+        UserDefaults.standard.removeObject(forKey: quickHitKey)
+    }
 
     static func hasCompletedWarmup(for userID: String) -> Bool {
         UserDefaults.standard.bool(forKey: prefix + userID)

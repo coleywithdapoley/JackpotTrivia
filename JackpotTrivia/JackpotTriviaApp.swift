@@ -18,6 +18,7 @@ struct JackpotTriviaApp: App {
     var body: some Scene {
         WindowGroup {
             RootContentView()
+                .preferredColorScheme(.dark)
                 .environmentObject(authManager)
                 .task {
                     await BackendEnvironment.bootstrap()

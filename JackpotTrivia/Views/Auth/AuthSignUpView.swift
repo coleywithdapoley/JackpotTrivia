@@ -31,12 +31,12 @@ struct AuthSignUpView: View {
                 if let errorMessage {
                     Text(errorMessage)
                         .font(.footnote)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(AppColors.error)
                 }
 
                 Button(action: signUpTapped) {
                     if isLoading {
-                        ProgressView().tint(.white)
+                        ProgressView().tint(AppColors.textOnPrimary)
                     } else {
                         Text("Sign Up")
                     }

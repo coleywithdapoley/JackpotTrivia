@@ -27,7 +27,7 @@ struct ChallengeFriendSheet: View {
                     Label("Daily deck: \(challenge.dayKey)", systemImage: "calendar")
                 }
                 .font(.subheadline)
-                .foregroundStyle(AppColors.brandGreen)
+                .foregroundStyle(AppColors.brandPrimary)
 
                 ShareLink(item: ChallengeService.shareText(for: challenge)) {
                     Text("Share challenge")

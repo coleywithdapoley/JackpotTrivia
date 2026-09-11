@@ -2,18 +2,18 @@
 //  ScoringEngine.swift
 //  JackpotTrivia
 //
-//  Points formula for Phase 1 — speed bonus + streak bonus on top of difficulty base.
+//  Points: 100 per correct answer + speed and streak bonuses.
 //
 
 import Foundation
 
 enum ScoringEngine {
   /// Maximum extra points from answering quickly (full time remaining).
-  static let maxTimeBonus = 50
+  static let maxTimeBonus = 25
 
-  /// Points added per consecutive correct answer (capped).
+  /// Points added per consecutive correct answer after the first (capped).
   static let streakBonusPerStep = 10
-  static let maxStreakSteps = 5
+  static let maxStreakSteps = 3
 
   struct AnswerScore: Equatable {
     let base: Int
@@ -21,15 +21,17 @@ enum ScoringEngine {
     let streakBonus: Int
 
     var total: Int { base + timeBonus + streakBonus }
+
+    /// Human-readable breakdown for in-game feedback.
+    var breakdownLabel: String {
+      var parts = ["\(base) base"]
+      if timeBonus > 0 { parts.append("+\(timeBonus) speed") }
+      if streakBonus > 0 { parts.append("+\(streakBonus) streak") }
+      return parts.joined(separator: " · ")
+    }
   }
 
   /// Computes points for one answered question.
-  /// - Parameters:
-  ///   - isCorrect: Whether the player chose the right answer.
-  ///   - timeRemaining: Seconds left when submitted (0 if timed out).
-  ///   - timeLimit: Total seconds for the question.
-  ///   - difficulty: Question difficulty tier.
-  ///   - streakAfterAnswer: Streak count *after* applying this answer (0 if wrong).
   static func score(
     isCorrect: Bool,
     timeRemaining: Int,
@@ -41,7 +43,7 @@ enum ScoringEngine {
       return AnswerScore(base: 0, timeBonus: 0, streakBonus: 0)
     }
 
-    let base = difficulty.basePoints
+    let base = AppConfig.pointsPerCorrectAnswer
     let clampedRemaining = max(0, min(timeRemaining, timeLimit))
     let timeRatio = timeLimit > 0 ? Double(clampedRemaining) / Double(timeLimit) : 0
     let timeBonus = Int((timeRatio * Double(maxTimeBonus)).rounded())

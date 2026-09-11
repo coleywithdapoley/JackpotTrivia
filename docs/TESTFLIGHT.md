@@ -1,84 +1,104 @@
-# TestFlight beta checklist — Jackpot Trivia
+# TestFlight — external testers
 
-Use this before inviting real testers. No Supabase required.
+Use this for a public or friends-and-family **external** group. Internal team testing can skip the privacy URL and Beta App Review.
 
-## 1. Recommended beta access mode
+Display name on the home screen: **If You Know, You Win**. Bundle ID: `COLEY.JackpotTrivia`. Version **1.0**, build **1**. Testers need **iOS 26**.
 
-In the app: **Admin (gear) → Access Settings**
+## What is true in this build
 
-| Setting | TestFlight recommendation |
-|---------|---------------------------|
-| **Access mode** | **Open (Not Listed)** — testers tap Continue without a code |
-| **Allow invite codes** | On (optional codes still work) |
-| **Require manual approval** | Off for wide beta; On for small closed group |
-| **Member limit** | Set a cap (e.g. 50) if you want to control growth |
+- Free to play. **No in-app purchases.** Premium is not for sale.
+- XP / points are **bragging rights only** — no cash, no sweepstakes.
+- Accounts and standings go through **Supabase**. Testers must **create a new account** in this build. Old on-device logins will not appear on the shared board.
+- App access code is **off** (`requireAppAccessCode = false`). Lounge membership is separate and optional.
+- Archive **on the Mac that has** `JackpotTrivia/Config/SupabaseSecrets.plist`. That file is gitignored; a machine without it ships local-only accounts.
 
-Settings **persist on device** after you change them.
+Do **not** send testers the admin password. Admin is `admin@ifyouknowyouwin.app` for founders only.
 
-## 2. Apple Developer setup
+## 1. Host the privacy policy (required for external)
 
-1. [developer.apple.com](https://developer.apple.com) — enroll in Apple Developer Program ($99/year).
-2. **App Store Connect** → Apps → **+** → New App.
-   - Platform: iOS  
-   - Name: Jackpot Trivia  
-   - Bundle ID: must match Xcode (`COLEY.JackpotTrivia` or your team’s ID)
-3. Fill **App Information**: category (Games / Trivia), age rating questionnaire, privacy policy URL (required for external testers — can use a simple Notion/GitHub page stating demo points, no real cash yet).
+Apple will reject the external group without a public **Privacy Policy URL**.
 
-## 3. Xcode archive
+1. Commit and push `docs/PRIVACY.md`.
+2. Paste one of these into App Store Connect → App Information → Privacy Policy URL:
+   - GitHub: `https://github.com/coleywithdapoley/JackpotTrivia/blob/main/docs/PRIVACY.md`
+   - Or copy the same text into a public Notion page if GitHub asks reviewers to sign in.
 
-1. Select **Any iOS Device (arm64)** (not Simulator).
-2. **Product → Archive**.
-3. **Distribute App** → **App Store Connect** → Upload.
-4. Wait for processing in App Store Connect (often 15–60 minutes).
+Contact email in that policy: **cobb.cole@gmail.com**.
 
-## 4. TestFlight configuration
+## 2. App Store Connect app record (once)
 
-1. App Store Connect → your app → **TestFlight**.
-2. Select the uploaded build → answer **Export Compliance** (typically “No” for custom encryption if you only use HTTPS standard APIs).
-3. **Internal testing**: up to 100 team members (immediate).
-4. **External testing**: create a group, add emails, submit **Beta App Review** (first external build needs review).
+1. [App Store Connect](https://appstoreconnect.apple.com) → Apps → **+** → New App.
+2. Platform: iOS. Bundle ID: `COLEY.JackpotTrivia`.
+3. Store name can differ from the home-screen name.
+4. Category: **Games → Trivia**.
+5. Age rating questionnaire: **17+** (Private Lounge is mature / 18+ leaning).
+6. App Privacy (nutrition labels) — match the privacy manifest:
+   - Email Address, Name, User ID, Gameplay Content, Other User Content
+   - Linked to identity: **Yes**
+   - Used for tracking: **No**
+   - Purpose: App Functionality
+7. Export compliance: **No** (standard HTTPS only). `ITSAppUsesNonExemptEncryption` is already `false` in Info.plist.
 
-### What to put in “What to Test”
+## 3. Archive and upload
+
+1. Open the project on **this Mac** so `SupabaseSecrets.plist` is in the target.
+2. Scheme: JackpotTrivia. Destination: **Any iOS Device (arm64)**.
+3. **Product → Archive** → **Distribute App** → App Store Connect → Upload.
+4. Wait until the build appears under TestFlight (often 15–60 minutes). Processing must finish before you can submit for Beta App Review.
+
+If you already uploaded build **1**, bump `CURRENT_PROJECT_VERSION` before the next archive.
+
+## 4. External group + Beta App Review
+
+1. TestFlight → **External Testing** → create a group (e.g. “Friends”).
+2. Add the processed build to that group.
+3. Fill **What to Test** with the copy below — **do not** mention Admin, gear, or access settings.
+4. **Beta App Review Information:**
+   - Sign-in required: **Yes**
+   - Create a throwaway account in the live app (e.g. `reviewer@ifyouknowyouwin.app`) and put **that** email/password only in App Store Connect, not in tester emails.
+   - Notes: “No in-app purchases. Points have no cash value. Optional Private Lounge is members-only and 17+.”
+5. Submit for **Beta App Review**. First external build usually takes 24–48 hours. After approval, testers get email invites.
+
+### What to Test (paste this)
 
 ```
-• Sign up and play Today's Jackpot (one run per day)
-• Practice mode with categories and moods
-• Leaderboards (Today / Week / All Time)
-• Share score and challenge a friend from Results
-• Report a question issue after answering
-• Admin → Access Settings (beta access rules)
-Note: Points are demo rewards, not real cash.
+Thanks for trying If You Know, You Win — Detroit trivia, no cash prizes.
+
+Need iOS 26. Create a new account in the app (old logins will not work).
+
+Please try:
+• Play the 3-question sample, then create an account
+• Finish Today's Jackpot (one official run per day)
+• Play a practice round with 1–2 Detroit categories
+• Open Standings (Today / Week / All Time) and confirm your name appears
+• Share a score or challenge a friend from Results
+• Report a question after answering if something feels off
+
+Notes:
+• Points and XP have no cash value
+• There is nothing to buy in this beta
+• Private Lounge is optional and intended for 17+
 ```
 
-## 5. Pre-flight smoke test (Simulator or device)
+## 5. Invite testers
 
-- [ ] Sign up / sign in  
-- [ ] Play daily jackpot → Results → share  
-- [ ] Practice round with 2+ categories  
-- [ ] Leaderboard shows your score  
-- [ ] Report a question (flag icon)  
-- [ ] Admin: change access mode, kill app, reopen — settings stick  
-- [ ] Optional: `xcrun simctl openurl booted "jackpottrivia://challenge?from=Test&points=500&accuracy=80&day=2026-05-20"`
+- Email invites from the external group, or a public TestFlight link after the group is approved.
+- Cap the group if you want a small friends list (Apple allows up to 10,000 external testers).
+- Tell them: **iOS 26**, new sign-up, no real money, lounge is optional.
 
-## 6. Assets before public TestFlight
+## 6. Smoke test on a device before you submit
 
-- [ ] Replace **App Icon** placeholders in `Assets.xcassets/AppIcon`
-- [ ] Confirm **green** brand on launch screen / home
-- [ ] Bump **Version** (marketing) and **Build** (integer) each upload
+- [ ] Guest sample (3 questions) → create account
+- [ ] First official round → Results → standings show your name
+- [ ] Practice with two categories
+- [ ] No crown / “Unlock Premium” / buy button anywhere a player can tap
+- [ ] Report a question
+- [ ] Kill and reopen — still signed in
 
-## 7. Known beta limitations (set tester expectations)
+## 7. Known limits to set in tester email (optional)
 
-- Auth is **on-device** (not synced across devices)
-- Leaderboards mix **your scores** with demo names
-- **No real money** payouts — wallet is demo
-- Supabase optional — not required for TestFlight
-
-## 8. Collect feedback
-
-Ask testers for:
-
-- Confusing screens or copy  
-- Questions that feel wrong (use in-app **Report issue**)  
-- Crashes (Settings → Privacy → Analytics share if you add a crash reporter later)
-
-Admin → **Question Review** shows flagged IDs and report counts on your device.
+- iOS 26 only
+- New account required for this backend
+- Practice is capped at two categories in this beta
+- Standings need a network connection
+- Private Lounge needs a lounge code from the founders

@@ -11,5 +11,5 @@ import Foundation
 
 enum AppBranding {
     /// Must match CFBundleDisplayName in Info.plist for a consistent handoff.
-    static let bundleDisplayName = "Jackpot Trivia"
+    static let bundleDisplayName = "If You Know, You Win"
 }

@@ -56,11 +56,52 @@ enum DailyGameService {
     let jackpotPool = QuestionBank.filteredQuestions(for: [], profile: profile, from: pool)
       .filter(\.isJackpotEligible)
     let source = jackpotPool.isEmpty ? pool.filter(\.isJackpotEligible) : jackpotPool
-    var generator = SeededRandomNumberGenerator(seed: dailySeed(for: date))
-    let shuffled = source.shuffled(using: &generator)
-    let selected = Array(shuffled.prefix(count))
+    let selected = selectDailyJackpotDeck(
+      from: source,
+      count: count,
+      date: date
+    )
     DailyJackpotDeckStore.saveDeckIDs(selected.map(\.catalogID), for: key)
     return selected
+  }
+
+  /// Ensures at least `minimumDetroitQuestionsPerDailyJackpot` Detroit-category questions when available.
+  private static func selectDailyJackpotDeck(
+    from source: [TriviaQuestion],
+    count: Int,
+    date: Date
+  ) -> [TriviaQuestion] {
+    var generator = SeededRandomNumberGenerator(seed: dailySeed(for: date))
+    let detroitTarget = min(AppConfig.minimumDetroitQuestionsPerDailyJackpot, count)
+
+    let detroitPool = source
+      .filter { AppConfig.isDetroitThemedCategory($0.category) }
+      .shuffled(using: &generator)
+    let otherPool = source
+      .filter { !AppConfig.isDetroitThemedCategory($0.category) }
+      .shuffled(using: &generator)
+
+    var selected: [TriviaQuestion] = []
+    selected.append(contentsOf: detroitPool.prefix(detroitTarget))
+
+    var fillPool = Array(detroitPool.dropFirst(detroitTarget)) + otherPool
+    let selectedIDs = Set(selected.map(\.catalogID))
+    fillPool.removeAll { selectedIDs.contains($0.catalogID) }
+    fillPool.shuffle(using: &generator)
+
+    let remaining = count - selected.count
+    if remaining > 0 {
+      selected.append(contentsOf: fillPool.prefix(remaining))
+    }
+
+    if selected.count < count {
+      let extras = source
+        .filter { q in !selected.contains(where: { $0.catalogID == q.catalogID }) }
+        .shuffled(using: &generator)
+      selected.append(contentsOf: extras.prefix(count - selected.count))
+    }
+
+    return Array(selected.prefix(count))
   }
 
   /// Backward-compatible alias.
