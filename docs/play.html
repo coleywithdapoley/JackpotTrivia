@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>If You Know, You Win</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0a0a0a;
+      color: #e6e6e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    main {
+      max-width: 420px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin: 0 0 12px;
+    }
+    p { line-height: 1.45; color: #adb5bd; }
+    .score {
+      color: #00c853;
+      font-weight: 600;
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      background: #00c853;
+      color: #0a0a0a;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .note { font-size: 0.9rem; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>If You Know, You Win</h1>
+    <p id="headline">Opening the app…</p>
+    <p id="detail" class="score"></p>
+    <p>
+      <a id="open" class="button" href="#">Open the app</a>
+    </p>
+    <p class="note">
+      Friends need the TestFlight build of <strong>If You Know, You Win</strong> installed.
+      If the app doesn’t open, install it first, then tap this link again.
+    </p>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const kind = (params.get("kind") || "").toLowerCase();
+    const headline = document.getElementById("headline");
+    const detail = document.getElementById("detail");
+    const open = document.getElementById("open");
+
+    let appURL = "jackpottrivia://";
+    if (kind === "invite" || params.get("token")) {
+      const token = params.get("token") || "";
+      appURL = "jackpottrivia://invite?token=" + encodeURIComponent(token);
+      headline.textContent = "You’ve been invited.";
+      detail.textContent = token ? ("Code: " + token) : "";
+    } else {
+      const from = params.get("from") || "A friend";
+      const points = params.get("points") || "";
+      const accuracy = params.get("accuracy") || "";
+      const day = params.get("day") || "";
+      const query = new URLSearchParams({
+        from, points, accuracy, day
+      }).toString();
+      appURL = "jackpottrivia://challenge?" + query;
+      headline.textContent = from + " challenged you.";
+      detail.textContent = [points && (points + " pts"), accuracy && (accuracy + "% accuracy"), day]
+        .filter(Boolean)
+        .join(" · ");
+    }
+
+    open.setAttribute("href", appURL);
+    window.setTimeout(function () {
+      window.location.href = appURL;
+    }, 400);
+  </script>
+</body>
+</html>
